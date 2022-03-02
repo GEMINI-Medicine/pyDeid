@@ -20,7 +20,7 @@ female_names_popular = load_file('wordlists/female_names_popular_v2.txt')
 male_names_popular = load_file('wordlists/male_names_popular_v2.txt')
 last_names_popular = load_file('wordlists/last_names_popular_v2.txt')
 
-medical_phrases = load_file('wordlists/medical_phrases.txt')
+medical_phrases = load_file('wordlists/medical_phrases.txt', optimization='iteration')
 # TODO: add patients here
 
 
@@ -96,8 +96,8 @@ def combine_prefix_and_lastname(phi):
 
 
 def follows_name_indicator(x, phi):
-    for name in name_indicators:
-        for m in re.finditer(r'\b(' + name + r')(s)?( *)(\-|\,|\.|\()?(  *)([A-Za-z]+\b)\b', x, re.IGNORECASE):
+    for indicator in name_indicators:
+        for m in re.finditer(r'\b(' + indicator + r')(s)?( *)(\-|\,|\.|\()?(  *)([A-Za-z]+\b)\b', x, re.IGNORECASE):
             start = m.start(6)
             end = m.end(6)
             

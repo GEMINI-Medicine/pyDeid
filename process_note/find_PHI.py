@@ -1,5 +1,5 @@
 from phi_types.names import *
-from phi_types.dates import date, holiday
+from phi_types.dates import *
 from phi_types.addresses import address, postal_code
 from phi_types.contact_info import email, telephone
 from phi_types.IDs import sin, mrn, ohip
@@ -21,6 +21,11 @@ def find_phi(x, phi):
     list_of_names(x, phi)
     
     date(x, phi)
+    date_with_context_check(x, phi)
+    year_with_context_check(x, phi)
+    season_year(x, phi)
+    find_time(x, phi)
+    monthly(x, phi)
     holiday(x, phi)
     
     sin(x, phi)

@@ -1,6 +1,6 @@
 import re
 from collections import namedtuple
-from phi_types.utils import add_type, PHI
+from phi_types.utils import add_type, PHI, is_probably_measurement
 
 
 two_digit_threshold = 30
@@ -8,6 +8,7 @@ valid_year_low = 1900
 valid_year_high = 2050
 
 Date = namedtuple("Date", ["date_string", "day", "month", "year"])
+Time = namedtuple("Time", ["time_string", "hours", "minutes", "seconds"])
 
 months = {"January":1, "Jan":1, "February":2, "Feb":2, "March":3, "Mar":3, "April":4, "Apr":4, "May":5, "June":6, "Jun":6, "July":7, "Jul":7, "August":8, "Aug":8, "September":9, "Sept":9, "Sep":9, "October":10, "Oct":10, "November":11, "Nov":11, "December":12, "Dec":12}
 
@@ -40,6 +41,22 @@ def is_valid_date(month, day, year):
         return day <= 30
     
     return day <= 31 
+
+
+def is_valid_time(hours, minutes, seconds):
+    if  hours > 0 and hours <= 12 and minutes >= 0 and minutes < 60:
+        if seconds is not None:
+            return seconds >= 0 and seconds < 60
+
+    return False
+
+
+def is_valid_24_hour_time(hours, minutes, seconds):
+    if  hours > 0 and hours <= 24 and minutes >= 0 and minutes < 60:
+        if seconds is not None:
+            return seconds >= 0 and seconds < 60
+
+    return False
 
 
 def holiday(x, phi):
@@ -79,7 +96,7 @@ def date(x, phi):
         string_after = x[end:(end + 2)]
 
         if not (re.search(r'(\|\|)', string_before) or re.search(r'(\|\|)', string_after)):
-            if not (re.search(r'\d[\/\.\-]', string_before) or re.search(r'\A[\%\/]', string_after) or re.search(r'\S\d', string_after)):
+            if not (re.search(r'\d[\/\.\-]', string_before) or re.search(r'[\%\/]', string_after) or re.search(r'\S\d', string_after)):
                 if is_valid_date(month, day, year):
                     add_type(PHI(start, end, Date(m.group(), day, month, year)), 'Month/Day/Year', phi)
             
@@ -95,7 +112,7 @@ def date(x, phi):
         string_before = x[(start - 2):start]
         string_after = x[end:(end + 2)]
 
-        if not (re.search(r'\d[\/\.\-]', string_before) or re.search(r'\A[\%\/]', string_after) or re.search(r'\S\d', string_after)):
+        if not (re.search(r'\d[\/\.\-]', string_before) or re.search(r'[\%\/]', string_after) or re.search(r'\S\d', string_after)):
             if is_valid_date(month, day, year):
                 add_type(PHI(start, end, Date(m.group(), day, month, year)), 'Month/Day/Year', phi)
             
@@ -264,3 +281,121 @@ def date(x, phi):
             year = int(m.group(3))
             
             add_type(PHI(m.start(), m.end(), Date(m.group(), None, month, year)), 'Month Year', phi)
+
+
+def date_with_context_check(x, phi):
+    # mm/dd or mm/yy
+    for m in re.finditer(r'\b([A-Za-z0-9%\/]+ +)?((\d\d?)([\/\-])(\d\d?))\/?\/?( +[A-Za-z]+)?\b', x):
+        month = int(m.group(3))
+        day_or_year = int(m.group(5))
+
+        if not re.search(r'\b(cvp|noc|\%|RR|PCW)', m.group(1), re.IGNORECASE) and not re.search(r'\bpersantine\b', m.group(6), re.IGNORECASE):
+            context_len = 12
+            chars_before = x[(m.start(3) - 2):m.start(3)]
+            chars_after = x[m.end(5):(m.end(5) + 2)]
+
+            if not re.search(r'\d[\/\.\-]', chars_before) and not re.search(r'[\%]', chars_after) and not re.search(r'\S\d', chars_after):
+                string_before = x[(m.start(3) - context_len):m.start(3)]
+                string_after = x[m.end(5):(m.end(5) + context_len)]
+                
+                if is_valid_date(month, day_or_year, -1):
+
+                    if day_or_year == 5:
+                        if (
+                            not is_probably_measurement(string_before) and 
+                            not re.search(r'\bPSV? ', string_before, re.IGNORECASE) and 
+                            not re.search(r'\b(CPAP|PS|range|bipap|pap|pad|rate|unload|ventilation|scale|strength|drop|up|cc|rr|cvp|at|up|in|with|ICP|PSV|of) ', string_before, re.IGNORECASE) and
+                            not (r' ?(packs|psv|puffs|pts|patients|range|scale|mls|liters|litres|drinks|beers|per|esophagus|tabs|pts|tablets|systolic|sem|strength|times|bottles|drop|drops|up|cc|mg|\/hr|\/hour|mcg|ug|mm|PEEP|L|hr|hrs|hour|hours|dose|doses|cultures|blood|bpm|ICP|CPAP|years|days|weeks|min|mins|minutes|seconds|months|mons|cm|mm|m|sessions|visits|episodes|drops|breaths|wbcs|beat|beats|ns)\b', string_after, re.IGNORECASE)
+                        ):
+                            add_type(PHI(m.start(3), m.end(5), Date(m.group(2), day_or_year, month, None)), 'Month/Day (1)', phi)
+
+                    elif day_or_year == 2:
+                        if (
+                            not is_probably_measurement(string_before) and 
+                            not re.search(r' ?hour\b', string_after, re.IGNORECASE) and 
+                            not re.search(r'\b(with|drop|bipap|pap|range|pad|rate|unload|ventilation|scale|strength|up|cc|rr|cvp|at|up|with|in|ICP|PSV|of) ', string_before, re.IGNORECASE) and 
+                            not re.search(r' ?hr\b', string_after, re.IGNORECASE) and 
+                            not (r' ?(packs|L|psv|puffs|pts|patients|range|scale|dose|doses|cultures|blood|mls|liters|litres|pts|drinks|beers|per|esophagus|tabs|tablets|systolic|sem|strength|bottles|times|drop|cc|up|mg|\/hr|\/hour|mcg|ug|mm|PEEP|hr|hrs|hour|hours|bpm|ICP|CPAP|years|days|weeks|min|mins|minutes|seconds|months|mons|cm|mm|m|sessions|visits|episodes|drops|breaths|wbcs|beat|beats|ns)\b', string_after, re.IGNORECASE)
+                        ):
+                            add_type(PHI(m.start(3), m.end(5), Date(m.group(2), day_or_year, month, None)), 'Month/Day (2)', phi)
+                    
+                    else:
+                        if is_probably_date(string_before, string_after):
+                            add_type(PHI(m.start(3), m.end(5), Date(m.group(2), day_or_year, month, None)), 'Month/Day (3)', phi)
+
+                if month <= 12 and month > 0 and len(day_or_year) == 2 and (day_or_year >= 50 or day_or_year <= 30):
+                    if is_probably_date(string_before, string_after):
+                        add_type(PHI(m.start(3), m.end(5), Date(m.group(2), None, month, day_or_year)), 'Month/Year (2)', phi)
+
+
+def year_with_context_check(x, phi):
+    # YEAR_INDICATOR + yy
+    for m in re.finditer(r'\b((embolus|mi|mvr|REDO|pacer|ablation|cabg|avr|x2|x3|CHOLECYSTECTOMY|cva|ca|PTC|PTCA|stent|since|surgery|year) + *(\')?)(\d\d)(\.\d)?((\.|\:)\d{1,2})?\b', x, re.IGNORECASE):
+        
+        if m.group(5) is None and m.group(6) is None: # avoid decimal places or hh:mm
+            add_type(PHI(m.start(4), m.end(4), Date(m.group(4), None, None, int(m.group(4)))), 'Year (2 digits)', phi)
+
+    for m in re.finditer(r'\b((embolus|mi|mvr|REDO|pacer|ablation|cabg|x2|x3|CHOLECYSTECTOMY|cva|ca|in|PTCA|since|from|year) + *)(\d{4})((\,? )\d{4})?\b', x, re.IGNORECASE):
+        year_1 = int(m.group(3))
+        year_2 = int(m.group(4))
+
+        if year_1 <= valid_year_high and year_1 >= valid_year_low:
+            add_type(PHI(m.start(3), m.end(3), Date(m.group(3), None, None, year_1)), 'Year (4 digits)', phi)
+            add_type(PHI(m.start(4), m.end(4), Date(m.group(4), None, None, year_2)), 'Year (4 digits)', phi)
+
+
+def season_year(x, phi):
+    seasons = ["winter", "spring", "summer", "autumn", "fall"]
+
+    for season in seasons:
+        for m in re.finditer(r'\b((' + season + r')(( +)of( +))? ?\,?( ?)\'?(\d{2}|\d{4}))\b', x, re.IGNORECASE):
+            year = int(m.group(7))
+
+            if len(year) == 4 and year <= valid_year_high and year >= valid_year_low:
+                add_type(PHI(m.start(7), m.end(7), Date(m.group(7), None, None, year)), 'Year (4 digits)', phi)
+            else:
+                add_type(PHI(m.start(7), m.end(7), Date(m.group(7), None, None, year)), 'Year (2 digits)', phi)
+
+
+def find_time(x, phi):
+    for m in re.finditer(r'\b( *)((\d{4}) *)(hours|hr|hrs|h)\b', x, re.IGNORECASE):
+        potential_time = int(m.group(3))
+        hours = potential_time // 100
+        minutes = potential_time % 100
+
+        if potential_time < 2359 and potential_time >= 0:
+            add_type(PHI(m.start(3), m.end(3), Time(m.group(3), hours, minutes, None)), 'Time (military)', phi)
+
+    for m in re.finditer(r'(([A-Za-z0-9%\/]+)\s[A-Za-z0-9%\/]+\s+)?((\d\d?)\:(\d{2})(\:(\d\d))?)(\s)?(am|pm|p.m.|a.m.)?( *([A-Za-z]+))?', x, re.IGNORECASE):
+        
+        pre = m.group(1)
+        post = m.group(11)
+
+        hours = int(m.group(4))
+        minutes = int(m.group(5))
+        seconds = int(m.group(6))
+
+        if m.group(9) is not None:
+            if is_valid_time(hours, minutes, seconds):
+                add_type(PHI(m.start(3), m.end(3), Time(m.group(3), hours, minutes, seconds)), 'Time', phi)
+
+        elif (
+            is_valid_24_hour_time(hours, minutes, seconds) and 
+            not is_probably_measurement(pre) and 
+            not re.search(r'\bPSV? ', pre, re.IGNORECASE) and 
+            not re.search(r'\b(CPAP|PS|range|bipap|pap|pad|rate|unload|ventilation|scale|strength|drop|up|cc|rr|cvp|at|up|in|with|ICP|PSV|of) ', pre, re.IGNORECASE) and 
+            not re.search(r' ?(packs|psv|puffs|pts|patients|range|scale|mls|liters|litres|drinks|beers|per|esophagus|tabs|pts|tablets|systolic|sem|strength|times|bottles|drop|drops|up|cc|mg|\/hr|\/hour|mcg|ug|mm|PEEP|L|hr|hrs|hour|hours|dose|doses|cultures|blood|bpm|ICP|CPAP|cm|mm|m|sessions|visits|episodes|drops|breaths|wbcs|beat|beats|ns)\b', post, re.IGNORECASE)
+        ):
+            add_type(PHI(m.start(3), m.end(3), Time(m.group(3), hours, minutes, seconds)), 'Time', phi)
+
+
+def monthly(x, phi):
+    for m in re.finditer(r'\b(every )((\d|\d{2})(nd|st|th|rd)?(( month)?( +)of( +))? ?\,?( ?)\'?(\d{2}|\d{4}))\b', x, re.IGNORECASE):
+        year = int(m.group(10))
+
+        if len(year) == 4:
+            if year >= valid_year_low and year <= valid_year_high:
+                add_type(PHI(m.start(10), m.end(10), Date(m.group(10), None, None, year)), 'Year (Monthly 4 digit)', phi)
+
+        else:
+            add_type(PHI(m.start(10), m.end(10), Date(m.group(10), None, None, year)), 'Year (Monthly 2 digit)', phi)

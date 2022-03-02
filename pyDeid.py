@@ -23,6 +23,8 @@ def pyDeid(original_file, new_file, phi_output_file, note_varname, encounter_id_
 
             with io.open(phi_output_file, 'w') as file:
                 file.write(json.dumps(phi_output))
+        else:
+            raise ValueError("The JSON filename specified already exists.")
 
         chars = 0
         notes = 0
