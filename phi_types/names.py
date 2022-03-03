@@ -9,7 +9,7 @@ all_first_names = load_file('wordlists/all_first_names.txt')
 last_names_unambig = load_file('wordlists/last_names_unambig_v2.txt')
 all_last_names = load_file('wordlists/all_last_names.txt')
 
-doctor_first_names = load_file('wordlists/doctor_first_names.txt') # TODO: needs to be split into single names
+doctor_first_names = load_file('wordlists/doctor_first_names.txt', optimization='iteration')
 doctor_last_names = load_file('wordlists/doctor_last_names.txt')
 
 female_names_ambig = load_file('wordlists/female_names_ambig.txt')
@@ -28,7 +28,6 @@ namesets = [ # do this only once
     (female_names_unambig, 'Female Name (un)'), 
     (male_names_unambig, 'Male Name (un)'),
     (last_names_unambig, 'Last Name (un)'),
-    (doctor_first_names, 'Doctor First Name'),
     (doctor_last_names, 'Doctor Last Name'),
     (female_names_ambig, 'Female First Name (ambig)'),
     (male_names_ambig, 'Male First Name (ambig)'),
@@ -52,7 +51,11 @@ def name_first_pass(x):
     for phrase in medical_phrases:
         for m in re.finditer(phrase, x, re.IGNORECASE):
             res.setdefault(PHI(m.start(), m.end(), m.group()),[]).append('MedicalPhrase')
-    
+
+    for name in doctor_first_names:
+        for m in re.finditer(name, x, re.IGNORECASE):
+            res.setdefault(PHI(m.start(), m.end(), m.group()),[]).append('Doctor First Name')
+
     return res
 
 
@@ -429,7 +432,7 @@ def follows_first_name(x, phi):
                         else:
                             if re.search(r'( +)([A-Za-z])(\.? )([A-Za-z][A-Za-z]+)\b\s*', string_after):
                                 add_type(last_name_key, "Last Name (NamePattern1)", phi)
-                                add_type(inital_key, "Initial (NamePattern1)", phi)
+                                add_type(initial_key, "Initial (NamePattern1)", phi)
                                 add_type(i, "First Name6 (NamePattern1)", phi)
                                 
                             elif not is_commonest(last_name):

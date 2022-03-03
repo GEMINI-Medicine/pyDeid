@@ -10,7 +10,25 @@ valid_year_high = 2050
 Date = namedtuple("Date", ["date_string", "day", "month", "year"])
 Time = namedtuple("Time", ["time_string", "hours", "minutes", "seconds"])
 
-months = {"January":1, "Jan":1, "February":2, "Feb":2, "March":3, "Mar":3, "April":4, "Apr":4, "May":5, "June":6, "Jun":6, "July":7, "Jul":7, "August":8, "Aug":8, "September":9, "Sept":9, "Sep":9, "October":10, "Oct":10, "November":11, "Nov":11, "December":12, "Dec":12}
+
+months = {
+    "January":1, "Jan":1, 
+    "February":2, "Feb":2, 
+    "March":3, "Mar":3, 
+    "April":4, "Apr":4, 
+    "May":5, 
+    "June":6, "Jun":6, 
+    "July":7, "Jul":7, 
+    "August":8, "Aug":8, 
+    "September":9, "Sept":9, "Sep":9, 
+    "October":10, "Oct":10, 
+    "November":11, "Nov":11, 
+    "December":12, "Dec":12
+    }
+
+
+days = {"1":31, "2":28, "3":31, "4":30, "5":31, "6":30, "7":31, "8":31, "9":30, "10":31, "11":30, "12":31}
+
 
 def is_valid_date(month, day, year):
     if year != -1 and len(str(year)) == 2:
@@ -56,6 +74,16 @@ def is_valid_24_hour_time(hours, minutes, seconds):
         if seconds is not None:
             return seconds >= 0 and seconds < 60
 
+    return False
+
+
+def is_probably_date(string_before, string_after):
+    if (
+        not is_probably_measurement(string_before) and 
+        not re.search(r'\b(drop|up|cc|dose|doses|range|ranged|pad|rate|bipap|pap|unload|ventilation|scale|cultures|blood|at|up|with|in|of|RR|ICP|CVP|strength|PSV|SVP|PCWP|PCW|BILAT|SRR|VENT|PEEP\/PS|flowby|drinks|stage) ?', string_before, re.IGNORECASE) and
+        not re.search(r' ?(packs|litres|puffs|mls|liters|L|pts|patients|range|psv|scale|beers|per|esophagus|tabs|tablets|systolic|sem|strength|hours|pts|times|drop|up|cc|mg|\/hr|\/hour|mcg|ug|mm|PEEP|hr|hrs|hour|hours|bottles|bpm|ICP|CPAP|years|days|weeks|min|mins|minutes|seconds|months|mons|cm|mm|m|sessions|visits|episodes|drops|breaths|wbcs|beat|beats|ns|units|amp|qd|chest pain|intensity)\b', string_after, re.IGNORECASE)
+    ):
+        return True
     return False
 
 
@@ -364,7 +392,7 @@ def find_time(x, phi):
         minutes = potential_time % 100
 
         if potential_time < 2359 and potential_time >= 0:
-            add_type(PHI(m.start(3), m.end(3), Time(m.group(3), hours, minutes, None)), 'Time (military)', phi)
+            add_type(PHI(m.start(3), m.end(3), Time(m.group(3), hours, minutes, None, None)), 'Time (military)', phi)
 
     for m in re.finditer(r'(([A-Za-z0-9%\/]+)\s[A-Za-z0-9%\/]+\s+)?((\d\d?)\:(\d{2})(\:(\d\d))?)(\s)?(am|pm|p.m.|a.m.)?( *([A-Za-z]+))?', x, re.IGNORECASE):
         
@@ -375,9 +403,11 @@ def find_time(x, phi):
         minutes = int(m.group(5))
         seconds = int(m.group(6))
 
-        if m.group(9) is not None:
+        meridiem = m.group(9)
+
+        if meridiem is not None:
             if is_valid_time(hours, minutes, seconds):
-                add_type(PHI(m.start(3), m.end(3), Time(m.group(3), hours, minutes, seconds)), 'Time', phi)
+                add_type(PHI(m.start(3), m.end(3), Time(m.group(3), hours, minutes, seconds, meridiem)), 'Time', phi)
 
         elif (
             is_valid_24_hour_time(hours, minutes, seconds) and 
@@ -386,7 +416,7 @@ def find_time(x, phi):
             not re.search(r'\b(CPAP|PS|range|bipap|pap|pad|rate|unload|ventilation|scale|strength|drop|up|cc|rr|cvp|at|up|in|with|ICP|PSV|of) ', pre, re.IGNORECASE) and 
             not re.search(r' ?(packs|psv|puffs|pts|patients|range|scale|mls|liters|litres|drinks|beers|per|esophagus|tabs|pts|tablets|systolic|sem|strength|times|bottles|drop|drops|up|cc|mg|\/hr|\/hour|mcg|ug|mm|PEEP|L|hr|hrs|hour|hours|dose|doses|cultures|blood|bpm|ICP|CPAP|cm|mm|m|sessions|visits|episodes|drops|breaths|wbcs|beat|beats|ns)\b', post, re.IGNORECASE)
         ):
-            add_type(PHI(m.start(3), m.end(3), Time(m.group(3), hours, minutes, seconds)), 'Time', phi)
+            add_type(PHI(m.start(3), m.end(3), Time(m.group(3), hours, minutes, seconds, None)), 'Time', phi)
 
 
 def monthly(x, phi):
