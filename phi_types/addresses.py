@@ -37,7 +37,7 @@ def address(x, phi):
                 if apt:
                     end = end + apt.end()
 
-            if len(m.group(3)) == 0:
+            if m.group(3) is not None:
                 if is_unambig_common(m.group(5)):
                     add_type(PHI(start, end, x[start:end]), 'Street Address', phi)
                     
