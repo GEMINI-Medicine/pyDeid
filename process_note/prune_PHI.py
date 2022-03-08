@@ -1,10 +1,8 @@
 import re
 from phi_types.utils import PHI
-from collections import namedtuple
-
 
 def prune_phi(raw_text, phi):
-    phi_keys = sorted(phi.keys())
+    phi_keys = sorted(phi.keys(), key = lambda x: x.start)
     
     # loop once to remove ambiguous only phi
     for i in range(len(phi_keys)):
@@ -13,7 +11,7 @@ def prune_phi(raw_text, phi):
         if all(re.search('ambig', val) for val in phi[current_key]): # remove ambiguous
             del phi[current_key]
             
-    phi_keys = sorted(phi.keys())
+    phi_keys = sorted(phi.keys(), key = lambda x: x.start)
     bad_keys = []
     
     # loop again to remove overlapping phi
@@ -29,7 +27,6 @@ def prune_phi(raw_text, phi):
             current_end = phi_keys[i].end
             
             if current_start >= previous_start and current_end <= previous_end:
-                print(current_key)
                 bad_keys.append(current_key)
                 
             elif current_start > previous_start and current_start < previous_end and current_end > previous_end:

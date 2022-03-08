@@ -2,7 +2,7 @@ import re
 import calendar
 import random
 import string
-from phi_types.dates import months, days
+from phi_types.dates import months, days, Date
 from phi_types.utils import common_words
 from phi_types.names import all_first_names, all_last_names
 from phi_types.contact_info import canadian_area_codes
@@ -22,42 +22,54 @@ def generate_postal_code():
 
 
 def date_shifter(date, day_shift, month_shift, year_shift):
+    
     day = date.day
     month = date.month
     year = date.year
 
-    if month is not None:
-        old_month = months[month] if month in months else date.month
+    if date.month is not None:
+        old_month = months[month] if month in months else month
         number_of_days = days[str(old_month)]
 
     if day is not None:
-        day = day + day_shift
+        try:
+            day = int(day) + day_shift
 
-        if month is not None:
-            if day > number_of_days:
-                month = month + 1
-                day = day % number_of_days
-        else:
-            day = day % 31
+            if month is not None:
+                if day > number_of_days:
+                    month = month + 1
+                    day = day % number_of_days
+            else:
+                day = day % 31
+        except:
+            day = ""
     else:
         day = ""
     
     if month is not None:
-        month = old_month + month_shift
+        try:
+            month = int(old_month) + month_shift
 
-        if month > 12:
-            month = month % 12
-            if year is not None:
-                year = year + 1
+            if month > 12:
+                month = month % 12
+                if year is not None:
+                    year = int(year) + 1
+
+            month = calendar.month_name[month]
+        except:
+            month = ""
     else:
         month = ""
     
     if year is not None:
-        year = year + year_shift
+        try:
+            year = int(year) + year_shift
+        except:
+            year = ""
     else:
         year = ""
         
-    return str(day) + "-" + calendar.month_name[month] + "-" + str(year)
+    return str(day) + "-" + month + "-" + str(year)
 
 
 def time_shifter(time, hour_shift, minute_shift, second_shift):
@@ -66,20 +78,31 @@ def time_shifter(time, hour_shift, minute_shift, second_shift):
     seconds = time.seconds
     meridiem = time.meridiem
 
-    if time.seconds is not None: # seconds is optional as per the regex
-        seconds = seconds + second_shift
+    if seconds is not None: # seconds is optional as per the regex
+        try:
+            seconds = int(seconds) + second_shift
 
-        if seconds > 60 and minutes is not None:
-            minutes = minutes + 1
+            if seconds > 60 and minutes is not None:
+                minutes = minutes + 1
+        except:
+            seconds = ""
     
-    minutes = minutes + minute_shift
+    if minutes is not None:
+        try:
+            minutes = int(minutes) + minute_shift
 
-    if minutes > 60 and hours is not None:
-        hours = hours + 1
+            if minutes > 60 and hours is not None:
+                hours = hours + 1
+        except:
+            minutes = ""
 
-    hours = hours + hour_shift
+    if hours is not None:
+        try:
+            hours = hours + hour_shift
+        except:
+            hours = ""
 
-    if meridiem is not None:
+    if meridiem is not None and hours != "":
         if hours > 12:
             hours = hours % 12
 
@@ -130,7 +153,7 @@ def replace_phi(x, phi, return_surrogates = False):
     minute_shift = random.randint(0, 59)
     second_shift = random.randint(0, 59)
     
-    for key in sorted(phi.keys()):
+    for key in sorted(phi.keys(), key = lambda x: x.start):
         for val in phi[key]:
             
             if re.search('MRN', val):
@@ -170,7 +193,8 @@ def replace_phi(x, phi, return_surrogates = False):
                 surrogate = generate_postal_code()
             
             elif re.search(r'day|month|year', val, re.IGNORECASE):
-                surrogate = date_shifter(key.phi, day_shift, month_shift, year_shift)
+                if isinstance(key.phi, Date):
+                    surrogate = date_shifter(key.phi, day_shift, month_shift, year_shift)
 
             elif re.search('Time', val, re.IGNORECASE):
                 surrogate = time_shifter(key.phi, hour_shift, minute_shift, second_shift)
