@@ -28,8 +28,12 @@ def date_shifter(date, day_shift, month_shift, year_shift):
     year = date.year
 
     if date.month is not None:
-        old_month = months[month] if month in months else month
-        number_of_days = days[str(old_month)]
+        try:
+            old_month = months[month] if month in months else int(month)
+            number_of_days = days[str(old_month)]
+        except:
+            old_month = ""
+            number_of_days = 31
 
     if day is not None:
         try:

@@ -33,16 +33,19 @@ days = {"1":31, "2":28, "3":31, "4":30, "5":31, "6":30, "7":31, "8":31, "9":30, 
 
 def is_valid_date(date):
     if date.year is not None:
-        if len(date.year) == 2:
-            try: # safe type-casting
-                year = int(year)
-            except:
-                return False
+        try: # safe type-casting
+            year = int(year)
+        except:
+            return False
 
+        if len(date.year) == 2:
+            
             if year < two_digit_threshold:
                 year = 2000 + year
             else:
                 year = 1900 + year
+        else:
+            year = date.year
             
         if not is_valid_year(year):
             return False
@@ -68,7 +71,7 @@ def is_valid_date(date):
     
         # check validity of February days
         if month == 2:
-            if ((year is not None) and ((year % 4) == 0) and (year != 2000)):
+            if ((date.year is not None) and ((year % 4) == 0) and (year != 2000)):
                 return day <= 29
             else:
                 return day <= 28
