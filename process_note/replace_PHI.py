@@ -3,7 +3,7 @@ import calendar
 import random
 import string
 from phi_types.dates import months, days, Date
-from phi_types.utils import very_common_words
+from phi_types.utils import just_common_words
 from phi_types.names import all_first_names, all_last_names
 from phi_types.contact_info import canadian_area_codes
 from phi_types.addresses import strict_street_add_suff, local_places_unambig
@@ -109,8 +109,8 @@ def time_shifter(time, hour_shift, minute_shift, second_shift):
 
 
 def build_email():
-    local_part = re.sub("[^a-zA-Z]+", "", random.choice(tuple(very_common_words)))
-    domain = re.sub("[^a-zA-Z]+", "", random.choice(tuple(very_common_words)))
+    local_part = re.sub("[^a-zA-Z]+", "", random.choice(tuple(just_common_words)))
+    domain = re.sub("[^a-zA-Z]+", "", random.choice(tuple(just_common_words)))
 
     return local_part + "@" + domain + ".com"
 

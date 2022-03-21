@@ -31,8 +31,8 @@ def pyDeid(original_file, new_file, phi_output_file, note_varname, encounter_id_
         notes = 0
         start_time = time.time()
 
-        writer = csv.DictWriter(open(new_file, 'w'), fieldnames=reader.fieldnames, lineterminator='\n')
-        writer.writeheader()
+    writer = csv.DictWriter(open(new_file, 'w'), fieldnames=reader.fieldnames, lineterminator='\n')
+    writer.writeheader()
 
     for row in reader:
         
@@ -46,6 +46,9 @@ def pyDeid(original_file, new_file, phi_output_file, note_varname, encounter_id_
         except:
             print(f'Something went wrong with encounter {row[encounter_id_varname]}, note {row[note_id_varname]}\n')
 
+        row[note_varname] = new_note
+        writer.writerow(row)
+
         if mode == 'diagnostic':
             chars += len(original_note)
             notes += 1
@@ -57,9 +60,6 @@ def pyDeid(original_file, new_file, phi_output_file, note_varname, encounter_id_
                 value = {1: surrogates}
 
             phi_output.setdefault(key, value).update(value)
-            
-            row[note_varname] = new_note
-            writer.writerow(row)
 
         elif mode == "performance":
 
@@ -72,7 +72,7 @@ def pyDeid(original_file, new_file, phi_output_file, note_varname, encounter_id_
 
             phi_output.insert(0, 'encounter_id', row[encounter_id_varname])
 
-            phi_output.to_csv(phi_output_file, mode = 'a')
+            phi_output.to_csv(phi_output_file, mode = 'a', index = False)
 
     if mode == 'diagnostic':
         total_time = time.time() - start_time
