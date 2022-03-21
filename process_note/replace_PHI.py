@@ -85,16 +85,16 @@ def time_shifter(time, hour_shift, minute_shift, second_shift):
     if seconds is not None: # seconds is optional as per the regex
         seconds = int(seconds) + second_shift
 
-        if seconds > 60 and minutes is not None:
-            minutes = minutes + 1
+        if int(seconds) > 60 and minutes is not None:
+            minutes = int(minutes) + 1
     else:
         seconds = "00"
     
     if minutes is not None:
         minutes = int(minutes) + minute_shift
 
-        if minutes > 60 and hours is not None:
-            hours = hours + 1
+        if int(minutes) > 60 and hours is not None:
+            hours = int(hours) + 1
     else:
         minutes = "00"
 
@@ -104,8 +104,8 @@ def time_shifter(time, hour_shift, minute_shift, second_shift):
         hours = "00"
 
     if meridiem is not None and hours != "":
-        if hours > 12:
-            hours = hours % 12
+        if int(hours) > 12:
+            hours = int(hours) % 12
 
             if re.search(r'am|a.m.', meridiem, re.IGNORECASE):
                 meridiem = ' p.m.'
