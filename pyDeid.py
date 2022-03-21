@@ -68,11 +68,11 @@ def pyDeid(original_file, new_file, phi_output_file, note_varname, encounter_id_
 
 if __name__ == "__main__":
     pyDeid(
-        'R:/GEMINI/De-identification Software/v2.0/Admission Notes Gold Standard/Temp_test_files/11941048_admission_notes.csv', 
-        'breaking_cases.csv', 
-        'breaking_cases_output.json', 
+        'R:/GEMINI/De-identification Software/v2.0/Admission Notes Gold Standard/Temp_test_files/SMH_11100072.csv', 
+        'R:/GEMINI/De-identification Software/v2.0/Admission Notes Gold Standard/Temp_test_files/SMH_11100072_deid.csv', 
+        'R:/GEMINI/De-identification Software/v2.0/Admission Notes Gold Standard/Temp_test_files/SMH_11100072.json', 
         'Value', 
         'genc_id', 
         'Encounter',
-        mode = 'performance'
+        mode = 'diagnostic'
         )

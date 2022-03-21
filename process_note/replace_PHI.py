@@ -86,6 +86,7 @@ def time_shifter(time, hour_shift, minute_shift, second_shift):
         seconds = int(seconds) + second_shift
 
         if int(seconds) > 60 and minutes is not None:
+            seconds = int(seconds) % 60
             minutes = int(minutes) + 1
     else:
         seconds = "00"
@@ -94,6 +95,7 @@ def time_shifter(time, hour_shift, minute_shift, second_shift):
         minutes = int(minutes) + minute_shift
 
         if int(minutes) > 60 and hours is not None:
+            minutes = int(minutes) % 60
             hours = int(hours) + 1
     else:
         minutes = "00"
@@ -109,13 +111,15 @@ def time_shifter(time, hour_shift, minute_shift, second_shift):
 
             if re.search(r'am|a.m.', meridiem, re.IGNORECASE):
                 meridiem = ' p.m.'
-            elif re.search(r'am|a.m.', meridiem, re.IGNORECASE):
+            elif re.search(r'pm|p.m.', meridiem, re.IGNORECASE):
                 meridiem = ' a.m.'
             else:
                 meridiem = " " + meridiem
         else:
             meridiem = " " + meridiem
     else:
+        if int(hours) > 24:
+            hours = int(hours) % 24
         meridiem = ""
 
     return str(hours) + ":" + str(minutes) + ":" + str(seconds) + meridiem
