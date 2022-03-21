@@ -3,7 +3,7 @@ import calendar
 import random
 import string
 from phi_types.dates import months, days, Date
-from phi_types.utils import common_words
+from phi_types.utils import very_common_words
 from phi_types.names import all_first_names, all_last_names
 from phi_types.contact_info import canadian_area_codes
 from phi_types.addresses import strict_street_add_suff, local_places_unambig
@@ -27,53 +27,36 @@ def date_shifter(date, day_shift, month_shift, year_shift):
     month = date.month
     year = date.year
 
+    res = ''
+
     if date.month is not None:
-        try:
-            old_month = months[month] if month in months else int(month)
-            number_of_days = days[str(old_month)]
-        except:
-            old_month = ""
-            number_of_days = 31
+        old_month = months[month] if month in months else int(month)
+        number_of_days = days[str(old_month)]
 
     if day is not None:
-        try:
-            day = int(day) + day_shift
+        day = int(day) + day_shift
 
-            if month is not None:
-                if day > number_of_days:
-                    month = month + 1
-                    day = day % number_of_days
-            else:
-                day = day % 31
-        except:
-            day = ""
-    else:
-        day = ""
+        if old_month is not None:
+            if int(day) > number_of_days:
+                month = int(old_month) + 1
+                day = int(day) % number_of_days
+        else:
+            day = int(day) % 31
     
     if month is not None:
-        try:
-            month = int(old_month) + month_shift
+        month = int(old_month) + month_shift
 
-            if month > 12:
-                month = month % 12
-                if year is not None:
-                    year = int(year) + 1
+        if int(month) > 12:
+            month = int(month) % 12
+            if year is not None:
+                year = int(year) + 1
 
-            month = calendar.month_name[month]
-        except:
-            month = ""
-    else:
-        month = ""
+        month = calendar.month_name[month]
     
     if year is not None:
-        try:
-            year = int(year) + year_shift
-        except:
-            year = ""
-    else:
-        year = ""
+        year = int(year) + year_shift
         
-    return str(day) + "-" + month + "-" + str(year)
+    return '-'.join([str(component) for component in [day, month, year] if component])
 
 
 def time_shifter(time, hour_shift, minute_shift, second_shift):
@@ -126,7 +109,10 @@ def time_shifter(time, hour_shift, minute_shift, second_shift):
 
 
 def build_email():
-    return random.choice(tuple(common_words)) + "@" + random.choice(tuple(common_words)) + ".com"
+    local_part = re.sub("[^a-zA-Z]+", "", random.choice(tuple(very_common_words)))
+    domain = re.sub("[^a-zA-Z]+", "", random.choice(tuple(very_common_words)))
+
+    return local_part + "@" + domain + ".com"
 
 
 def build_telephone():
@@ -185,16 +171,16 @@ def replace_phi(x, phi, return_surrogates = False):
                 surrogate = random.choice(tuple(local_places_unambig))
             
             elif re.search('First Name', val):
-                surrogate = random.choice(tuple(all_first_names))
+                surrogate = random.choice(tuple(all_first_names)).title()
             
             elif re.search('Last Name', val):
-                surrogate = random.choice(tuple(all_last_names))
+                surrogate = random.choice(tuple(all_last_names)).title()
             
             elif re.search('Name Prefix', val):
                 surrogate = ""
             
             elif re.search('Name', val): # not sure if first or last name, replace with first name
-                surrogate = random.choice(tuple(all_first_names))
+                surrogate = random.choice(tuple(all_first_names)).title()
             
             elif re.search('Postalcode', val):
                 surrogate = generate_postal_code()
