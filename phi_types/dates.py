@@ -32,6 +32,7 @@ days = {"1":31, "2":28, "3":31, "4":30, "5":31, "6":30, "7":31, "8":31, "9":30, 
 
 
 def is_valid_date(date):
+
     if date.year is not None:
         try: # safe type-casting
             year = int(year)
@@ -50,35 +51,33 @@ def is_valid_date(date):
         if not is_valid_year(year):
             return False
     
-    if date.month is not None and date.day is not None:
-        try:
-            if date.month in months:
-                month = months[date.month]
-            else:
-                month = int(date.month)
-            day = int(date.day)
-        except:
+    if date.month is not None:
+        if not is_valid_month(date.month):
             return False
-
-        # month and days are switched
-        if month < 1 or month > 12 or day < 1 or day > 31:
-            if day >= 1 and day <= 12 and month >= 1 and month <= 31:
-                actually_month = day
-                day = month
-                month = actually_month
-            else:
-                return False
-    
-        # check validity of February days
-        if month == 2:
-            if ((date.year is not None) and ((year % 4) == 0) and (year != 2000)):
-                return day <= 29
-            else:
-                return day <= 28
-        elif ((month == 4) or (month == 6) or (month == 9) or (month == 11)):
-            return day <= 30
         
-        return day <= 31 
+        if date.day is not None:
+            if not is_valid_day(date.day):
+                return False
+
+            try:
+                if date.month in months:
+                    month = months[date.month]
+                else:
+                    month = int(date.month)
+                day = int(date.day)
+            except:
+                return False
+        
+            # check validity of February days
+            if month == 2:
+                if ((date.year is not None) and ((year % 4) == 0) and (year != 2000)):
+                    return day <= 29
+                else:
+                    return day <= 28
+            elif ((month == 4) or (month == 6) or (month == 9) or (month == 11)):
+                return day <= 30
+        
+        return day <= 31
 
 
 def is_valid_year(year):
@@ -159,40 +158,7 @@ def holiday(x, phi):
         add_type(PHI(m.start(), m.end(), m.group()), 'Holiday', phi)
 
 
-def date(x, phi):
-    # mm/dd-mm/dd
-    for m in re.finditer(r'\b((\d\d?)\/(\d\d?)\-(\d\d?)\/(\d\d?))\b', x):
-        date_1 = x[m.start(2):m.end(3)]
-        date_1_key = Date(date_1, m.group(3), m.group(2), None)
-
-        date_2 = x[m.start(4):m.end(5)]
-        date_2_key = Date(date_2, m.group(5), m.group(4), None)
-
-        if is_valid_date(date_1_key) and is_valid_date(date_2_key):
-            add_type(PHI(m.start(), m.end(), m.group()), 'Date range (1)', phi)
-            
-    # mm/dd/yy-mm/dd/yy or mm/dd/yyyy-mm/dd/yyyy
-    for m in re.finditer(r'\b((\d\d?)\/(\d\d?)\/(\d\d|\d\d\d\d)\-(\d\d?)\/(\d\d?)\/(\d\d|\d\d\d\d))\b', x):
-        date_1 = x[m.start(2):m.end(4)]
-        date_1_key = Date(date_1, m.group(3), m.group(2), m.group(4))
-
-        date_2 = x[m.start(5):m.end(7)]
-        date_2_key = Date(date_2, m.group(6), m.group(5), m.group(7))
-
-        if is_valid_date(date_1_key) and is_valid_date(date_2_key):
-            add_type(PHI(m.start(), m.end(), m.group()), 'Date range (2)', phi)
-            
-    # mm/dd-mm/dd/yy or mm/dd-mm/dd/yyyy
-    for m in re.finditer(r'\b((\d\d?)\/(\d\d?)\-(\d\d?)\/(\d\d?)\/(\d\d|\d\d\d\d))\b', x):
-        date_1 = x[m.start(2):m.end(4)]
-        date_1_key = Date(date_1, m.group(3), m.group(2), None)
-
-        date_2 = x[m.start(5):m.end(7)]
-        date_2_key = Date(date_2, m.group(5), m.group(4), m.group(6))
-
-        if is_valid_date(date_1_key) and is_valid_date(date_2_key):
-            add_type(PHI(m.start(), m.end(), m.group()), 'Date range (3)', phi)
-            
+def date(x, phi):            
     # month/day/year
     for m in re.finditer(r'\b(\d\d?)[\-\/\.](\d\d?)[\-\/\.](\d\d|\d{4})\b', x):
         start = m.start()
@@ -203,6 +169,9 @@ def date(x, phi):
         year = m.group(3)
         
         date_key = Date(m.group(), day, month, year)
+
+        if not is_valid_date(date_key):
+            date_key = Date(m.group(), month, day, year) # try switching month and day
 
         string_before = x[(start - 2):start]
         string_after = x[end:(end + 2)]
@@ -223,6 +192,9 @@ def date(x, phi):
 
         date_key = Date(m.group(), day, month, year)
 
+        if not is_valid_date(date_key):
+            date_key = Date(m.group(), month, day, year) # try switching month and day
+
         string_before = x[(start - 2):start]
         string_after = x[end:(end + 2)]
 
@@ -240,6 +212,9 @@ def date(x, phi):
         day = m.group(3)
 
         date_key = Date(m.group(), day, month, year)
+
+        if not is_valid_date(date_key):
+            date_key = Date(m.group(), month, day, year) # try switching month and day
 
         string_before = x[(start - 2):start]
         string_after = x[end:(end + 2)]
@@ -264,6 +239,9 @@ def date(x, phi):
         month = m.group(3)
 
         date_key = Date(m.group(), day, month, year)
+
+        if not is_valid_date(date_key):
+            date_key = Date(m.group(), month, day, year) # try switching month and day
 
         string_before = x[(start - 2):start]
         string_after = x[end:(end + 2)]
@@ -326,7 +304,16 @@ def date(x, phi):
             if is_valid_day(day):
                 date_key = Date(m.group(), day, month, year)
                 add_type(PHI(m.start(), m.end(), date_key), 'Day Month Year', phi)
-        
+
+        # May-02-2004
+        for m in re.finditer(r'\b(' + month + r'[ \-]? ?((\d{1,2})[ \-]?[ \-\,]? ?\'?(\d{4})))\b', x, re.IGNORECASE):
+            day = m.group(3)
+            year = m.group(4)
+                    
+            if is_valid_day(day) and is_valid_year(year):
+                date_key = Date(m.group(), day, month, year)
+                add_type(PHI(m.start(), m.end(), date_key), 'Day Month Year', phi)
+
         # 1 through 2-May-04
         for m in re.finditer(r'\b((\d{1,2}) ?(\-|to|through|\-\>)+ ?(\d{1,2})[ \-]?' + month + r'[ \-\,]? ?\'?\d{2,4})\b', x, re.IGNORECASE):
             day1 = m.group(2)
@@ -410,6 +397,74 @@ def date(x, phi):
             add_type(PHI(m.start(), m.end(), date_key), 'Month Year', phi)
 
 
+def date_range(x, phi):
+    # mm/dd-mm/dd
+    for m in re.finditer(r'\b((\d\d?)\/(\d\d?)\-(\d\d?)\/(\d\d?))\b', x):
+        date_1 = x[m.start(2):m.end(3)]
+        date_1_key = Date(date_1, m.group(3), m.group(2), None)
+
+        date_2 = x[m.start(4):m.end(5)]
+        date_2_key = Date(date_2, m.group(5), m.group(4), None)
+
+        if is_valid_date(date_1_key) and is_valid_date(date_2_key):
+            add_type(PHI(m.start(), m.end(), m.group()), 'Date range (1)', phi)
+            
+    # mm/dd/yy-mm/dd/yy or mm/dd/yyyy-mm/dd/yyyy
+    for m in re.finditer(r'\b((\d\d?)\/(\d\d?)\/(\d\d|\d\d\d\d)\-(\d\d?)\/(\d\d?)\/(\d\d|\d\d\d\d))\b', x):
+        date_1 = x[m.start(2):m.end(4)]
+        date_1_key = Date(date_1, m.group(3), m.group(2), m.group(4))
+
+        date_2 = x[m.start(5):m.end(7)]
+        date_2_key = Date(date_2, m.group(6), m.group(5), m.group(7))
+
+        if is_valid_date(date_1_key) and is_valid_date(date_2_key):
+            add_type(PHI(m.start(), m.end(), m.group()), 'Date range (2)', phi)
+            
+    # mm/dd-mm/dd/yy or mm/dd-mm/dd/yyyy
+    for m in re.finditer(r'\b((\d\d?)\/(\d\d?)\-(\d\d?)\/(\d\d?)\/(\d\d|\d\d\d\d))\b', x):
+        date_1 = x[m.start(2):m.end(4)]
+        date_1_key = Date(date_1, m.group(3), m.group(2), None)
+
+        date_2 = x[m.start(5):m.end(7)]
+        date_2_key = Date(date_2, m.group(5), m.group(4), m.group(6))
+
+        if is_valid_date(date_1_key) and is_valid_date(date_2_key):
+            add_type(PHI(m.start(), m.end(), m.group()), 'Date range (3)', phi)
+
+    for month in months:
+        # 1 through 2-May-04
+        for m in re.finditer(r'\b((\d{1,2}) ?(\-|to|through|\-\>)+ ?(\d{1,2})[ \-]?' + month + r'[ \-\,]? ?\'?\d{2,4})\b', x, re.IGNORECASE):
+            day1 = m.group(2)
+            day2 = m.group(4)
+                    
+            if is_valid_day(day1) and is_valid_day(day2):
+                add_type(PHI(m.start(), m.end(), m.group()), 'Date range (4)', phi)
+        
+        # Mar 1 to 2 05
+        for m in re.finditer(r'\b(' + month + r'\b\.? (\d{1,2}) ?(\-|to|through|\-\>)+ ?(\d{1,2})[\,\s]+ *\'?\d{2,4})\b', x, re.IGNORECASE):
+            day1 = m.group(2)
+            day2 = m.group(4)
+                    
+            if is_valid_day(day1) and is_valid_day(day2):
+                add_type(PHI(m.start(), m.end(), m.group()), 'Date range (4)', phi)
+                    
+        # Apr. 12 -> 22nd
+        for m in re.finditer(r'\b(' + month + r'\b\.?,? ?(\d{1,2})(|st|nd|rd|th|)? ?(\-|to|through|\-\>)+ ?(\d{1,2})(|st|nd|rd|th|)?)\b', x, re.IGNORECASE):
+            day1 = m.group(2)
+            day2 = m.group(4)
+
+            if is_valid_day(day1) and is_valid_day(day2):
+                add_type(PHI(m.start(), m.end(), m.group()), 'Date range (6)', phi)
+                    
+        # 12th - 2nd of Apr
+        for m in re.finditer(r'\b((\d{1,2})(|st|nd|rd|th|)? ?(\-|to|through|\-\>)+ ?(\d{1,2})(|st|nd|rd|th|)?( of)?[ \-]\b' + month + r')\b', x, re.IGNORECASE):
+            day1 = m.group(2)
+            day2 = m.group(5)
+                    
+            if is_valid_day(day1) and is_valid_day(day2):
+                add_type(PHI(m.start(), m.end(), m.group()), 'Date range (7)', phi)
+
+
 def date_with_context_check(x, phi):
     # mm/dd or mm/yy
     for m in re.finditer(r'\b([A-Za-z0-9%\/]+ +)?((\d\d?)([\/\-])(\d\d?))\/?\/?( +[A-Za-z]+)?\b', x):
@@ -427,9 +482,12 @@ def date_with_context_check(x, phi):
             if not re.search(r'\d[\/\.\-]', chars_before) and not re.search(r'[\%]', chars_after) and not re.search(r'\S\d', chars_after):
                 string_before = x[(m.start(3) - context_len):m.start(3)]
                 string_after = x[m.end(5):(m.end(5) + context_len)]
-                date_key_mm_dd = Date(m.group(2), day_or_year, month, None)
+                date_key = Date(m.group(2), day_or_year, month, None)
 
-                if is_valid_date(date_key_mm_dd):
+                if not is_valid_date(date_key):
+                    date_key = Date(m.group(2), month, day_or_year, None) # try switching month and day
+
+                if is_valid_date(date_key):
 
                     if int(day_or_year) == 5:
                         if (
@@ -438,7 +496,7 @@ def date_with_context_check(x, phi):
                             not re.search(r'\b(CPAP|PS|range|bipap|pap|pad|rate|unload|ventilation|scale|strength|drop|up|cc|rr|cvp|at|up|in|with|ICP|PSV|of) ', string_before, re.IGNORECASE) and
                             not (r' ?(packs|psv|puffs|pts|patients|range|scale|mls|liters|litres|drinks|beers|per|esophagus|tabs|pts|tablets|systolic|sem|strength|times|bottles|drop|drops|up|cc|mg|\/hr|\/hour|mcg|ug|mm|PEEP|L|hr|hrs|hour|hours|dose|doses|cultures|blood|bpm|ICP|CPAP|years|days|weeks|min|mins|minutes|seconds|months|mons|cm|mm|m|sessions|visits|episodes|drops|breaths|wbcs|beat|beats|ns)\b', string_after, re.IGNORECASE)
                         ):
-                            add_type(PHI(m.start(3), m.end(5), date_key_mm_dd), 'Month/Day (1)', phi)
+                            add_type(PHI(m.start(3), m.end(5), date_key), 'Month/Day (1)', phi)
 
                     elif int(day_or_year) == 2:
                         if (
@@ -448,19 +506,19 @@ def date_with_context_check(x, phi):
                             not re.search(r' ?hr\b', string_after, re.IGNORECASE) and 
                             not (r' ?(packs|L|psv|puffs|pts|patients|range|scale|dose|doses|cultures|blood|mls|liters|litres|pts|drinks|beers|per|esophagus|tabs|tablets|systolic|sem|strength|bottles|times|drop|cc|up|mg|\/hr|\/hour|mcg|ug|mm|PEEP|hr|hrs|hour|hours|bpm|ICP|CPAP|years|days|weeks|min|mins|minutes|seconds|months|mons|cm|mm|m|sessions|visits|episodes|drops|breaths|wbcs|beat|beats|ns)\b', string_after, re.IGNORECASE)
                         ):
-                            add_type(PHI(m.start(3), m.end(5), date_key_mm_dd), 'Month/Day (2)', phi)
+                            add_type(PHI(m.start(3), m.end(5), date_key), 'Month/Day (2)', phi)
                     
                     else:
                         if is_probably_date(string_before, string_after):
-                            add_type(PHI(m.start(3), m.end(5), date_key_mm_dd), 'Month/Day (3)', phi)
+                            add_type(PHI(m.start(3), m.end(5), date_key), 'Month/Day (3)', phi)
 
                 if (
                     is_valid_month(month) and len(day_or_year) == 2 and 
                     ((int(day_or_year) >= 50) or (int(day_or_year) <= 30))
                 ):
                     if is_probably_date(string_before, string_after):
-                        date_key_mm_yy = Date(m.group(2), None, month, day_or_year)
-                        add_type(PHI(m.start(3), m.end(5), date_key_mm_yy), 'Month/Year (2)', phi)
+                        date_key = Date(m.group(2), None, month, day_or_year)
+                        add_type(PHI(m.start(3), m.end(5), date_key), 'Month/Year (2)', phi)
 
 
 def year_with_context_check(x, phi):
@@ -471,14 +529,14 @@ def year_with_context_check(x, phi):
             date_key = Date(m.group(4), None, None, m.group(4))
             add_type(PHI(m.start(4), m.end(4), date_key), 'Year (2 digits)', phi)
 
-    for m in re.finditer(r'\b((embolus|mi|mvr|REDO|pacer|ablation|cabg|x2|x3|CHOLECYSTECTOMY|cva|ca|in|PTCA|since|from|year) + *)(\d{4})((\,? )\d{4})?\b', x, re.IGNORECASE):
+    for m in re.finditer(r'\b((embolus|mi|mvr|REDO|pacer|ablation|cabg|x2|x3|CHOLECYSTECTOMY|cva|ca|in|PTCA|since|from|year) + *)(\d{4})((\,? )(\d{4}))?\b', x, re.IGNORECASE):
         year_1 = m.group(3)
 
         if is_valid_year(year_1):
             add_type(PHI(m.start(3), m.end(3), Date(m.group(3), None, None, year_1)), 'Year (4 digits)', phi)
 
             if m.group(4) is not None:
-                year_2 = m.group(4)
+                year_2 = m.group(6)
                 add_type(PHI(m.start(4), m.end(4), Date(m.group(4), None, None, year_2)), 'Year (4 digits)', phi)
 
 

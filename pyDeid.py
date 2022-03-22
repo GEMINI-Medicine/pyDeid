@@ -38,13 +38,10 @@ def pyDeid(original_file, new_file, phi_output_file, note_varname, encounter_id_
         
         original_note = row[note_varname]
 
-        try:
-            phi = name_first_pass(original_note)
-            find_phi(original_note, phi)
-            prune_phi(original_note, phi)
-            surrogates, new_note = replace_phi(original_note, phi, return_surrogates=True)
-        except:
-            print(f'Something went wrong with encounter {row[encounter_id_varname]}, note {row[note_id_varname]}\n')
+        phi = name_first_pass(original_note)
+        find_phi(original_note, phi)
+        prune_phi(original_note, phi)
+        surrogates, new_note = replace_phi(original_note, phi, return_surrogates=True)
 
         row[note_varname] = new_note
         writer.writerow(row)
@@ -84,12 +81,14 @@ def pyDeid(original_file, new_file, phi_output_file, note_varname, encounter_id_
         json.dump(phi_output, open(phi_output_file, 'w'), indent=4)
 
 if __name__ == "__main__":
+    
     pyDeid(
-        'R:/GEMINI/De-identification Software/v2.0/Admission Notes Gold Standard/Temp_test_files/SMH_11100072.csv', 
-        'R:/GEMINI/De-identification Software/v2.0/Admission Notes Gold Standard/Temp_test_files/SMH_11100072_deid.csv', 
-        'R:/GEMINI/De-identification Software/v2.0/Admission Notes Gold Standard/Temp_test_files/SMH_11100072_phi.csv', 
+        'R:/GEMINI/De-identification Software/v2.0/Admission Notes Gold Standard/Validation of SMH Admission Notes/1/PyDeid/3239_AdmissionNotes_Apr2010_Oct2017.random700.csv', 
+        'R:/GEMINI/De-identification Software/v2.0/Admission Notes Gold Standard/Validation of SMH Admission Notes/1/PyDeid/3239_AdmissionNotes_Apr2010_Oct2017.random700_deid.csv', 
+        'R:/GEMINI/De-identification Software/v2.0/Admission Notes Gold Standard/Validation of SMH Admission Notes/1/PyDeid/3239_AdmissionNotes_Apr2010_Oct2017.random700_phi.csv', 
         'Value', 
         'genc_id', 
         'Encounter',
         mode = 'performance'
         )
+

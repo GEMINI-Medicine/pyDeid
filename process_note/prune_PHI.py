@@ -28,15 +28,23 @@ def prune_phi(raw_text, phi):
             
             if current_start >= previous_start and current_end <= previous_end:
                 bad_keys.append(current_key)
-                
+            
             elif current_start > previous_start and current_start < previous_end and current_end > previous_end:
-                new_key = PHI(previous_start, current_end, raw_text[previous_start:current_end])
-                new_val = phi[current_key] + phi[previous_key]
-                
-                phi[new_key] = new_val
-                bad_keys.append(current_key)
-                bad_keys.append(previous_key)
-                
+
+                if 'Day Month' in phi[previous_key] and 'Day Month Year' in phi[current_key]:
+                    bad_keys.append(previous_key)
+                    
+                elif 'Month Day' in phi[previous_key] and 'Month Day Year' in phi[current_key]:
+                    bad_keys.append(previous_key)
+                    
+                else:
+                    new_key = PHI(previous_start, current_end, raw_text[previous_start:current_end])
+                    new_val = phi[current_key] + phi[previous_key]
+
+                    bad_keys.append(current_key)
+                    bad_keys.append(previous_key)
+                    phi[new_key] = new_val
+            
             elif current_start <= previous_start and current_end >= previous_end:
                 bad_keys.append(previous_key)
             

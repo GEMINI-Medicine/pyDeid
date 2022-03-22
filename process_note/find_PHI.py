@@ -23,6 +23,7 @@ def find_phi(x, phi):
     date(x, phi)
     date_with_context_check(x, phi)
     year_with_context_check(x, phi)
+    date_range(x, phi)
     season_year(x, phi)
     find_time(x, phi)
     monthly(x, phi)

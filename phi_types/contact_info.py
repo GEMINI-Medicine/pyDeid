@@ -40,24 +40,24 @@ def telephone(x, phi):
     
     # ###-###-#### (potentially with arbitrary line breaks)
     # accept number with line breaks only if it starts with a valid area code
-    for m in re.finditer(r'\(*(\d{3})\s*[\)\.\/\-\, ]*\s*\d\s*\d\s*\d\s*[ \-\.\/]*\s*\d\s*\d\s*\d\s*\d', x):
+    for m in re.finditer(r'(\d{3})\s*[\)\.\/\-\, ]*\s*\d\s*\d\s*\d\s*[ \-\.\/]*\s*\d\s*\d\s*\d\s*\d', x): # prepend all regex w/ '\(?' outside of testing
         
-        if re.search(r'\(*\d{3}\s*[\)\.\/\-\, ]*\s*\d{3}\s*[ \-\.\/]*\s*\d{4}', x):
+        if re.search(r'\d{3}\s*[\)\.\/\-\, ]*\s*\d{3}\s*[ \-\.\/]*\s*\d{4}', m.group()):
             add_type(telephone_match(x, m), 'Telephone/Fax', phi)
         elif is_common_area_code(m.group(1)):
             add_type(telephone_match(x, m), 'Telephone/Fax', phi)
     
     # ###-###-###
-    for m in re.finditer(r'\(?(\d{3})\s*[\)\.\/\-\=\, ]*\s*\d{3}\s*[ \-\.\/\=]*\s*\d{3}\b', x):
+    for m in re.finditer(r'(\d{3})\s*[\)\.\/\-\=\, ]*\s*\d{3}\s*[ \-\.\/\=]*\s*\d{3}\b', x):
         if is_common_area_code(m.group(1)):
             add_type(telephone_match(x, m), 'Telephone/Fax', phi)
     
     # this will always create multiple matches with pattern 1, its ok, double obscure it.
     # ###-###-#####
-    for m in re.finditer(r'\(?(\d{3})\s*[\)\.\/\-\=\, ]*\s*\d{3}\s*[ \-\.\/\=]*\s*\d{5}\b', x):
+    for m in re.finditer(r'(\d{3})\s*[\)\.\/\-\=\, ]*\s*\d{3}\s*[ \-\.\/\=]*\s*\d{5}\b', x):
         if is_common_area_code(m.group(1)):
             add_type(telephone_match(x, m), 'Telephone/Fax', phi)
     
     # ###-####-###
-    for m in re.finditer(r'\(?\d{3}?\s?[\)\.\/\-\=\, ]*\s?\d{4}\s?[ \-\.\/\=]*\s?\d{3}\b', x):
+    for m in re.finditer(r'\d{3}?\s?[\)\.\/\-\=\, ]*\s?\d{4}\s?[ \-\.\/\=]*\s?\d{3}\b', x):
         add_type(telephone_match(x, m), 'Telephone/Fax', phi)
