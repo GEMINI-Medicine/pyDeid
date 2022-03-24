@@ -91,9 +91,9 @@ def pyDeid(original_file, new_file, phi_output_file, note_varname, encounter_id_
 
 if __name__ == "__main__":
     pyDeid(
-        'R:/GEMINI/De-identification Software/v2.0/Admission Notes Gold Standard/Validation of SMH Admission Notes/1/PyDeid/3239_AdmissionNotes_Apr2010_Oct2017.random700.csv', 
-        'R:/GEMINI/De-identification Software/v2.0/Admission Notes Gold Standard/Temp_test_files for SMH Admission Notes/3239_AdmissionNotes_Apr2010_Oct2017.random700_deid.csv', 
-        'R:/GEMINI/De-identification Software/v2.0/Admission Notes Gold Standard/Temp_test_files for SMH Admission Notes/3239_AdmissionNotes_Apr2010_Oct2017.random700_phi.csv', 
+        'R:/GEMINI/De-identification Software/v2.0/Admission Notes Gold Standard/Temp_test_files for SMH Admission Notes/SMH_11280676.csv', 
+        'R:/GEMINI/De-identification Software/v2.0/Admission Notes Gold Standard/Temp_test_files for SMH Admission Notes/SMH_11280676_deid.csv', 
+        'R:/GEMINI/De-identification Software/v2.0/Admission Notes Gold Standard/Temp_test_files for SMH Admission Notes/SMH_11280676_phi.csv', 
         'Value', 
         'genc_id', 
         'Encounter',

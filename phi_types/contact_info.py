@@ -3,7 +3,7 @@ from phi_types.utils import load_file, add_type, PHI
 
 
 def email(x, phi):
-    for m in re.finditer(r'\b([\w\.]+\w ?@ ?\w+[\.\w+]\.\w{2,3})\b', x):
+    for m in re.finditer(r'\b([\w\.]+\w ?@ ?\w+[\.\w+]((\.\w+)?){,3}\.\w{2,3})\b', x):
         add_type(PHI(m.start(), m.end(), m.group()), 'Email Address', phi)
 
 

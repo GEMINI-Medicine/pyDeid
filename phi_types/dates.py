@@ -129,7 +129,7 @@ def is_valid_time(time, military=False):
         except:
             return False
 
-    if  hours > 0 and ((hours <= 12) or (military and hours < 24)) and minutes >= 0 and minutes < 60:
+    if  hours >= 0 and ((hours <= 12) or (military and hours < 24)) and minutes >= 0 and minutes < 60:
         if time.seconds is not None:
             try:
                 seconds = int(time.seconds)
@@ -331,14 +331,6 @@ def date(x, phi):
                 date_key = Date(m.group(), day, month, year)
                 add_type(PHI(m.start(), m.end(), date_key), 'Month Day Year', phi)
         
-        # Mar 1 to 2 05
-        for m in re.finditer(r'\b(' + month + r'\b\.? (\d{1,2}) ?(\-|to|through|\-\>)+ ?(\d{1,2})[\,\s]+ *\'?\d{2,4})\b', x, re.IGNORECASE):
-            day1 = m.group(2)
-            day2 = m.group(4)
-                    
-            if is_valid_day(day1) and is_valid_day(day2):
-                add_type(PHI(m.start(), m.end(), m.group()), 'Date range (4)', phi)
-        
         # Apr. 12th 2000
         for m in re.finditer(r'\b(' + month + r'\b\.?,? ?(\d{1,2})(|st|nd|rd|th|) ?[\,\s]+ *\'?(\d{2,4}))\b', x, re.IGNORECASE):
             day = m.group(2)
@@ -356,14 +348,6 @@ def date(x, phi):
                 date_key = Date(m.group(), day, month, None)
                 add_type(PHI(m.start(), m.end(), date_key), 'Month Day', phi)
                     
-        # Apr. 12 -> 22nd
-        for m in re.finditer(r'\b(' + month + r'\b\.?,? ?(\d{1,2})(|st|nd|rd|th|)? ?(\-|to|through|\-\>)+ ?(\d{1,2})(|st|nd|rd|th|)?)\b', x, re.IGNORECASE):
-            day1 = m.group(2)
-            day2 = m.group(4)
-
-            if is_valid_day(day1) and is_valid_day(day2):
-                add_type(PHI(m.start(), m.end(), m.group()), 'Date range (6)', phi)
-                    
         # 12th of April
         for m in re.finditer(r'\b((\d{1,2})(|st|nd|rd|th|)?( of)?[ \-]\b' + month + r')\b', x, re.IGNORECASE):
             day = m.group(2)
@@ -380,14 +364,6 @@ def date(x, phi):
             if is_valid_day(day):
                 date_key = Date(m.group(), day, month, year)
                 add_type(PHI(m.start(), m.end(), date_key), 'Day Month Year (2)', phi)
-                    
-        # 12th - 2nd of Apr
-        for m in re.finditer(r'\b((\d{1,2})(|st|nd|rd|th|)? ?(\-|to|through|\-\>)+ ?(\d{1,2})(|st|nd|rd|th|)?( of)?[ \-]\b' + month + r')\b', x, re.IGNORECASE):
-            day1 = m.group(2)
-            day2 = m.group(5)
-                    
-            if is_valid_day(day1) and is_valid_day(day2):
-                add_type(PHI(m.start(), m.end(), m.group()), 'Date range (7)', phi)
 
         # Apr. of 2002
         for m in re.finditer(r'\b(' + month + r'\.?,? ?(of )?(\d{2}\d{2}?))\b', x, re.IGNORECASE):
