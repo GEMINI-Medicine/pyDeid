@@ -456,7 +456,7 @@ def precedes_last_name(x, phi):
                     if is_type(first_name_key, "First Name", True, phi) and (not is_name_indicator(first_name)):
                         add_type(first_name_key, "First Name8 (NamePattern2)", phi)
                 
-                elif is_common(first_name):
+                elif not is_common(first_name):
                     add_type(first_name_key, "First Name9 (NamePattern2)", phi)
 
 
