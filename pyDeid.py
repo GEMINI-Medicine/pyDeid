@@ -11,6 +11,43 @@ import time
 
 
 def pyDeid(original_file, new_file, phi_output_file, note_varname, encounter_id_varname, note_id_varname=None, mode='diagnostic'):
+    """Remove and replace PHI from free text
+
+    The return type must be duplicated in the docstring to comply
+    with the NumPy docstring style.
+
+    Parameters
+    ----------
+    original_file
+        Path to the original file containing all PHI in CSV format.
+    new_file
+        Desired path to write the output CSV.
+    phi_output_file
+        If `mode == 'diagnostic'`, the desired path to write the output JSON.
+        If `mode == 'performance'`, the desired path to write the output CSV.
+    note_varname
+        Column name in `original_file` with the free text note to de-identify.
+    encounter_id_varname
+        Column name in `original_file` with the encounter-level ID. Could be
+        any identifier column (may not necessariliy be unique).
+    note_id_varname
+        Column name in `original_file` with the note-level ID. Could be any
+        unique identifier column.
+    mode
+        If `'diagnostic'`, will print runtime performance statistics, as well as
+        format the `phi_output_file` into an efficient JSON nested data structure,
+        which is lighter on disk space.
+        If `'performance'`, will not print any statistics and will output a tidy
+        dataframe formatted as a CSV to `phi_output_file`. This data structure
+        contains redundant information, but is lighter on memory.
+    
+
+    Returns
+    -------
+    None
+        Nothing is explicitly return. Side effects produce a de-identified CSV
+        file under `new_file` and PHI replaced under `phi_output_file`.
+    """
     reader = csv.DictReader(
         open(original_file, newline='', encoding='utf-8'), 
         delimiter=',', 
