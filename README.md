@@ -24,4 +24,16 @@ pyDeid(
     )
 ```
 
+`test.csv` may look like this:
+
+```
+genc_id,note_id,note_text
+1,Record 1,Justin Beiber was born on March 01 1994
+2,Record 2,"GEMINI is located at 30 Bond St, Toronto, ON, M5B 1W8"
+3,Record 3,"Dr Amol Verma and Dr. Fahad Razak are GEMINI co-leads.
+"
+4,Record 4,Test MRN: 011-0111
+5,Record 5,"14 Jun 06, 2017"
+```
+
 The `original_file` is provided in the structure of a dataframe and saved in CSV format. `pyDeid` writes a de-identified version of the dataframe to `new_file` and writes locations of found PHI (as well as their replacements) to `phi_output_file`. It is recommended to use `mode = 'performance'` if a "large" number of notes is being processed at once (please see the docstring for details).
