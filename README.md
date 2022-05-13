@@ -8,15 +8,30 @@ The purpose was to create a faster, and easier to use process to de-identify lar
 
 ## 2 Getting Started
 
-`pyDeid` has no dependencies and only requires `Python3`.
+### 2.1 Installation and Setup
 
-Example `pyDeid` call (please see docstring for parameter definitions):
+`pyDeid` has no external dependencies and only requires `Python3`. However, in order to install the package using `pip` as outlined below, `setuptools>=42` is required.
+
+If you have downloaded (and unzipped) this package to a local folder `/path/to/package/` simply install via `pip3 install --user /path/to/package/`.
+
+To now import from this package, you may need to add the install location (found via `pip show pyDeid`) to your `$PYTHONPATH` so `Python` knows where to look for it:
 
 ```
+import sys
+sys.path.append('/path/from/pip_show_pydeid/')
+```
+
+### 2.2 Running De-identification
+
+Simply:
+
+```
+from pyDeid import pyDeid
+
 pyDeid(
-    original_file = 'test.csv', 
-    new_file = 'test_deid.csv', 
-    phi_output_file = 'test_phi.csv', 
+    original_file = '/path/to/test.csv', 
+    new_file = '/future/path/to/test_deid.csv', 
+    phi_output_file = '/future/path/to/test_phi.csv', 
     note_varname = 'note_text', 
     encounter_id_varname = 'genc_id', 
     note_id_varname = 'note_id',
@@ -24,11 +39,11 @@ pyDeid(
     )
 ```
 
-`test.csv` may look like this:
+`test.csv` may look like this (and is provided under the `tests/` directory of the package):
 
 ```
 genc_id,note_id,note_text
-1,Record 1,Justin Beiber was born on March 01 1994
+1,Record 1,John Smith was born on March 01 1994
 2,Record 2,"GEMINI is located at 30 Bond St, Toronto, ON, M5B 1W8"
 3,Record 3,"Dr Amol Verma and Dr. Fahad Razak are GEMINI co-leads.
 "

@@ -1,7 +1,7 @@
-from phi_types.names import name_first_pass
-from process_note.find_PHI import find_phi
-from process_note.prune_PHI import prune_phi
-from process_note.replace_PHI import replace_phi
+from .phi_types.names import name_first_pass
+from .process_note.find_PHI import find_phi
+from .process_note.prune_PHI import prune_phi
+from .process_note.replace_PHI import replace_phi
 import pandas as pd
 import csv
 import json
@@ -125,26 +125,3 @@ def pyDeid(original_file, new_file, phi_output_file, note_varname, encounter_id_
                 - s/note = {total_time/notes}"""
                 )
             json.dump(phi_output, open(phi_output_file, 'w'), indent=4)
-
-if __name__ == "__main__":
-    pyDeid(
-        'R:/GEMINI/De-identification Software/v2.0/Admission Notes Gold Standard/Temp_test_files for SMH Admission Notes/SMH_11280676.csv', 
-        'R:/GEMINI/De-identification Software/v2.0/Admission Notes Gold Standard/Temp_test_files for SMH Admission Notes/SMH_11280676_deid.csv', 
-        'R:/GEMINI/De-identification Software/v2.0/Admission Notes Gold Standard/Temp_test_files for SMH Admission Notes/SMH_11280676_phi.csv', 
-        'Value', 
-        'genc_id', 
-        'Encounter',
-        mode = 'performance'
-        )
-    """
-    pyDeid(
-        'test.csv', 
-        'test_deid.csv', 
-        'test_phi.csv', 
-        'note_text', 
-        'genc_id', 
-        'note_id',
-        mode = 'performance'
-        )
-    """
-

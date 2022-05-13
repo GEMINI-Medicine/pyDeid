@@ -1,9 +1,12 @@
 import re
-from phi_types.utils import is_unambig_common, add_type, PHI
-from phi_types.utils import load_file
+from .utils import is_unambig_common, add_type, PHI
+from .utils import load_file
+import pkg_resources
+import os
 
+DATA_PATH = pkg_resources.resource_filename('pyDeid', 'wordlists/')
 
-local_places_unambig = load_file('wordlists/local_places_unambig_v2.txt', optimization='iteration')
+local_places_unambig = load_file(os.path.join(DATA_PATH, 'local_places_unambig_v2.txt'), optimization='iteration')
 
 
 apt_indicators = ["apt", "suite"] #only check these after the street address is found

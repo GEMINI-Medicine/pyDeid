@@ -1,5 +1,12 @@
+import sys
+sys.path.append('../')
+
+import os
 import re
 from collections import namedtuple
+import pkg_resources
+
+DATA_PATH = pkg_resources.resource_filename('pyDeid', 'wordlists/')
 
 
 PHI = namedtuple("PHI", ["start", "end", "phi"])
@@ -16,12 +23,12 @@ def load_file(filename, optimization='lookup'):
         return [line.strip() for line in open(filename)]
 
 
-unambig_common_words = load_file('wordlists/notes_common.txt')
+unambig_common_words = load_file(os.path.join(DATA_PATH, 'notes_common.txt'))
 
 
-medical_words = load_file('wordlists/sno_edited.txt')
-very_common_words = load_file('wordlists/commonest_words.txt')
-just_common_words = load_file('wordlists/common_words.txt')
+medical_words = load_file(os.path.join(DATA_PATH, 'sno_edited.txt'))
+very_common_words = load_file(os.path.join(DATA_PATH, 'commonest_words.txt'))
+just_common_words = load_file(os.path.join(DATA_PATH, 'common_words.txt'))
 
 
 common_words = medical_words | very_common_words | just_common_words

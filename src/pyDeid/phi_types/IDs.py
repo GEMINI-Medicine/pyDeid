@@ -1,5 +1,5 @@
 import re
-from phi_types.utils import add_type, PHI
+from .utils import add_type, PHI
 
 
 def sin(x, phi):

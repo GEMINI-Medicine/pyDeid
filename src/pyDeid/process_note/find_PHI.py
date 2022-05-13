@@ -1,3 +1,6 @@
+import sys
+sys.path.append('../')
+
 from phi_types.names import *
 from phi_types.dates import *
 from phi_types.addresses import address, postal_code

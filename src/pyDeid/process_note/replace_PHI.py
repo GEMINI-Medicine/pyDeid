@@ -1,3 +1,6 @@
+import sys
+sys.path.append('../')
+
 import re
 import calendar
 import random

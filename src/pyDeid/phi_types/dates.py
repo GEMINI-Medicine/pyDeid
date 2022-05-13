@@ -1,7 +1,6 @@
 import re
 from collections import namedtuple
-from this import d
-from phi_types.utils import add_type, PHI, is_probably_measurement
+from .utils import add_type, PHI, is_probably_measurement
 
 
 two_digit_threshold = 30

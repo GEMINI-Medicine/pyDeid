@@ -1,13 +1,16 @@
 import re
-from phi_types.utils import load_file, add_type, PHI
+from .utils import load_file, add_type, PHI
+import pkg_resources
+import os
 
+DATA_PATH = pkg_resources.resource_filename('pyDeid', 'wordlists/')
 
 def email(x, phi):
     for m in re.finditer(r'\b([\w\.]+\w ?@ ?\w+[\.\w+]((\.\w+)?){,3}\.\w{2,3})\b', x):
         add_type(PHI(m.start(), m.end(), m.group()), 'Email Address', phi)
 
 
-canadian_area_codes = load_file('wordlists/canadian_area_code.txt')
+canadian_area_codes = load_file(os.path.join(DATA_PATH, 'canadian_area_code.txt'))
 phone_disqualifiers = ["HR","Heart", "BP", "SVR", "STV", "VT", "Tidal Volumes", "Tidal Volume", "TV", "CKS"]
 
 

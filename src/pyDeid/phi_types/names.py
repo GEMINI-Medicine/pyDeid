@@ -1,26 +1,31 @@
+import sys
+sys.path.append('../')
+
 import re
-from phi_types.utils import *
+from .utils import *
+import pkg_resources
 
+DATA_PATH = pkg_resources.resource_filename('pyDeid', 'wordlists/')
 
-female_names_unambig = load_file('wordlists/female_names_unambig_v2.txt')
-male_names_unambig = load_file('wordlists/male_names_unambig_v2.txt')
-all_first_names = load_file('wordlists/all_first_names.txt')
+female_names_unambig = load_file(os.path.join(DATA_PATH, 'female_names_unambig_v2.txt'))
+male_names_unambig = load_file(os.path.join(DATA_PATH, 'male_names_unambig_v2.txt'))
+all_first_names = load_file(os.path.join(DATA_PATH, 'all_first_names.txt'))
 
-last_names_unambig = load_file('wordlists/last_names_unambig_v2.txt')
-all_last_names = load_file('wordlists/all_last_names.txt')
+last_names_unambig = load_file(os.path.join(DATA_PATH, 'last_names_unambig_v2.txt'))
+all_last_names = load_file(os.path.join(DATA_PATH, 'all_last_names.txt'))
 
-doctor_first_names = load_file('wordlists/doctor_first_names.txt', optimization='iteration')
-doctor_last_names = load_file('wordlists/doctor_last_names.txt')
+doctor_first_names = load_file(os.path.join(DATA_PATH, 'doctor_first_names.txt'), optimization='iteration')
+doctor_last_names = load_file(os.path.join(DATA_PATH, 'doctor_last_names.txt'))
 
-female_names_ambig = load_file('wordlists/female_names_ambig.txt')
-male_names_ambig = load_file('wordlists/male_names_ambig.txt')
-last_names_ambig = load_file('wordlists/last_names_ambig.txt')
+female_names_ambig = load_file(os.path.join(DATA_PATH, 'female_names_ambig.txt'))
+male_names_ambig = load_file(os.path.join(DATA_PATH, 'male_names_ambig.txt'))
+last_names_ambig = load_file(os.path.join(DATA_PATH, 'last_names_ambig.txt'))
 
-female_names_popular = load_file('wordlists/female_names_popular_v2.txt')
-male_names_popular = load_file('wordlists/male_names_popular_v2.txt')
-last_names_popular = load_file('wordlists/last_names_popular_v2.txt')
+female_names_popular = load_file(os.path.join(DATA_PATH, 'female_names_popular_v2.txt'))
+male_names_popular = load_file(os.path.join(DATA_PATH, 'male_names_popular_v2.txt'))
+last_names_popular = load_file(os.path.join(DATA_PATH, 'last_names_popular_v2.txt'))
 
-medical_phrases = load_file('wordlists/medical_phrases.txt', optimization='iteration')
+medical_phrases = load_file(os.path.join(DATA_PATH, 'medical_phrases.txt'), optimization='iteration')
 # TODO: add patients here
 
 
@@ -292,8 +297,8 @@ def follows_pcp_name(x, phi):
                                 add_type(last_name_key, "Name12 (NameIs)", phi)
 
 
-prefixes_unambig = set(line.strip() for line in open('wordlists/prefixes_unambig.txt'))
-last_name_prefixes = set(line.strip() for line in open('wordlists/last_name_prefixes.txt'))
+prefixes_unambig = set(line.strip() for line in open(os.path.join(DATA_PATH, 'prefixes_unambig.txt')))
+last_name_prefixes = set(line.strip() for line in open(os.path.join(DATA_PATH, 'last_name_prefixes.txt')))
 
 
 def is_probably_prefix(x):
