@@ -1,8 +1,5 @@
-import sys
-sys.path.append('../')
-
 import re
-from phi_types.utils import PHI
+from ..phi_types.utils import PHI
 
 def prune_phi(raw_text, phi):
     phi_keys = sorted(phi.keys(), key = lambda x: x.start)

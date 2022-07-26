@@ -125,3 +125,13 @@ def pyDeid(original_file, new_file, phi_output_file, note_varname, encounter_id_
                 - s/note = {total_time/notes}"""
                 )
             json.dump(phi_output, open(phi_output_file, 'w'), indent=4)
+
+
+def deid_string(x):
+
+    phi = name_first_pass(x)
+    find_phi(x, phi)
+    prune_phi(x, phi)
+    surrogates, x_deid = replace_phi(x, phi, return_surrogates=True)
+
+    return surrogates, x_deid

@@ -1,15 +1,12 @@
-import sys
-sys.path.append('../')
-
 import re
 import calendar
 import random
 import string
-from phi_types.dates import months, days, Date
-from phi_types.utils import just_common_words
-from phi_types.names import all_first_names, all_last_names
-from phi_types.contact_info import canadian_area_codes
-from phi_types.addresses import strict_street_add_suff, local_places_unambig
+from ..phi_types.dates import months, days, Date
+from ..phi_types.utils import just_common_words
+from ..phi_types.names import all_first_names, all_last_names
+from ..phi_types.contact_info import canadian_area_codes
+from ..phi_types.addresses import strict_street_add_suff, local_places_unambig
 
 
 def generate_postal_code():
@@ -148,6 +145,8 @@ def replace_phi(x, phi, return_surrogates = False):
     hour_shift = random.randint(0, 11)
     minute_shift = random.randint(0, 59)
     second_shift = random.randint(0, 59)
+
+    name_lookup = {}
     
     for key in sorted(phi.keys(), key = lambda x: x.start):
         for val in phi[key]:
@@ -174,16 +173,25 @@ def replace_phi(x, phi, return_surrogates = False):
                 surrogate = random.choice(tuple(local_places_unambig))
             
             elif re.search('First Name', val):
-                surrogate = random.choice(tuple(all_first_names)).title()
-            
+                if key.phi not in name_lookup.keys():
+                    name_lookup[key.phi] = random.choice(tuple(all_first_names)).title()
+
+                surrogate = name_lookup[key.phi]
+                
             elif re.search('Last Name', val):
-                surrogate = random.choice(tuple(all_last_names)).title()
+                if key.phi not in name_lookup.keys():
+                    name_lookup[key.phi] = random.choice(tuple(all_last_names)).title()
+
+                surrogate = name_lookup[key.phi]
             
             elif re.search('Name Prefix', val):
                 surrogate = ""
             
             elif re.search('Name', val): # not sure if first or last name, replace with first name
-                surrogate = random.choice(tuple(all_first_names)).title()
+                if key.phi not in name_lookup.keys():
+                    name_lookup[key.phi] = random.choice(tuple(all_first_names)).title()
+
+                surrogate = name_lookup[key.phi]
             
             elif re.search('Postalcode', val):
                 surrogate = generate_postal_code()
@@ -191,6 +199,8 @@ def replace_phi(x, phi, return_surrogates = False):
             elif re.search(r'day|month|year', val, re.IGNORECASE):
                 if isinstance(key.phi, Date):
                     surrogate = date_shifter(key.phi, day_shift, month_shift, year_shift)
+                else:
+                    surrogate = '<PHI>'
 
             elif re.search('Time', val, re.IGNORECASE):
                 surrogate = time_shifter(key.phi, hour_shift, minute_shift, second_shift)

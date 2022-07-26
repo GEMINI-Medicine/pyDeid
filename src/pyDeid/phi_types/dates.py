@@ -30,11 +30,26 @@ months = {
 days = {"1":31, "2":28, "3":31, "4":30, "5":31, "6":30, "7":31, "8":31, "9":30, "10":31, "11":30, "12":31}
 
 
+invalid_time_pre_words = {
+    'CPAP', 'PS', 'range', 'bipap', 'pap', 'pad', 'rate', 'unload', 'ventilation', 'scale', 'strength', 
+    'drop', 'up', 'cc', 'rr', 'cvp', 'up', 'in', 'with', 'ICP', 'PSV', 'of'
+    }
+
+
+invalid_time_post_words = {
+    'packs', 'psv', 'puffs', 'pts', 'patients', 'range', 'scale', 'mls', 'liters', 'litres', 'drinks', 'beers', 
+    'per', 'esophagus', 'tabs', 'pts', 'tablets', 'systolic', 'sem', 'strength', 'times', 'bottles', 'drop', 
+    'drops', 'up', 'cc', 'mg', '/hr', '/hour', 'mcg', 'ug', 'mm', 'PEEP', 'L', 'dose', 'doses', 'cultures', 
+    'bpm', 'ICP', 'CPAP', 'cm', 'mm', 'm', 'sessions', 'visits', 'episodes', 'drops', 'breaths', 
+    'wbcs', 'beat', 'beats', 'ns' #,'blood' creates many false negatives
+    }
+
+
 def is_valid_date(date):
 
     if date.year is not None:
         try: # safe type-casting
-            year = int(year)
+            year = int(date.year)
         except:
             return False
 
@@ -69,7 +84,7 @@ def is_valid_date(date):
         
             # check validity of February days
             if month == 2:
-                if ((date.year is not None) and ((year % 4) == 0) and (year != 2000)):
+                if ((date.year is not None) and ((int(date.year) % 4) == 0) and (int(date.year) != 2000)):
                     return day <= 29
                 else:
                     return day <= 28
@@ -562,11 +577,11 @@ def find_time(x, phi):
             pre is None or (
                 not is_probably_measurement(pre) and 
                 not re.search(r'\bPSV? ', pre, re.IGNORECASE) and 
-                not re.search(r'\b(CPAP|PS|range|bipap|pap|pad|rate|unload|ventilation|scale|strength|drop|up|cc|rr|cvp|at|up|in|with|ICP|PSV|of) ', pre, re.IGNORECASE)
+                not (pre.lower() in invalid_time_pre_words)
                 )
             ) and (
             post is None or (
-                not re.search(r' ?(packs|psv|puffs|pts|patients|range|scale|mls|liters|litres|drinks|beers|per|esophagus|tabs|pts|tablets|systolic|sem|strength|times|bottles|drop|drops|up|cc|mg|\/hr|\/hour|mcg|ug|mm|PEEP|L|hr|hrs|hour|hours|dose|doses|cultures|blood|bpm|ICP|CPAP|cm|mm|m|sessions|visits|episodes|drops|breaths|wbcs|beat|beats|ns)\b', post, re.IGNORECASE)
+                not (post.lower() in invalid_time_post_words)
                 )
             )
         ):

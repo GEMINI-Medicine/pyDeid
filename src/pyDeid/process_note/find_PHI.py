@@ -1,11 +1,8 @@
-import sys
-sys.path.append('../')
-
-from phi_types.names import *
-from phi_types.dates import *
-from phi_types.addresses import address, postal_code
-from phi_types.contact_info import email, telephone
-from phi_types.IDs import sin, mrn, ohip
+from ..phi_types.names import *
+from ..phi_types.dates import *
+from ..phi_types.addresses import address, postal_code
+from ..phi_types.contact_info import email, telephone
+from ..phi_types.IDs import sin, mrn, ohip
 
 
 def find_phi(x, phi):

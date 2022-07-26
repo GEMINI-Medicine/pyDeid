@@ -12,7 +12,7 @@ The purpose was to create a faster, and easier to use process to de-identify lar
 
 `pyDeid` has no external dependencies and only requires `Python3`. However, in order to install the package using `pip` as outlined below, `setuptools>=42` is required.
 
-If you have downloaded (and unzipped) this package to a local folder `/path/to/package/` simply install via `pip3 install --user /path/to/package/`.
+If you have downloaded (and unzipped) this package to a local folder `/path/to/package/` simply install via `pip3 install --user /path/to/package/`. Note that if you are connected through VPN to your institution's network you may need to run the command with the following options: `pip3 install --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org --user /path/to/package/`.
 
 To now import from this package, you may need to add the install location (found via `pip show pyDeid`) to your `$PYTHONPATH` so `Python` knows where to look for it:
 
