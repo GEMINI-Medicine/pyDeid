@@ -32,7 +32,7 @@ def telephone_match(x, m):
 
     next_seg = x[end:]
 
-    extension = re.search(r'^(\s*(x|ex|ext|extension)\.?\s*[\(]?[\d]+[\)]?)\b', next_seg)
+    extension = re.search(r'^(\s*(x|ex|ext|extension)\.?\s*[\(]?[\d]+[\)]?)\b', next_seg, re.IGNORECASE)
 
     if extension:
         end = end + extension.end()

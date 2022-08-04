@@ -30,8 +30,8 @@ medical_phrases = load_file(os.path.join(DATA_PATH, 'medical_phrases.txt'), opti
 
 
 namesets = [ # do this only once
-    (female_names_unambig, 'Female Name (un)'), 
-    (male_names_unambig, 'Male Name (un)'),
+    (female_names_unambig, 'Female First Name (un)'), 
+    (male_names_unambig, 'Male First Name (un)'),
     (last_names_unambig, 'Last Name (un)'),
     (doctor_last_names, 'Doctor Last Name'),
     (female_names_ambig, 'Female First Name (ambig)'),
@@ -44,13 +44,37 @@ namesets = [ # do this only once
 ]
 
 
-def name_first_pass(x):
+def name_first_pass(
+    x, 
+    custom_dr_first_names = None, custom_dr_last_names = None, custom_patient_first_names = None, custom_patient_last_names = None
+    ):
+
     res = {}
     word_pattern = re.compile('\w+')
-    
+
+    custom_names = []
+
+    if custom_dr_first_names is not None:
+        custom_names.append((custom_dr_first_names, 'Custom Doctor First Name'))
+    if custom_dr_last_names is not None:
+        custom_names.append((custom_dr_last_names, 'Custom Doctor Last Name'))
+    if custom_patient_first_names is not None:
+        custom_names.append((custom_patient_first_names, 'Custom Patient First Name'))
+    if custom_patient_last_names is not None:
+        custom_names.append((custom_patient_last_names, 'Custom Patient Last Name'))
+
     for word in word_pattern.finditer(x):
         for names, tag in namesets:
             if word.group().upper() in names:
+                res.setdefault(PHI(word.start(), word.end(), word.group()),[]).append(tag)
+        for names, tag in custom_names:
+            if (
+                word.group().upper() in names and 
+                len(word.group().upper()) > 1 and
+                not is_common(word.group()) and 
+                not is_commonest(word.group()) and 
+                not is_unambig_common(word.group())
+                ): # reduces false positives for initials in custom names
                 res.setdefault(PHI(word.start(), word.end(), word.group()),[]).append(tag)
     
     for phrase in medical_phrases:
@@ -398,6 +422,80 @@ def titles(x, phi):
                 ):
                     add_type(potential_last_name_key, "Name (STitle)", phi)
 
+    other_titles = ['MISTER', 'DOCTOR', 'DOCTORS', 'MISS', 'PROF', 'PROFESSOR', 'REV', 'RABBI', 'NURSE', 'MD', 'PRINCESS', 'PRINCE', 'DEACON', 'DEACONESS', 'CAREGIVER', 'PRACTITIONER', 'MR', 'MS', 'RESIDENT', 'STAFF', 'FELLOW']
+
+    for title in other_titles:
+        for m in re.finditer(r'\b(' + title + r'\b\.? ?)([A-Za-z]+) *([A-Za-z]+)?(\,)?\b', x, re.IGNORECASE):
+            word = m.group(2)
+            
+            start = m.start(2)
+            end = m.end(2)
+            key = PHI(start, end, word)
+            
+            word_after = m.group(3)
+            start_after = m.start(3)
+            end_after = m.end(3)
+            key_after = PHI(start_after, end_after, word_after)
+            
+            if word.upper in last_name_prefixes:
+                add_type(key, "Last Name (Titles)", phi)
+                
+                next_word = m.group(8)
+                string_after = x[end:]
+                
+                search_after = re.search(r'^( ?)(\')?( ?)([A-Za-z]+)\b', string_after)
+                    
+                if search_after:
+                    token = search_after.group(4)
+                    token_start = end + search_after.start(4)
+                    token_end = end + search_after.end(4)
+                    
+                    if token.upper in last_name_prefixes:
+                        new_key = PHI(start, token_end, x[start:token_end])
+                        add_type(new_key, 'Last Name (Titles)', phi)
+                        
+                        string_after_after = x[token_end:]
+                        
+                        search_after_after = re.search(r'( ?' + token + '( ?))([A-Za-z]+)\b', string_after_after)
+                        
+                        if search_after_after is not None:
+                            word = search_after_after.group(3)
+                            new_end = token_end + search_after_after.end(3)
+                            
+                            key = PHI(token_end, new_end, x[start:new_end])
+                    else:
+                        new_key = PHI(token_start, token_end, token)
+                        
+                        if is_probably_name(new_key, phi) and len(token) > 1:
+                            add_type(new_key, 'Last Name (Titles)', phi)
+            else:
+                apostrophes = re.search(r'(\')?([A-Za-z]+)(\')?', word)
+                
+                if apostrophes.group(1) is not None:
+                    word = apostrophes.group(1)
+                    key = PHI(start + 1, end, word)
+                    
+                if apostrophes.group(1) is not None:
+                    word = apostrophes.group(1)
+                    key = PHI(start, end - 1, word)
+                
+            if word_after is not None:
+                if (
+                    (not is_medical_eponym(word_after) and not is_commonest(word_after)) or
+                    (is_type(key_after, 'Name', True, phi) and is_type(key_after, '(un)', False, phi)) or
+                    (is_type(key_after, "Name", True, phi) and re.search(r'\b(([A-Z])([a-z]+))\b', word_after)) 
+                ):
+                    add_type(key_after, 'Last Name (Titles)', phi)
+                    add_type(key, 'First Name (Titles)', phi)
+            elif key in phi:
+                if is_type(key, 'Name', True, phi) and is_probably_name(key, phi):
+                    add_type(key, 'Last Name (Titles)', phi)
+            else:
+                if (word is not None) and (not is_common(word)) and is_probably_name(key, phi):
+                    add_type(key, 'Last Name (Titles)', phi)
+                else:
+                    add_type(key, 'Last Name (Titles ambig)', phi)
+                        
 
 def follows_first_name(x, phi):
     for i in list(phi): # transform to list because we are 1. iterating, 2. modifying
@@ -499,10 +597,10 @@ def initials(x, phi):
             single_initial = re.search(r'\b([A-Za-z]\.?) ?$', string_before)
             
             if two_initials:
-                add_type(PHI(i[1] + two_initials.start(1), i[1] + two_initials.end(1), two_initials.group(1)), "Initials (NamePattern4)", phi)
+                add_type(PHI(i[0] - len(two_initials.group()), i[0] - len(two_initials.group()) + len(two_initials.group(1)), two_initials.group(1)), "Initials (NamePattern4)", phi)
             elif single_initial:
                 initial = single_initial.group(1)
-                initial_key = PHI(i[1] + single_initial.start(1), i[1] + single_initial.end(1), initial)
+                initial_key = PHI(i[0] - len(single_initial.group()), i[0] - len(single_initial.group()) + len(single_initial.group(1)), single_initial.group(1))
                 
                 if len(initial) == 2 or len(initial) == 1:
                     add_type(initial_key, "Initials (NamePattern4)", phi)

@@ -555,21 +555,23 @@ def find_time(x, phi):
 
             add_type(PHI(m.start(3), m.end(3), time_key), 'Time (military)', phi)
 
-    for m in re.finditer(r'(([A-Za-z0-9%\/]+)\s[A-Za-z0-9%\/]+\s+)?((\d\d?)\:(\d{2})(\:(\d\d))?)(\s)?(am|pm|p.m.|a.m.)?( *([A-Za-z]+))?', x, re.IGNORECASE):
+    for m in re.finditer(r'(([A-Za-z0-9%\/]+)\s[A-Za-z0-9%\/]+\s+)?(((\d\d?)\:(\d{2})(\:(\d\d))?)(\s)?(am|pm|p.m.|a.m.)?)( *([A-Za-z]+)\s+)?', x, re.IGNORECASE):
         
         pre = m.group(1)
-        post = m.group(11)
+        post = m.group(12)
 
-        hours = m.group(4)
-        minutes = m.group(5)
-        seconds = m.group(6)
+        hours = m.group(5)
+        minutes = m.group(6)
+        seconds = m.group(7)
 
-        meridiem = m.group(9)
+        meridiem = m.group(10)
 
-        time_key = Time(m.group(3), hours, minutes, seconds, meridiem)
+        time_key = Time(m.group(4), hours, minutes, seconds, meridiem)
 
         if meridiem is not None:
             if is_valid_time(time_key):
+
+                time_key = Time(m.group(3), hours, minutes, seconds, meridiem)
                 add_type(PHI(m.start(3), m.end(3), time_key), 'Time', phi)
 
         elif (
@@ -585,7 +587,7 @@ def find_time(x, phi):
                 )
             )
         ):
-            add_type(PHI(m.start(3), m.end(3), time_key), 'Time', phi)
+            add_type(PHI(m.start(4), m.end(4), time_key), 'Time', phi)
 
 
 def monthly(x, phi):

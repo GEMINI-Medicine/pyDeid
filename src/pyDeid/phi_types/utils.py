@@ -43,7 +43,16 @@ def is_type(key:str, phitype: str, pattern: bool, phi):
                     return True
             else:
                 return val == phitype
-            
+
+
+def is_ambig(key, phi):
+    types = phi.get(key)
+
+    if all(re.search('ambig', val) for val in types):
+        return True
+    else:
+        return False
+
 
 def add_type(key, phitype, phi): # TODO: Use sets for keys?
     phi.setdefault(key,[]).append(phitype)
@@ -77,3 +86,12 @@ def is_probably_measurement(x):
             return True
 
     return False
+
+
+def find_custom(x, regex, phi_type, phi):
+    for m in re.finditer(r'' + regex, x):
+        start = m.start()
+        end = m.end()
+        key = PHI(start, end, m.group())
+
+        add_type(key, phi_type, phi)

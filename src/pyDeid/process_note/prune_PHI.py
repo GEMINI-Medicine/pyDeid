@@ -1,14 +1,43 @@
 import re
-from ..phi_types.utils import PHI
+from ..phi_types.utils import PHI, is_common, is_ambig, is_type, add_type
 
 def prune_phi(raw_text, phi):
     phi_keys = sorted(phi.keys(), key = lambda x: x.start)
     
+    # check ambiguous type phi
+    for i in range(len(phi_keys)):
+        current_key = phi_keys[i]
+
+        if i != 0:
+            prev_key = phi_keys[i-1]
+
+            if (
+                (is_type(prev_key, 'Name', 1, phi) and is_type(current_key, 'Name', 1, phi))
+                and not is_common(current_key.phi) and not is_common(prev_key.phi) 
+                and not re.search(r'\.', prev_key.phi)
+                and not ((current_key.end - prev_key.start) < 3)
+                ):
+
+                if (
+                    (is_ambig(current_key, phi) and is_ambig(prev_key, phi) and is_type(prev_key, 'First Name', 1, phi) and is_type(current_key, 'Last Name', 1, phi)) or
+                    (not is_ambig(current_key, phi) and is_ambig(prev_key, phi) and is_type(prev_key, 'First Name', 1, phi) and is_type(current_key, 'Last Name', 1, phi)) or
+                    (is_ambig(current_key, phi) and not is_ambig(prev_key, phi) and is_type(prev_key, 'First Name', 1, phi) and is_type(current_key, 'Last Name', 1, phi))
+                    ):
+                    add_type(current_key, 'Last Name (probably)', phi)
+                    add_type(prev_key, 'First Name (probably)', phi)
+
+                if (
+                    (not is_ambig(current_key, phi) and is_ambig(prev_key, phi) and is_type(current_key, "First Name", 1, phi) and is_type(prev_key, "Last Name", 1, phi)) or
+                    (is_ambig(current_key, phi) and not is_ambig(prev_key, phi) and is_type(current_key, "First Name", 1, phi) and is_type(prev_key, "Last Name", 1, phi))
+                    ):
+                    add_type(current_key, 'First Name (probably)', phi)
+                    add_type(prev_key, 'Last Name (probably)', phi)
+
     # loop once to remove ambiguous only phi
     for i in range(len(phi_keys)):
         current_key = phi_keys[i]
-        
-        if all(re.search('ambig', val) for val in phi[current_key]): # remove ambiguous
+
+        if is_ambig(current_key, phi): # remove ambiguous
             del phi[current_key]
             
     phi_keys = sorted(phi.keys(), key = lambda x: x.start)
