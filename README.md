@@ -23,7 +23,15 @@ sys.path.append('/path/from/pip_show_pydeid/')
 
 ### 2.2 Running De-identification
 
-Simply:
+Simply test using:
+
+```
+from pyDeid import deid_string
+
+deid_string('Justin Bieber is from Stratford')
+```
+
+Or to deidentify an entire `csv` file:
 
 ```
 from pyDeid import pyDeid
