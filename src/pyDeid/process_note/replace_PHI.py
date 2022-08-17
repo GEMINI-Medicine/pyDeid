@@ -38,7 +38,7 @@ def date_shifter(date, day_shift, month_shift, year_shift):
 
         if old_month is not None:
             if int(day) > number_of_days:
-                month = int(old_month) + 1
+                old_month = int(old_month) + 1
                 day = int(day) % number_of_days
         else:
             day = int(day) % 31
@@ -50,13 +50,108 @@ def date_shifter(date, day_shift, month_shift, year_shift):
             month = int(month) % 12
             if year is not None:
                 year = int(year) + 1
-
-        month = calendar.month_name[month]
     
     if year is not None:
         year = int(year) + year_shift
         
-    return '-'.join([str(component) for component in [day, month, year] if component])
+    return day, month, year
+
+
+def build_date(day, month, year, month_before_day, year_first, month_name, month_abbr, suffix, leading_zeros):
+
+    if month:
+        if month_name and month_abbr:
+            month = calendar.month_abbr[month]
+        elif month_name and not month_abbr:
+            month = calendar.month_name[month]
+        else:
+            month = str(month)
+
+        if len(month) == 1 and leading_zeros:
+            month = '0' + month
+    
+    if year:
+        if year < 40: # add century if necessary
+            year = str(year + 2000)
+        elif year >= 40 and year < 1000:
+            year = str(year + 1900)
+        else:
+            year = str(year)
+
+    if day:
+        if suffix:
+            if 4 <= day <= 20 or 24 <= day <= 30:
+                day = str(day) + "th"
+            else:
+                day = str(day) + ["st", "nd", "rd"][day % 10 - 1]
+        else:
+            day = str(day)
+
+        if len(day) == 1 and leading_zeros:
+            day = '0' + day
+    
+    res = ''
+    
+    if not suffix:
+        if month_name:
+            sep = random.choice(['-', ' '])
+        else:
+            sep = random.choice(['-', ' ', '/'])
+            
+        if day and month and month_before_day:
+            res = res + month + sep + day
+        elif day and month:
+            res = res + day + sep + month
+        elif day and (not month):
+            res = res + day
+        elif month and (not day):
+            res = res + month
+        
+        if year:
+            if month or day:
+                year_sep = random.choice(['. ', ', ', ' ']) if sep == ' ' else sep
+            else:
+                year_sep = ''
+
+            if year_first:
+                res = year + year_sep + res
+            else:
+                res = res + year_sep + year
+            
+    if suffix: # month_name must be true
+            
+        if day and month and month_before_day:
+            res = day + ' of ' + month
+            
+            if year:
+                year_sep = random.choice(['. ', ', ', ' '])
+                res = res + year_sep + year
+    
+        elif day and year and (not month):
+            res = day + ' of ' + year
+            
+        else:
+            sep = random.choice(['-', ' '])
+            
+            if day and month and (not month_before_day):
+                res = res + day + sep + month
+            elif day and (not month):
+                res = res + day
+            elif month and (not day):
+                res = res + month
+
+            if year:
+                if month or day:
+                    year_sep = random.choice(['. ', ', ', ' ']) if sep == ' ' else sep
+                else:
+                    year_sep = ''
+
+                if year_first:
+                    res = year + year_sep + res
+                else:
+                    res = res + year_sep + year
+
+    return res
 
 
 def time_shifter(time, hour_shift, minute_shift, second_shift):
@@ -146,6 +241,19 @@ def replace_phi(x, phi, return_surrogates = False):
     minute_shift = random.randint(0, 59)
     second_shift = random.randint(0, 59)
 
+    # configure surrogate date format (will be consistent within note)
+    month_before_day = random.choice([True, False])
+    year_first = random.choice([True, False])
+    leading_zeros = random.choice([True, False])
+    month_name = random.choice([True, False])
+    
+    if month_name:
+        suffix = random.choice([True, False])
+        month_abbr = random.choice([True, False])
+    else:
+        suffix = False
+        month_abbr = False
+
     name_lookup = {}
     
     for key in sorted(phi.keys(), key = lambda x: x.start):
@@ -198,7 +306,9 @@ def replace_phi(x, phi, return_surrogates = False):
             
             elif re.search(r'day|month|year', val, re.IGNORECASE):
                 if isinstance(key.phi, Date):
-                    surrogate = date_shifter(key.phi, day_shift, month_shift, year_shift)
+                    day, month, year = date_shifter(key.phi, day_shift, month_shift, year_shift)
+
+                    surrogate = build_date(day, month, year, month_before_day, year_first, month_name, month_abbr, suffix, leading_zeros)
                 else:
                     surrogate = '<PHI>'
 
