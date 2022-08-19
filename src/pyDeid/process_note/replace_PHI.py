@@ -326,10 +326,11 @@ def replace_phi(x, phi, return_surrogates = False):
             if surrogate != '<PHI>': # for multiple PHI types for a single token, just pick one
                 break
         
+        surrogate_start = len(deid_text + x[where_we_left_off:key.start])
+
         deid_text = deid_text + x[where_we_left_off:key.start] + surrogate
         
         if return_surrogates:
-            surrogate_start = len(deid_text) - 1
             surrogate_end = surrogate_start + len(surrogate)
 
             surrogates.append({

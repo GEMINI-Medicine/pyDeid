@@ -1,8 +1,8 @@
 from .phi_types.names import name_first_pass
-from .phi_types.utils import find_custom
 from .process_note.find_PHI import find_phi
 from .process_note.prune_PHI import prune_phi
 from .process_note.replace_PHI import replace_phi
+from .phi_types.dates import Date, Time
 import pandas as pd
 import csv
 import json
@@ -11,6 +11,7 @@ import io
 import time
 from typing import *
 from pathlib import Path
+from tqdm import tqdm
 
 
 def pyDeid(
@@ -25,6 +26,7 @@ def pyDeid(
     custom_dr_last_names: Set[str] = None, 
     custom_patient_first_names: Set[str] = None, 
     custom_patient_last_names: Set[str] = None,
+    verbose: bool = True,
     **custom_regexes: str
     ):
     """Remove and replace PHI from free text
@@ -65,6 +67,9 @@ def pyDeid(
         in RAM during de-identification.
     custom_patient_last_names
         (Optional) set similar to `custom_patient_first_names`.
+    verbose
+        Show a progress bar while running through the file with information about the current
+        note being processed.
     **custom_regexes
         These are named arguments that will be taken as regexes to be scrubbed from
         the given note. The keyword/argument name itself will be used to label the
@@ -115,6 +120,9 @@ def pyDeid(
     with open(new_file, 'a') as f:
         writer = csv.DictWriter(f, fieldnames=reader.fieldnames, lineterminator='\n')
         writer.writeheader()
+
+        if verbose:
+            reader = tqdm(reader)
 
         for row in reader:
             
@@ -169,6 +177,10 @@ def pyDeid(
 
                 phi_output.to_csv(phi_output_file, mode = 'a', index = False, header = False)
 
+            if verbose:
+                progress = f'Processing encounter {row[encounter_id_varname]}' + f', note {row[note_id_varname] if note_id_varname else ""}'
+                reader.set_description(progress)
+
         if mode == 'diagnostic':
             total_time = time.time() - start_time
             print(
@@ -206,7 +218,7 @@ def deid_string(
     Parameters
     ----------
     x
-        Path to the original file containing all PHI in CSV format.
+        String with PHI to de-identify.
     custom_dr_first_names
         (Optional) set containing site-specific physician first names, generally taken 
         from the physician mapping file. This set should exist in RAM and  will remain 
@@ -249,3 +261,50 @@ def deid_string(
     surrogates, x_deid = replace_phi(x, phi, return_surrogates=True)
 
     return surrogates, x_deid
+
+
+def reid_string(x: str, phi: List[Dict[str, Union[int, str]]]):
+    """Replace surrogates from a single string with original PHI
+
+    Parameters
+    ----------
+    x
+        String with surrogates to re-identify.
+    phi
+        A list of dictionaries with start and end positions for the original PHI in the
+        original string, the PHI itself which was replaced, and the start and end
+        positions for the surrogate it was replaced with. This type of data structure is
+        the same as what is output by `deid_string`.
+
+    Returns
+    -------
+    str
+        The original string which was de-identified, with surrogates replaced with
+        original PHI.
+    """
+    phi_sorted = sorted(phi, key = lambda x: x['surrogate_end'], reverse = True)
+
+    i = 0
+    res = ''
+
+    while i < len(phi_sorted):
+        
+        end = phi_sorted[i]['surrogate_end']
+        replace_w = phi_sorted[i]['phi']
+        
+        if isinstance(replace_w, Date):
+            replace_w = replace_w.date_string
+        elif isinstance(replace_w, Time):
+            replace_w = replace_w.time_string
+        
+        if i == 0:
+            res = replace_w + x[end:] + res
+        else:
+            prev_start = phi_sorted[i-1]['surrogate_start']
+            prev_end = phi_sorted[i-1]['surrogate_end']
+            
+            res = replace_w + x[end:prev_start] + res
+            
+        i += 1
+        
+    return res
