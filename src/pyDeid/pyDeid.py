@@ -16,16 +16,16 @@ from tqdm import tqdm
 
 def pyDeid(
     original_file: Union[str, Path], 
-    new_file: Union[str, Path], 
-    phi_output_file: Union[str, Path], 
     note_varname: str, 
     encounter_id_varname: str,
-    note_id_varname: str = None, 
-    mode: Literal['diagnostic', 'performance'] = 'diagnostic',
-    custom_dr_first_names: Set[str] = None, 
-    custom_dr_last_names: Set[str] = None, 
-    custom_patient_first_names: Set[str] = None, 
-    custom_patient_last_names: Set[str] = None,
+    new_file: Optional[Union[str, Path]] = None, 
+    phi_output_file: Optional[Union[str, Path]] = None, 
+    note_id_varname: Optional[str] = None, 
+    phi_output_file_type: Literal['json', 'csv'] = 'csv',
+    custom_dr_first_names: Optional[Set[str]] = None, 
+    custom_dr_last_names: Optional[Set[str]] = None, 
+    custom_patient_first_names: Optional[Set[str]] = None, 
+    custom_patient_last_names: Optional[Set[str]] = None,
     verbose: bool = True,
     **custom_regexes: str
     ):
@@ -38,8 +38,8 @@ def pyDeid(
     new_file
         Desired path to write the output CSV.
     phi_output_file
-        If `mode == 'diagnostic'`, the desired path to write the output JSON.
-        If `mode == 'performance'`, the desired path to write the output CSV.
+        If `phi_output_file_type == 'json'`, the desired path to write the output JSON.
+        If `phi_output_file_type == 'csv'`, the desired path to write the output CSV.
     note_varname
         Column name in `original_file` with the free text note to de-identify.
     encounter_id_varname
@@ -48,13 +48,11 @@ def pyDeid(
     note_id_varname
         Column name in `original_file` with the note-level ID. Could be any
         unique identifier column.
-    mode
-        If `'diagnostic'`, will print runtime performance statistics, as well as
-        format the `phi_output_file` into an efficient JSON nested data structure,
-        which is lighter on disk space.
-        If `'performance'`, will not print any statistics and will output a tidy
-        dataframe formatted as a CSV to `phi_output_file`. This data structure
-        contains redundant information, but is lighter on memory.
+    phi_output_file_type
+        If `'json'`, will format the `phi_output_file` into an efficient JSON nested 
+        data structure, which is lighter on disk space.
+        If `'csv'`, will output a tidy dataframe formatted as a CSV to `phi_output_file`. 
+        This data structure contains redundant information, but is lighter on memory.
     custom_dr_first_names
         (Optional) set containing site-specific physician first names, generally taken 
         from the physician mapping file. This set should exist in RAM and  will remain 
@@ -89,6 +87,16 @@ def pyDeid(
             print('-', key, ':', custom_regexes[key])
         print('\nThese custom patterns will be replaced with <PHI>.\n')
 
+    if new_file is None:
+        new_file = os.path.splitext(original_file)[0] + '__DE-IDENTIFIED.csv'
+    else:
+        new_file = os.path.splitext(new_file)[0] + '.csv'
+
+    if phi_output_file is None:
+        phi_output_file = os.path.splitext(original_file)[0] + '__PHI.' + phi_output_file_type
+    else:
+        phi_output_file = os.path.splitext(phi_output_file)[0] + + '.' + phi_output_file_type
+
     reader = csv.DictReader(
         open(original_file, newline='', encoding='utf-8'), 
         delimiter=',', 
@@ -96,20 +104,19 @@ def pyDeid(
         quoting=csv.QUOTE_MINIMAL
         )
 
-    if mode == 'diagnostic':
+    if phi_output_file_type == 'json':
+        if encounter_id_varname is None:
+            raise ValueError('An encounter ID varname must be supplied to output PHI as a JSON file. It would be overwritten!')
+
         if not os.path.isfile(phi_output_file):
             phi_output = {}
 
             with io.open(phi_output_file, 'w') as file:
                 file.write(json.dumps(phi_output))
         else:
-            raise ValueError("The JSON filename specified already exists.")
+            raise ValueError('A PHI output JSON file already exists with the same name.')
 
-        chars = 0
-        notes = 0
-        start_time = time.time()
-
-    elif mode == "performance":
+    elif phi_output_file_type == "csv":
         # write header
         with open(phi_output_file, 'w', newline='') as o:
             writer = csv.writer(o)
@@ -123,6 +130,9 @@ def pyDeid(
 
         if verbose:
             reader = tqdm(reader)
+            chars = 0
+            notes = 0
+            start_time = time.time()
 
         for row in reader:
             
@@ -146,15 +156,13 @@ def pyDeid(
                 if note_id_varname is not None:
                     value = {row[note_id_varname]: surrogates}
                     errors.append((row[encounter_id_varname],row[note_id_varname]))
-                else:
+                elif encounter_id_varname is not None:
                     errors.append(row[encounter_id_varname])
 
             row[note_varname] = new_note
             writer.writerow(row)
 
-            if mode == 'diagnostic':
-                chars += len(original_note)
-                notes += 1
+            if phi_output_file_type == 'json':
 
                 key = row[encounter_id_varname]
                 if note_id_varname is not None:
@@ -164,30 +172,34 @@ def pyDeid(
 
                 phi_output.setdefault(key, value).update(value)
 
-            elif mode == "performance":
+            elif phi_output_file_type == "csv":
 
                 phi_output = pd.DataFrame(surrogates)
 
                 if note_id_varname is not None:
                     phi_output.insert(0, 'note_id', row[note_id_varname])
-                else:
-                    phi_output.insert(0, 'note_id', 1)
 
-                phi_output.insert(0, 'encounter_id', row[encounter_id_varname])
+                if encounter_id_varname is not None:
+                    phi_output.insert(0, 'encounter_id', row[encounter_id_varname])
 
                 phi_output.to_csv(phi_output_file, mode = 'a', index = False, header = False)
 
             if verbose:
-                progress = f'Processing encounter {row[encounter_id_varname]}' + f', note {row[note_id_varname] if note_id_varname else ""}'
+                chars += len(original_note)
+                notes += 1
+
+                progress = f'Processing encounter {row[encounter_id_varname] if encounter_id_varname else notes}' + (f', note {row[note_id_varname]}' if note_id_varname else "")
                 reader.set_description(progress)
 
-        if mode == 'diagnostic':
+        if verbose:
             total_time = time.time() - start_time
             print(
                 f"""Diagnostics:
                 - chars/s = {chars/total_time}
                 - s/note = {total_time/notes}"""
                 )
+
+        if phi_output_file_type == 'json':
             json.dump(phi_output, open(phi_output_file, 'w'), indent=4)
 
         if len(errors) != 0:
