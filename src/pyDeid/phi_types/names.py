@@ -658,3 +658,10 @@ def list_of_names(x, phi):
                     add_type(name1_key, "Last Name (NamePattern6)", phi)
                 if not is_common(name2):
                     add_type(name2_key, "Last Name (NamePattern6)", phi)
+
+def ner(x, phi, model):
+    res = model(x)
+
+    for ent in res.ents:
+        if ent.label_ == 'PERSON':
+            add_type(PHI(ent.start_char, ent.end_char, ent.text), "Name (NER)", phi)

@@ -5,7 +5,7 @@ from ..phi_types.contact_info import email, telephone
 from ..phi_types.IDs import sin, mrn, ohip
 
 
-def find_phi(x, phi, custom_regexes):
+def find_phi(x, phi, custom_regexes, model=None):
     combine_prefix_and_lastname(phi)
     follows_name_indicator(x, phi)
     lastname_comma_firstname(x, phi)
@@ -19,6 +19,8 @@ def find_phi(x, phi, custom_regexes):
     compound_last_names(x, phi)
     initials(x, phi)
     list_of_names(x, phi)
+    if model:
+        ner(x, phi, model)
     
     date(x, phi)
     date_with_context_check(x, phi)
