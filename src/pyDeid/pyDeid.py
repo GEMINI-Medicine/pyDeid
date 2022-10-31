@@ -12,6 +12,8 @@ import time
 from typing import *
 from pathlib import Path
 from tqdm import tqdm
+import spacy
+import re
 
 
 def pyDeid(
@@ -27,6 +29,7 @@ def pyDeid(
     custom_patient_first_names: Optional[Set[str]] = None, 
     custom_patient_last_names: Optional[Set[str]] = None,
     verbose: bool = True,
+    named_entity_recognition: bool = False,
     **custom_regexes: str
     ):
     """Remove and replace PHI from free text
@@ -68,6 +71,8 @@ def pyDeid(
     verbose
         Show a progress bar while running through the file with information about the current
         note being processed.
+    named_entity_recognition
+        Whether to use NER as implemented in the spaCy package for better detection of names.
     **custom_regexes
         These are named arguments that will be taken as regexes to be scrubbed from
         the given note. The keyword/argument name itself will be used to label the
@@ -134,6 +139,11 @@ def pyDeid(
             notes = 0
             start_time = time.time()
 
+        if named_entity_recognition:
+            model = spacy.load("en_core_web_sm")  
+        else:
+            model = None  
+
         for row in reader:
             
             original_note = row[note_varname]
@@ -145,7 +155,8 @@ def pyDeid(
                     original_note, 
                     custom_dr_first_names, custom_dr_last_names, custom_patient_first_names, custom_patient_last_names
                     )
-                find_phi(original_note, phi, custom_regexes)
+
+                find_phi(original_note, phi, custom_regexes, model)
 
                 prune_phi(original_note, phi)
                 surrogates, new_note = replace_phi(original_note, phi, return_surrogates=True)
@@ -223,6 +234,7 @@ def deid_string(
     custom_dr_last_names: Set[str] = None, 
     custom_patient_first_names: Set[str] = None, 
     custom_patient_last_names: Set[str] = None,
+    named_entity_recognition: bool = False,
     **custom_regexes: str
     ):
     """Remove and replace PHI from a single string for debugging
@@ -243,6 +255,8 @@ def deid_string(
         in RAM during de-identification.
     custom_patient_last_names
         (Optional) set similar to `custom_patient_first_names`.
+    named_entity_recognition
+        Whether to use NER as implemented in the spaCy package for better detection of names.
     **custom_regexes
         These are named arguments that will be taken as regexes to be scrubbed from
         the given note. The keyword/argument name itself will be used to label the
@@ -267,7 +281,13 @@ def deid_string(
         x,
         custom_dr_first_names, custom_dr_last_names, custom_patient_first_names, custom_patient_last_names
         )
-    find_phi(x, phi, custom_regexes)
+
+    if named_entity_recognition:
+        model = spacy.load("en_core_web_sm")  
+    else:
+        model = None  
+
+    find_phi(x, phi, custom_regexes, model)
 
     prune_phi(x, phi)
     surrogates, x_deid = replace_phi(x, phi, return_surrogates=True)
@@ -320,3 +340,61 @@ def reid_string(x: str, phi: List[Dict[str, Union[int, str]]]):
         i += 1
         
     return res
+
+
+def display_deid(original_string, phi):
+    """Visualize pyDeid output with the help of spaCy
+
+    Parameters
+    ----------
+    original_string
+        Text which was passed through a de-identification function.
+    phi
+        A list of dictionaries with start and end positions for the original PHI in the
+        original string, the PHI itself which was replaced, and the start and end
+        positions for the surrogate it was replaced with. This type of data structure is
+        the same as what is output by `deid_string`.
+        
+    """
+    ents = []
+    for ent in phi:
+        e = {}
+        # add the start and end positions of the entity
+        e["start"] = ent["phi_start"]
+        e["end"] = ent["phi_end"]
+
+        if any(re.search('MRN|SIN|OHIP', line) for line in ent["types"]):
+            e["label"] = 'ID'
+        
+        elif any(re.search('Telephone/Fax', line) for line in ent["types"]):
+            e["label"] = 'PHONE'
+        
+        elif any(re.search('Email Address', line) for line in ent["types"]):
+            e["label"] = 'EMAIL'
+        
+        elif any(re.search('Address|Location|Postalcode', line) for line in ent["types"]):
+            e["label"] = 'LOC'
+        
+        elif any(re.search('(First Name)|(Last Name)|(Name Prefix)|(Name)', line) for line in ent["types"]):
+            e["label"] = 'NAME'
+        
+        elif any(re.search(r'day|month|year|Holiday', line, re.IGNORECASE) for line in ent["types"]):
+            e["label"] = 'DATE'
+
+        elif any(re.search('Time', line, re.IGNORECASE) for line in ent["types"]):
+            e["label"] = 'TIME'
+
+        else:
+            e["label"] = 'PHI'
+
+        ents.append(e)
+        
+    # construct data required for displacy.render() method
+    render_data = [
+    {
+      "text": original_string,
+      "ents": ents,
+      "title": None,
+    }
+    ]
+    spacy.displacy.render(render_data, style="ent", manual=True)
