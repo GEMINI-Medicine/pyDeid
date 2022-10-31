@@ -14,7 +14,7 @@ all_first_names = load_file(os.path.join(DATA_PATH, 'all_first_names.txt'))
 last_names_unambig = load_file(os.path.join(DATA_PATH, 'last_names_unambig_v2.txt'))
 all_last_names = load_file(os.path.join(DATA_PATH, 'all_last_names.txt'))
 
-doctor_first_names = load_file(os.path.join(DATA_PATH, 'doctor_first_names.txt'), optimization='iteration')
+doctor_first_names = load_file(os.path.join(DATA_PATH, 'doctor_first_names.txt'), optimization='iteration') # TODO: Remove Dr lists
 doctor_last_names = load_file(os.path.join(DATA_PATH, 'doctor_last_names.txt'))
 
 female_names_ambig = load_file(os.path.join(DATA_PATH, 'female_names_ambig.txt'))
@@ -55,13 +55,13 @@ def name_first_pass(
     custom_names = []
 
     if custom_dr_first_names is not None:
-        custom_names.append((custom_dr_first_names, 'Custom Doctor First Name'))
+        custom_names.append(({name.upper() for name in custom_dr_first_names}, 'Custom Doctor First Name'))
     if custom_dr_last_names is not None:
-        custom_names.append((custom_dr_last_names, 'Custom Doctor Last Name'))
+        custom_names.append(({name.upper() for name in custom_dr_last_names}, 'Custom Doctor Last Name'))
     if custom_patient_first_names is not None:
-        custom_names.append((custom_patient_first_names, 'Custom Patient First Name'))
+        custom_names.append(({name.upper() for name in custom_patient_first_names}, 'Custom Patient First Name'))
     if custom_patient_last_names is not None:
-        custom_names.append((custom_patient_last_names, 'Custom Patient Last Name'))
+        custom_names.append(({name.upper() for name in custom_patient_last_names}, 'Custom Patient Last Name'))
 
     for word in word_pattern.finditer(x):
         for names, tag in namesets:
@@ -664,4 +664,10 @@ def ner(x, phi, model):
 
     for ent in res.ents:
         if ent.label_ == 'PERSON':
-            add_type(PHI(ent.start_char, ent.end_char, ent.text), "Name (NER)", phi)
+            # check for firstname lastname
+            m = re.search(r'(.*)\s(.*)', ent.text)
+            if m is not None:
+                add_type(PHI(ent.start_char, ent.start_char + m.end(1), m.group(1)), "First Name (NER)", phi)
+                add_type(PHI(ent.start_char + m.start(2), ent.end_char, m.group(2)), "Last Name (NER)", phi)
+            else:
+                add_type(PHI(ent.start_char, ent.end_char, ent.text), "Name (NER)", phi)
