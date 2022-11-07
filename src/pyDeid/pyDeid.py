@@ -30,7 +30,6 @@ def pyDeid(
     custom_patient_last_names: Optional[Set[str]] = None,
     verbose: bool = True,
     named_entity_recognition: bool = False,
-    encoding: str = 'utf-8',
     read_error_handling: str = None,
     **custom_regexes: str
     ):
@@ -75,8 +74,6 @@ def pyDeid(
         note being processed.
     named_entity_recognition
         Whether to use NER as implemented in the spaCy package for better detection of names.
-    encoding
-        Specify a custom encoding for the input file if it differs from `locale.getencoding()`.
     read_error_handling
         For characters in the input file which do not match the specified encoding. See python
         built-in `open` documentation. Use `ignore` to skip, `replace` to pick a placeholder
@@ -109,9 +106,9 @@ def pyDeid(
         phi_output_file = os.path.splitext(original_file)[0] + '__PHI.' + phi_output_file_type
     else:
         phi_output_file = os.path.splitext(phi_output_file)[0] + + '.' + phi_output_file_type
-
+    
     reader = csv.DictReader(
-        open(original_file, newline='', encoding=encoding, errors=read_error_handling), 
+        open(original_file, newline='', errors=read_error_handling), 
         delimiter=',', 
         quotechar='"', 
         quoting=csv.QUOTE_MINIMAL
