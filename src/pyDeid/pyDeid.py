@@ -30,6 +30,8 @@ def pyDeid(
     custom_patient_last_names: Optional[Set[str]] = None,
     verbose: bool = True,
     named_entity_recognition: bool = False,
+    encoding: str = 'utf-8',
+    read_error_handling: str = None,
     **custom_regexes: str
     ):
     """Remove and replace PHI from free text
@@ -73,6 +75,12 @@ def pyDeid(
         note being processed.
     named_entity_recognition
         Whether to use NER as implemented in the spaCy package for better detection of names.
+    encoding
+        Specify a custom encoding for the input file if it differs from `locale.getencoding()`.
+    read_error_handling
+        For characters in the input file which do not match the specified encoding. See python
+        built-in `open` documentation. Use `ignore` to skip, `replace` to pick a placeholder
+        character, etc.
     **custom_regexes
         These are named arguments that will be taken as regexes to be scrubbed from
         the given note. The keyword/argument name itself will be used to label the
@@ -103,7 +111,7 @@ def pyDeid(
         phi_output_file = os.path.splitext(phi_output_file)[0] + + '.' + phi_output_file_type
 
     reader = csv.DictReader(
-        open(original_file, newline='', encoding='utf-8'), 
+        open(original_file, newline='', encoding=encoding, errors=read_error_handling), 
         delimiter=',', 
         quotechar='"', 
         quoting=csv.QUOTE_MINIMAL
@@ -161,7 +169,7 @@ def pyDeid(
                 prune_phi(original_note, phi)
                 surrogates, new_note = replace_phi(original_note, phi, return_surrogates=True)
             except:
-                pd.DataFrame(columns = ['phi_start', 'phi_end', 'phi', 'surrogate_start', 'surrogate_end', 'surrogate', 'types'])
+                surrogates = pd.DataFrame(columns = ['phi_start', 'phi_end', 'phi', 'surrogate_start', 'surrogate_end', 'surrogate', 'types'])
                 new_note = original_note
 
                 if note_id_varname is not None:

@@ -6,7 +6,7 @@
 
 The purpose was to create a faster, and easier to use process to de-identify large volumes of (large) clinical notes. `PyDeid` is at least 6.3x faster than the perl-based software, and requires no pre or post processing. Additional enhancements include the ability to re-identify text, supply custom patterns, and supply custom doctor and patient namelists without having to save them to persistent storage.
 
-## 2 Installation and Setup
+## 2 Local Installation and Setup
 
 If you have downloaded (and unzipped) this package to a local folder `/path/to/package/` simply install via `pip3 install --user /path/to/package/`. 
 
@@ -26,7 +26,59 @@ from pyDeid import deid_string
 deid_string('Justin Bieber is from Stratford')
 ```
 
-## 3. De-identification Process
+## 4 AIO Installation and Setup
+
+Almost all de-identification is done on AIO. Therefore it is important to set up `pyDeid` on AIO. This process is somewhat more involved than the local setup:
+
+1. Clone the `git` repository to a path (for example `/path/to/pydeid`) using the following command:
+
+```git clone git@gitlab.smh.smhroot.net:geminidata/pydeid.git```
+
+2. Navigate to the folder to which it was cloned (for example `/path/to/pydeid`) and run the following command to install `pyDeid`:'
+
+```pip3 install pydeid```
+
+3. Now you may use `pyDeid` on AIO through the command line. To do this, it is recommended to create a virtual environment:
+    a. To create a virtual environment named example_environment (you may name this anything you’d like), run:
+
+    ```conda create –n example_environment```
+
+    b. Activate the environment using:
+
+    ```source activate example_environment.```
+
+    c. Now we are in the virtual environment. In the environment, run:
+    
+    ```conda install pip``` (we will be using `pip` to install `pydeid`).
+
+    d.Once `pip` is installed run:
+    
+    ```echo $CONDA_PREFIX/bin/pip install /path/to/pydeid``` (where `/path/to/pydeid` is the path to which you cloned pydeid in step 2 and `$CONDA_PREFIX` is the location of all conda virtual environments).
+
+    e. You may also need to install pandas with:
+    
+    ```conda install pandas```
+
+	And `spacy` with:
+
+    ```conda install spacy```
+
+4. Now you can begin de-identifying. One simple option is to use python interactively in the shell (reminder to use Ctrl+Z to exit the interactive mode). This can also be done in a [screen](https://linuxize.com/post/how-to-use-linux-screen/) session to prevent ssh session disconnections.
+
+5. When done, simply conda deactivate to exist the session.
+
+Another option is to run the de-identification using the Jupyter IDE (for user friendliness). However, currently this option cannot currently be used with screen.
+
+1. Begin by setting up VSCode with AIO using [these](https://docs.google.com/document/d/1igZKvNml9KOjiuKC2jySV-dAj0-owJzai6F9DycR8sk/edit#heading=h.mllbdqszaury) instructions (only section 1 Connecting VS code to a remote server).
+
+2. Skip section 2.
+
+3. Follow section 3, but select the virtual environment (for example named `example_environment`) that you created above.
+
+4. You may now use `pydeid` on AIO in a jupyter notebook!
+
+
+## 5 De-identification Process
 
 `PyDeid` only requires that the free text data be stored in a CSV file with named column headers. 
 
@@ -85,7 +137,7 @@ reidentified_string = reid_string(new_string, phi)
 print(original_string == reidentified_string)
 ```
 
-## 4. PyDeid Performance
+## 6 PyDeid Performance
 
 `PyDeid` was validated similarly to `GEMINI De-id v2`. Precision and recall were measured on 700 annotated St Michaels admission notes. These were the same notes used to test `GEMINI De-id v2`, but were partially re-annotated due to the indexing differences between python and perl. For details on the re-annotation process, see the `Clinical Notes REValidation SOP`. The performance is given below:
 
@@ -101,6 +153,6 @@ When MLLs are used to provide custom doctor and patient names, the performance i
 | Sensitivity/Recall: TP/(TP + FN) | 95.31%           | 96.20%            | 96.46%                       |
 | Precision: TP/(TP + FP)          | 90.69%           | 90.49%            | 90.52%                       |
 
-## 5. Reporting Issues
+## 7 Reporting Issues
 
 Please report any bugs or feature requests as issues to the `PyDeid` repository. For any bugs, please supply a minimal reproducible example to guarantee a quicker resolution.
