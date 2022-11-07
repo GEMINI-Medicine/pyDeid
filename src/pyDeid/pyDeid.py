@@ -75,9 +75,9 @@ def pyDeid(
     named_entity_recognition
         Whether to use NER as implemented in the spaCy package for better detection of names.
     read_error_handling
-        For characters in the input file which do not match the specified encoding. See python
-        built-in `open` documentation. Use `ignore` to skip, `replace` to pick a placeholder
-        character, etc.
+        For characters in the input file which do not match the specified system default encoding.
+        See python built-in `open` documentation. Use `ignore` to skip, `replace` to pick a 
+        placeholder character, etc.
     **custom_regexes
         These are named arguments that will be taken as regexes to be scrubbed from
         the given note. The keyword/argument name itself will be used to label the
