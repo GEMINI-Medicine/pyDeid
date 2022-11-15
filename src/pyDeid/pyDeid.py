@@ -40,10 +40,13 @@ def pyDeid(
     original_file
         Path to the original file containing all PHI in CSV format.
     new_file
-        Desired path to write the output CSV.
+        Desired path to write the output CSV. If not supplied, will default to
+        `{original filename without extension}__DEID.csv`.
     phi_output_file
         If `phi_output_file_type == 'json'`, the desired path to write the output JSON.
-        If `phi_output_file_type == 'csv'`, the desired path to write the output CSV.
+        If `phi_output_file_type == 'csv'`, the desired path to write the output CSV. 
+        If not supplied, will default to:
+            `{original filename without extension}__PHI.{phi_output_file_type}`.
     note_varname
         Column name in `original_file` with the free text note to de-identify.
     encounter_id_varname
@@ -88,7 +91,7 @@ def pyDeid(
     Returns
     -------
     None
-        Nothing is explicitly return. Side effects produce a de-identified CSV
+        Nothing is explicitly returned. Side effects produce a de-identified CSV
         file under `new_file` and PHI replaced under `phi_output_file`.
     """
     if custom_regexes:

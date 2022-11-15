@@ -4,7 +4,7 @@
 
 `PyDeid` is a Python-based refactor of the [Physionet Perl-based De-identification Software](https://physionet.org/content/deid/1.1/), which uses regular expressions and lookup dictionaries to identify and replace PHI in free text.
 
-The purpose was to create a faster, and easier to use process to de-identify large volumes of (large) clinical notes. `PyDeid` is at least 6.3x faster than the perl-based software, and requires no pre or post processing. Additional enhancements include the ability to re-identify text, supply custom patterns, and supply custom doctor and patient namelists without having to save them to persistent storage.
+The purpose was to create a faster, and easier to use process to de-identify large volumes of (large) clinical notes. `PyDeid` is up to 5.4x faster than the perl-based software, and requires no pre or post processing. Additional enhancements include the ability to re-identify text, supply custom patterns, and supply custom doctor and patient namelists without having to save them to persistent storage.
 
 ## 2 Local Installation and Setup
 
@@ -34,14 +34,10 @@ Almost all de-identification is done on AIO. Therefore it is important to set up
 
 ```git clone git@gitlab.smh.smhroot.net:geminidata/pydeid.git```
 
-2. Navigate to the folder to which it was cloned (for example `/path/to/pydeid`) and run the following command to install `pyDeid`:'
-
-```pip3 install pydeid```
-
-3. Now you may use `pyDeid` on AIO through the command line. To do this, it is recommended to create a virtual environment:
+2. To use `pyDeid` on AIO, it is recommended to create a virtual environment:
     a. To create a virtual environment named example_environment (you may name this anything you’d like), run:
 
-    ```conda create –n example_environment```
+    ```conda create –n example_environment -y```
 
     b. Activate the environment using:
 
@@ -49,25 +45,25 @@ Almost all de-identification is done on AIO. Therefore it is important to set up
 
     c. Now we are in the virtual environment. In the environment, run:
     
-    ```conda install pip``` (we will be using `pip` to install `pydeid`).
+    ```conda install pip -y``` (we will be using `pip` to install `pydeid`).
 
     d.Once `pip` is installed run:
     
-    ```echo $CONDA_PREFIX/bin/pip install /path/to/pydeid``` (where `/path/to/pydeid` is the path to which you cloned pydeid in step 2 and `$CONDA_PREFIX` is the location of all conda virtual environments).
+    ```$CONDA_PREFIX/bin/pip install /path/to/pydeid``` (where `/path/to/pydeid` is the path to which you cloned pydeid in step 2 and `$CONDA_PREFIX` is the location of all conda virtual environments).
 
-    e. You may also need to install pandas with:
+    e. You will also need to install `pandas` and `tqdm` with:
     
-    ```conda install pandas```
+    ```conda install pandas -y```
 
-	And `spacy` with:
+	And you can now use `pyDeid` on AIO in the command line. 
+    
+    *Note that named entity recognition with `spaCy` is not currently supported on AIO*.
 
-    ```conda install spacy```
+3. Now you can begin de-identifying. One simple option is to use python interactively in the shell (reminder to use Ctrl+Z to exit the interactive mode). This can also be done in a [screen](https://linuxize.com/post/how-to-use-linux-screen/) session to prevent ssh session disconnections.
 
-4. Now you can begin de-identifying. One simple option is to use python interactively in the shell (reminder to use Ctrl+Z to exit the interactive mode). This can also be done in a [screen](https://linuxize.com/post/how-to-use-linux-screen/) session to prevent ssh session disconnections.
+4. When done, simply conda deactivate to exist the session.
 
-5. When done, simply conda deactivate to exist the session.
-
-Another option is to run the de-identification using the Jupyter IDE (for user friendliness). However, currently this option cannot currently be used with screen.
+Another option is to run the de-identification using the Jupyter IDE in VSCode (for user friendliness). However, currently this option cannot currently be used with `screen`.
 
 1. Begin by setting up VSCode with AIO using [these](https://docs.google.com/document/d/1igZKvNml9KOjiuKC2jySV-dAj0-owJzai6F9DycR8sk/edit#heading=h.mllbdqszaury) instructions (only section 1 Connecting VS code to a remote server).
 
@@ -76,6 +72,8 @@ Another option is to run the de-identification using the Jupyter IDE (for user f
 3. Follow section 3, but select the virtual environment (for example named `example_environment`) that you created above.
 
 4. You may now use `pydeid` on AIO in a jupyter notebook!
+
+*Note that you may have difficulty selecting your new kernel with a notebook open. It is better to use `Ctrl+Shift+P` on the VSCode "Getting Started" page, select your `venv`, and then open a Jupyter notebook. If you already created the virtual environment on AIO, the critical step from [here](https://docs.google.com/document/d/1igZKvNml9KOjiuKC2jySV-dAj0-owJzai6F9DycR8sk/edit#heading=h.mllbdqszaury) is `conda install --name example_environment ipykernel -y`*
 
 
 ## 5 De-identification Process
