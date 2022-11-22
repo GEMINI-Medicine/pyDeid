@@ -481,9 +481,9 @@ def titles(x, phi):
                 
             if word_after is not None:
                 if (
-                    (not is_medical_eponym(word_after) and not is_commonest(word_after)) or
+                    (not is_medical_eponym(word_after)) and ((not is_commonest(word_after)) or
                     (is_type(key_after, 'Name', True, phi) and is_type(key_after, '(un)', False, phi)) or
-                    (is_type(key_after, "Name", True, phi) and re.search(r'\b(([A-Z])([a-z]+))\b', word_after)) 
+                    (is_type(key_after, "Name", True, phi) and re.search(r'\b(([A-Z])([a-z]+))\b', word_after))) 
                 ):
                     add_type(key_after, 'Last Name (Titles)', phi)
                     add_type(key, 'First Name (Titles)', phi)

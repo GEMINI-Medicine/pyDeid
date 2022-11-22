@@ -59,19 +59,19 @@ def add_type(key, phitype, phi): # TODO: Use sets for keys?
     
     
 def is_medical_eponym(x):
-    return x is not None and x.upper() in eponym_indicators
+    return x is not None and x.lower() in eponym_indicators
     
 
 def is_name_indicator(x):
-    return x is not None and x.upper() in name_indicators
+    return x is not None and x.lower() in name_indicators
     
 
 def is_common(x):
-    return x is not None and (x.upper() in common_words or x.upper() in unambig_common_words)
+    return x is not None and (x.lower() in common_words or x.upper() in unambig_common_words)
     
 
 def is_commonest(x):
-    return x is not None and (x.upper() in very_common_words or is_unambig_common(x))
+    return x is not None and (x.lower() in very_common_words or is_unambig_common(x))
 
 
 def is_unambig_common(x):

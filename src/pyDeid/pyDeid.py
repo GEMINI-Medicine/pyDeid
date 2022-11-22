@@ -30,6 +30,7 @@ def pyDeid(
     custom_patient_last_names: Optional[Set[str]] = None,
     verbose: bool = True,
     named_entity_recognition: bool = False,
+    file_encoding: str = 'utf-8',
     read_error_handling: str = None,
     **custom_regexes: str
     ):
@@ -77,6 +78,9 @@ def pyDeid(
         note being processed.
     named_entity_recognition
         Whether to use NER as implemented in the spaCy package for better detection of names.
+    file_encoding
+        Specify a non-default ('utf8') encoding for the file being read, and therefore the file
+        to which the result is being written.
     read_error_handling
         For characters in the input file which do not match the specified system default encoding.
         See python built-in `open` documentation. Use `ignore` to skip, `replace` to pick a 
@@ -111,7 +115,7 @@ def pyDeid(
         phi_output_file = os.path.splitext(phi_output_file)[0] + + '.' + phi_output_file_type
     
     reader = csv.DictReader(
-        open(original_file, newline='', errors=read_error_handling), 
+        open(original_file, newline='', encoding=file_encoding, errors=read_error_handling), 
         delimiter=',', 
         quotechar='"', 
         quoting=csv.QUOTE_MINIMAL
@@ -137,7 +141,7 @@ def pyDeid(
                 ['encounter_id', 'note_id', 'phi_start', 'phi_end', 'phi', 'surrogate_start', 'surrogate_end', 'surrogate', 'types']
                 )
 
-    with open(new_file, 'a') as f:
+    with open(new_file, 'a', encoding=file_encoding) as f:
         writer = csv.DictWriter(f, fieldnames=reader.fieldnames, lineterminator='\n')
         writer.writeheader()
 
