@@ -104,6 +104,12 @@ def pyDeid(
             print('-', key, ':', custom_regexes[key])
         print('\nThese custom patterns will be replaced with <PHI>.\n')
 
+    # check for nan values in custom namelists
+    custom_dr_first_names = {x for x in custom_dr_first_names if x==x} if custom_dr_first_names else None
+    custom_dr_last_names = {x for x in custom_dr_last_names if x==x} if custom_dr_last_names else None
+    custom_patient_last_names = {x for x in custom_patient_last_names if x==x} if custom_patient_last_names else None
+    custom_patient_last_names = {x for x in custom_patient_last_names if x==x} if custom_patient_last_names else None
+
     if new_file is None:
         new_file = os.path.splitext(original_file)[0] + '__DE-IDENTIFIED.csv'
     else:
