@@ -12,15 +12,15 @@ DATA_PATH = pkg_resources.resource_filename('pyDeid', 'wordlists/')
 PHI = namedtuple("PHI", ["start", "end", "phi"])
 
 
-name_indicators = ["problem","problem:", "proxy", "fellow", "staff", "(fellow)","(staff)", "daughter","daughters", "dtr", "son", "brother","sister", "mother", "mom", "father", "dad", "wife", "husband", "neice", "nephew", "spouse", "partner", "cousin", "aunt", "uncle", "granddaughter", "grandson", "grandmother", "grandmom", "grandfather", "granddad", "relative", "friend", "neighbor", "visitor", "family member", "lawyer", "priest", "rabbi", "coworker", "co-worker", "boyfriend", "girlfriend", "name is", "named", "rrt", "significant other", "jr", "caregiver", "proxys", "friends", "sons", "brothers", "sisters", "sister-in-law", "brother-in-law", "mother-in-law", "father-in-law", "son-in-law", "daughter-in-law", "dtr-in-law", "surname will be", "name will be", "name at discharge will be", "name at discharge is"]
+name_indicators = ["problem","problem:", "proxy", "fellow", "staff", "daughter","daughters", "dtr", "son", "brother","sister", "mother", "mom", "father", "dad", "wife", "husband", "neice", "nephew", "spouse", "partner", "cousin", "aunt", "uncle", "granddaughter", "grandson", "grandmother", "grandmom", "grandfather", "granddad", "relative", "friend", "neighbor", "visitor", "family member", "lawyer", "priest", "rabbi", "coworker", "co-worker", "boyfriend", "girlfriend", "name is", "named", "rrt", "significant other", "jr", "caregiver", "proxys", "friends", "sons", "brothers", "sisters", "sister-in-law", "brother-in-law", "mother-in-law", "father-in-law", "son-in-law", "daughter-in-law", "dtr-in-law", "surname will be", "name will be", "name at discharge will be", "name at discharge is"]
 eponym_indicators = ["disease", "cyst", "catheter", "syndrome", "tumour", "forceps", "boil", "method", "test", "sign", "abscess", "canal", "duct", "clamp", "effect", "law"]
 
 
 def load_file(filename, optimization='lookup'):
     if optimization == 'lookup':
-        return {line.strip() for line in open(filename)}
+        return {line.strip().upper() for line in open(filename)}
     elif optimization == 'iteration':
-        return [line.strip() for line in open(filename)]
+        return [line.strip().upper() for line in open(filename)]
 
 
 unambig_common_words = load_file(os.path.join(DATA_PATH, 'notes_common.txt'))
@@ -67,11 +67,11 @@ def is_name_indicator(x):
     
 
 def is_common(x):
-    return x is not None and (x.lower() in common_words or x.upper() in unambig_common_words)
+    return x is not None and (x.upper() in common_words or x.upper() in unambig_common_words)
     
 
 def is_commonest(x):
-    return x is not None and (x.lower() in very_common_words or is_unambig_common(x))
+    return x is not None and (x.upper() in very_common_words or is_unambig_common(x))
 
 
 def is_unambig_common(x):
