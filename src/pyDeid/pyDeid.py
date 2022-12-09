@@ -14,6 +14,7 @@ from pathlib import Path
 from tqdm import tqdm
 import spacy
 import re
+import sys
 
 
 def pyDeid(
@@ -32,6 +33,7 @@ def pyDeid(
     named_entity_recognition: bool = False,
     file_encoding: str = 'utf-8',
     read_error_handling: str = None,
+    max_field_size: Union[Literal['auto', 131072], int] = 131072,
     **custom_regexes: str
     ):
     """Remove and replace PHI from free text
@@ -85,6 +87,9 @@ def pyDeid(
         For characters in the input file which do not match the specified system default encoding.
         See python built-in `open` documentation. Use `ignore` to skip, `replace` to pick a 
         placeholder character, etc.
+    max_field_size
+        For very large notes, prevents _csv.Error: field larger than field limit. 'auto' will find the
+        max size that does not result in an OverflowError. The default is usually 131072.
     **custom_regexes
         These are named arguments that will be taken as regexes to be scrubbed from
         the given note. The keyword/argument name itself will be used to label the
@@ -103,6 +108,24 @@ def pyDeid(
         for key in custom_regexes:
             print('-', key, ':', custom_regexes[key])
         print('\nThese custom patterns will be replaced with <PHI>.\n')
+
+    if max_field_size == 'auto':
+        maxInt = sys.maxsize
+
+        while True:
+            # decrease the maxInt value by factor 10 
+            # as long as the OverflowError occurs.
+
+            try:
+                csv.field_size_limit(maxInt)
+                break
+            except OverflowError:
+                maxInt = int(maxInt/10)
+    elif isinstance(max_field_size, int):
+        csv.field_size_limit(maxInt)
+
+    elif max_field_size == 131072:
+        pass
 
     # check for nan values in custom namelists
     custom_dr_first_names = {x for x in custom_dr_first_names if x==x} if custom_dr_first_names else None
@@ -294,6 +317,12 @@ def deid_string(
         for key in custom_regexes:
             print('-', key, ':', custom_regexes[key])
         print('\nThese custom patterns will be replaced with <PHI>.\n')
+
+    # check for nan values in custom namelists
+    custom_dr_first_names = {x for x in custom_dr_first_names if x==x} if custom_dr_first_names else None
+    custom_dr_last_names = {x for x in custom_dr_last_names if x==x} if custom_dr_last_names else None
+    custom_patient_last_names = {x for x in custom_patient_last_names if x==x} if custom_patient_last_names else None
+    custom_patient_first_names = {x for x in custom_patient_first_names if x==x} if custom_patient_first_names else None
 
     phi = name_first_pass(
         x,
