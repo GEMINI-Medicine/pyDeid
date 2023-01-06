@@ -121,11 +121,12 @@ def pyDeid(
                 break
             except OverflowError:
                 maxInt = int(maxInt/10)
-    elif isinstance(max_field_size, int):
-        csv.field_size_limit(maxInt)
 
     elif max_field_size == 131072:
         pass
+    
+    elif isinstance(max_field_size, int):
+        csv.field_size_limit(max_field_size)
 
     # check for nan values in custom namelists
     custom_dr_first_names = {x for x in custom_dr_first_names if x==x} if custom_dr_first_names else None
