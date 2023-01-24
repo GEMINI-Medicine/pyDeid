@@ -44,9 +44,9 @@ To de-identify a file with default settings, simply do:
 from pyDeid import pyDeid
 
 pyDeid(
-original_file = ‘test.csv’, 
-note_varname = ‘note_text’, 
-encounter_id_varname = ‘genc_id’
+    original_file = ‘test.csv’, 
+    note_varname = ‘note_text’, 
+    encounter_id_varname = ‘genc_id’
 )
 ```
 
