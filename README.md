@@ -72,7 +72,7 @@ Additionally, `PyDeid` allows custom regexes for site-specific PHI to be supplie
 
 ```
 deid_string(
-‘The site-specific identifier at your hospital is NH12345’, site_identifier = ‘NH\d{5}’
+    ‘The site-specific identifier at your hospital is NH12345’, site_identifier = ‘NH\d{5}’
 )
 ```
 
