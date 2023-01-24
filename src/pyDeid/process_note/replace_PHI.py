@@ -321,8 +321,6 @@ def replace_phi(x, phi, return_surrogates = False):
             else:
                 surrogate = '<PHI>'
         
-            # TODO: Initials? Date range? Not in original
-        
             if surrogate != '<PHI>': # for multiple PHI types for a single token, just pick one
                 break
         

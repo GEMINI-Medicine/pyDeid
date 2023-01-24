@@ -12,6 +12,10 @@ If you have downloaded (and unzipped) this package to a local folder `/path/to/p
 
 Note that if you are connected through VPN to your institution's network you may need to run the command with the following options: `pip3 install --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org --user /path/to/package/`.
 
+Dependencies can be installed with `pip3 install --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org -r /path/to/requirements.txt/`.
+
+> *Note*: You may encounter a deprecation warning about building local packages in place without first copying to a temporary directory in a future version of `pip`. Note that `pyDeid` has been tested with this change and the installation will continue to work when this behaviour becomes the default.
+
 To now import from this package, you may need to add the install location (found via `pip show pyDeid`) to your `$PYTHONPATH` so `Python` knows where to look for it:
 
 ```
@@ -23,60 +27,10 @@ Test your installation by running the following:
 
 ```
 from pyDeid import deid_string
-deid_string('Justin Bieber is from Stratford')
+deid_string('Justin Bieber was born on March 1st, 1994.')
 ```
 
-## 4 AIO Installation and Setup
-
-Almost all de-identification is done on AIO. Therefore it is important to set up `pyDeid` on AIO. This process is somewhat more involved than the local setup:
-
-1. Clone the `git` repository to a path (for example `/path/to/pydeid`) using the following command:
-
-```git clone git@gitlab.smh.smhroot.net:geminidata/pydeid.git```
-
-2. To use `pyDeid` on AIO, it is recommended to create a virtual environment:
-    a. To create a virtual environment named example_environment (you may name this anything you’d like), run:
-
-    ```conda create –n example_environment -y```
-
-    b. Activate the environment using:
-
-    ```source activate example_environment.```
-
-    c. Now we are in the virtual environment. In the environment, run:
-    
-    ```conda install pip -y``` (we will be using `pip` to install `pydeid`).
-
-    d.Once `pip` is installed run:
-    
-    ```$CONDA_PREFIX/bin/pip install /path/to/pydeid``` (where `/path/to/pydeid` is the path to which you cloned pydeid in step 2 and `$CONDA_PREFIX` is the location of all conda virtual environments).
-
-    e. You will also need to install `pandas` and `tqdm` with:
-    
-    ```conda install pandas -y```
-
-	And you can now use `pyDeid` on AIO in the command line. 
-    
-    *Note that named entity recognition with `spaCy` is not currently supported on AIO*.
-
-3. Now you can begin de-identifying. One simple option is to use python interactively in the shell (reminder to use Ctrl+Z to exit the interactive mode). This can also be done in a [screen](https://linuxize.com/post/how-to-use-linux-screen/) session to prevent ssh session disconnections.
-
-4. When done, simply conda deactivate to exist the session.
-
-Another option is to run the de-identification using the Jupyter IDE in VSCode (for user friendliness). However, currently this option cannot currently be used with `screen`.
-
-1. Begin by setting up VSCode with AIO using [these](https://docs.google.com/document/d/1igZKvNml9KOjiuKC2jySV-dAj0-owJzai6F9DycR8sk/edit#heading=h.mllbdqszaury) instructions (only section 1 Connecting VS code to a remote server).
-
-2. Skip section 2.
-
-3. Follow section 3, but select the virtual environment (for example named `example_environment`) that you created above.
-
-4. You may now use `pydeid` on AIO in a jupyter notebook!
-
-*Note that you may have difficulty selecting your new kernel with a notebook open. It is better to use `Ctrl+Shift+P` on the VSCode "Getting Started" page, select your `venv`, and then open a Jupyter notebook. If you already created the virtual environment on AIO, the critical step from [here](https://docs.google.com/document/d/1igZKvNml9KOjiuKC2jySV-dAj0-owJzai6F9DycR8sk/edit#heading=h.mllbdqszaury) is `conda install --name example_environment ipykernel -y`*
-
-
-## 5 De-identification Process
+## 4 De-identification Process
 
 `PyDeid` only requires that the free text data be stored in a CSV file with named column headers. 
 
@@ -87,9 +41,9 @@ There may be multiple columns containing free text, but `PyDeid` will only de-id
 To de-identify a file with default settings, simply do:
 
 ```
-from PyDeid import PyDeid
+from pyDeid import pyDeid
 
-PyDeid(
+pyDeid(
 original_file = ‘test.csv’, 
 note_varname = ‘note_text’, 
 encounter_id_varname = ‘genc_id’
@@ -100,12 +54,10 @@ encounter_id_varname = ‘genc_id’
 
 ```
 genc_id,note_id,note_text
-1,Record 1,John Smith was born on March 01 1994
-2,Record 2,"GEMINI is located at 30 Bond St, Toronto, ON, M5B 1W8"
-3,Record 3,"Dr Amol Verma and Dr. Fahad Razak are GEMINI co-leads.
+1,Record 1,Justin Bieber was born on March 1st, 1994.
+2,Record 2,"St.Michael's hospital is located at 30 Bond St, Toronto, ON, M5B 1W8
 "
-4,Record 4,Test MRN: 011-0111
-5,Record 5,"14 Jun 06, 2017"
+3,Record 3,Test MRN: 011-0111
 ```
 
 Additional settings are described in the function docstring. A file name for the de-identified csv can be supplied with new_file, or will take the form `<original file name>__DE-IDENTIFIED.csv`.
@@ -120,7 +72,7 @@ Additionally, `PyDeid` allows custom regexes for site-specific PHI to be supplie
 
 ```
 deid_string(
-‘The site-specific identifier at Niagara is NH12345’, niagara_id = ‘NH\d{5}’
+‘The site-specific identifier at your hospital is NH12345’, site_identifier = ‘NH\d{5}’
 )
 ```
 
@@ -135,22 +87,6 @@ reidentified_string = reid_string(new_string, phi)
 print(original_string == reidentified_string)
 ```
 
-## 6 PyDeid Performance
-
-`PyDeid` was validated similarly to `GEMINI De-id v2`. Precision and recall were measured on 700 annotated St Michaels admission notes. These were the same notes used to test `GEMINI De-id v2`, but were partially re-annotated due to the indexing differences between python and perl. For details on the re-annotation process, see the `Clinical Notes REValidation SOP`. The performance is given below:
-
-| **Metric**                         | **pyDeid** | **GEMINI De-id v2** |
-| ---------------------------------- | ---------- | ------------------- |
-| Sensitivity/Recall: TP/(TP + FN) | 94.61%     | 94.72%              |
-| Precision: TP/(TP + FP)          | 90.96%     | 90.16%              |
-
-When MLLs are used to provide custom doctor and patient names, the performance improves:
-
-| **Metric**                         | **Doctor Names** | **Patient Names** | **Doctor and Patient Names** |
-| ---------------------------------- | ---------------- | ----------------- | ---------------------------- |
-| Sensitivity/Recall: TP/(TP + FN) | 95.31%           | 96.20%            | 96.46%                       |
-| Precision: TP/(TP + FP)          | 90.69%           | 90.49%            | 90.52%                       |
-
-## 7 Reporting Issues
+## 5 Reporting Issues
 
 Please report any bugs or feature requests as issues to the `PyDeid` repository. For any bugs, please supply a minimal reproducible example to guarantee a quicker resolution.

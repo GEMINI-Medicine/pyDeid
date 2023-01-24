@@ -54,7 +54,7 @@ def is_ambig(key, phi):
         return False
 
 
-def add_type(key, phitype, phi): # TODO: Use sets for keys?
+def add_type(key, phitype, phi):
     phi.setdefault(key,[]).append(phitype)
     
     

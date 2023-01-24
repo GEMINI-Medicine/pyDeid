@@ -14,7 +14,7 @@ all_first_names = load_file(os.path.join(DATA_PATH, 'all_first_names.txt'))
 last_names_unambig = load_file(os.path.join(DATA_PATH, 'last_names_unambig_v2.txt'))
 all_last_names = load_file(os.path.join(DATA_PATH, 'all_last_names.txt'))
 
-doctor_first_names = load_file(os.path.join(DATA_PATH, 'doctor_first_names.txt'), optimization='iteration') # TODO: Remove Dr lists
+doctor_first_names = load_file(os.path.join(DATA_PATH, 'doctor_first_names.txt'), optimization='iteration')
 doctor_last_names = load_file(os.path.join(DATA_PATH, 'doctor_last_names.txt'))
 
 female_names_ambig = load_file(os.path.join(DATA_PATH, 'female_names_ambig.txt'))
@@ -26,7 +26,6 @@ male_names_popular = load_file(os.path.join(DATA_PATH, 'male_names_popular_v2.tx
 last_names_popular = load_file(os.path.join(DATA_PATH, 'last_names_popular_v2.txt'))
 
 medical_phrases = load_file(os.path.join(DATA_PATH, 'medical_phrases.txt'), optimization='iteration')
-# TODO: add patients here
 
 
 namesets = [ # do this only once

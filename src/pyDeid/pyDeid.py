@@ -142,7 +142,7 @@ def pyDeid(
     if phi_output_file is None:
         phi_output_file = os.path.splitext(original_file)[0] + '__PHI.' + phi_output_file_type
     else:
-        phi_output_file = os.path.splitext(phi_output_file)[0] + + '.' + phi_output_file_type
+        phi_output_file = os.path.splitext(phi_output_file)[0] + '.' + phi_output_file_type
     
     reader = csv.DictReader(
         open(original_file, newline='', encoding=file_encoding, errors=read_error_handling), 
