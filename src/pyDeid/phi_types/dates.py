@@ -338,7 +338,7 @@ def date(x, phi):
                 add_type(PHI(m.start(), m.end(), date_key), 'Month Day Year [Month dd, yy(yy)]', phi)
         
         # Apr. 12th 2000
-        for m in re.finditer(r'\b(' + month + r'\b\.?,? ?(\d{1,2})(|st|nd|rd|th|) ?[\,\s]+ *\'?(\d{2,4}))\b', x, re.IGNORECASE):
+        for m in re.finditer(r'\b(' + month + r'\b\.?,?\s*?(\d{1,2})(|st|nd|rd|th|) ?[\,\s]+ *\'?(\d{2,4}))\b', x, re.IGNORECASE):
             day = m.group(2)
             year = m.group(4)
                     
