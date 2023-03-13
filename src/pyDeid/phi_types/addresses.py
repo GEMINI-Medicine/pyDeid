@@ -7,6 +7,7 @@ import os
 DATA_PATH = pkg_resources.resource_filename('pyDeid', 'wordlists/')
 
 local_places_unambig = load_file(os.path.join(DATA_PATH, 'local_places_unambig_v2.txt'), optimization='iteration')
+hospitals = load_file(os.path.join(DATA_PATH, 'ontario_hospitals.txt'), optimization='iteration')
 
 
 apt_indicators = ["apt", "suite"] #only check these after the street address is found
@@ -62,3 +63,28 @@ def address(x, phi):
 def postal_code(x, phi):
     for m in re.finditer(r'\b([a-zA-Z]\d[a-zA-Z][ \-]?\d[a-zA-Z]\d)\b', x):
         add_type(PHI(m.start(), m.end(), m.group()), 'Postalcode', phi)
+
+
+def hospital(x, phi):
+
+    for hospital in hospitals:
+        
+        terms = hospital.split(" ")
+        n_terms = len(terms)
+
+        if n_terms == 1:
+            for m in re.finditer(hospital, x, re.IGNORECASE):
+                add_type(PHI(m.start(), m.end(), m.group()), 'Hospital', phi)
+
+        if n_terms == 2:
+            for m in re.finditer(r'\b(' + terms[0] + ')\s(' + terms[1] + r')\b', x, re.IGNORECASE):
+                add_type(PHI(m.start(), m.end(), m.group()), 'Hospital', phi)
+
+        if n_terms == 3:
+            for m in re.finditer(r'\b(' + terms[0] + ')\s(' + terms[1] + ')\s(' + terms[2] + r')\b', x, re.IGNORECASE):
+                add_type(PHI(m.start(), m.end(), m.group()), 'Hospital', phi)
+
+        if n_terms == 4:
+            for m in re.finditer(r'\b(' + terms[0] + ')\s(' + terms[1] + ')\s(' + terms[2] + ')\s(' + terms[3] + r')\b', x, re.IGNORECASE):
+                add_type(PHI(m.start(), m.end(), m.group()), 'Hospital', phi)
+
