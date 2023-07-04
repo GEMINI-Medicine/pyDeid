@@ -4,8 +4,8 @@ from .utils import add_type, PHI, is_probably_measurement
 
 
 two_digit_threshold = 30
-valid_year_low = 1900
-valid_year_high = 2050
+valid_year_low = 1001
+valid_year_high = 2999
 
 Date = namedtuple("Date", ["date_string", "day", "month", "year"])
 Time = namedtuple("Time", ["time_string", "hours", "minutes", "seconds", "meridiem"])
