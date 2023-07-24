@@ -38,7 +38,6 @@ def find_phi(x, phi, custom_regexes, model=None):
     postal_code(x, phi)
     address(x, phi)
     hospital(x, phi)
-    print(phi)
     
     email(x, phi)
     telephone(x, phi)
