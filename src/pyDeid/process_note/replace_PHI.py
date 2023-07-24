@@ -6,7 +6,7 @@ from ..phi_types.dates import months, days, Date
 from ..phi_types.utils import just_common_words
 from ..phi_types.names import all_first_names, all_last_names
 from ..phi_types.contact_info import canadian_area_codes
-from ..phi_types.addresses import strict_street_add_suff, local_places_unambig
+from ..phi_types.addresses import strict_street_add_suff, local_places_unambig, hospitals
 
 
 def generate_postal_code():
@@ -317,7 +317,13 @@ def replace_phi(x, phi, return_surrogates = False):
 
             elif re.search('Holiday', val):
                 surrogate = ""
+
+            elif re.search('Site Acronym', val):
+                surrogate = "".join(random.choices(string.ascii_uppercase, k = 3))
             
+            elif re.search('Hospital', val):
+                surrogate = random.choice(tuple(hospitals))
+
             else:
                 surrogate = '<PHI>'
         

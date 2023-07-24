@@ -1,6 +1,6 @@
 from ..phi_types.names import *
 from ..phi_types.dates import *
-from ..phi_types.addresses import address, postal_code
+from ..phi_types.addresses import address, postal_code, hospital, hospital_acronyms
 from ..phi_types.contact_info import email, telephone
 from ..phi_types.IDs import sin, mrn, ohip
 
@@ -37,7 +37,7 @@ def find_phi(x, phi, custom_regexes, model=None):
     
     postal_code(x, phi)
     address(x, phi)
-    #hospital(x, phi)
+    hospital(x, phi)
     
     email(x, phi)
     telephone(x, phi)

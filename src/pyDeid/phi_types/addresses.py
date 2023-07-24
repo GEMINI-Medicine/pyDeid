@@ -8,7 +8,7 @@ DATA_PATH = pkg_resources.resource_filename('pyDeid', 'wordlists/')
 
 local_places_unambig = load_file(os.path.join(DATA_PATH, 'local_places_unambig_v2.txt'), optimization='iteration')
 hospitals = load_file(os.path.join(DATA_PATH, 'ontario_hospitals.txt'), optimization='iteration')
-
+hospital_acronyms = load_file(os.path.join(DATA_PATH, 'hospital_acronyms.txt'), optimization='iteration')
 
 apt_indicators = ["apt", "suite"] #only check these after the street address is found
 street_add_suff = ["park", "drive", "street", "road", "lane", "boulevard", "blvd", "avenue", "highway", "circle","ave", "place", "rd", "st"]
@@ -88,3 +88,6 @@ def hospital(x, phi):
             for m in re.finditer(r'\b(' + terms[0] + ')\s(' + terms[1] + ')\s(' + terms[2] + ')\s(' + terms[3] + r')\b', x, re.IGNORECASE):
                 add_type(PHI(m.start(), m.end(), m.group()), 'Hospital', phi)
 
+    for acronym in hospital_acronyms:
+        for m in re.finditer(acronym, x):
+            add_type(PHI(m.start(), m.end(), m.group()), 'Site Acronym', phi)

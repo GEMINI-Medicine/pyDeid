@@ -1,6 +1,7 @@
 import re
 from ..phi_types.utils import PHI, is_common, is_ambig, is_type, add_type
 
+
 def prune_phi(raw_text, phi):
     phi_keys = sorted(phi.keys(), key = lambda x: x.start)
     
@@ -60,11 +61,14 @@ def prune_phi(raw_text, phi):
             
             elif current_start > previous_start and current_start < previous_end and current_end > previous_end:
 
-                if 'Day Month' in phi[previous_key] and 'Day Month Year' in phi[current_key]:
+                if any(re.match(r'^Day Month \[', x) for x in phi[previous_key]) and any(re.match(r'^Day Month Year \[', x) for x in phi[current_key]):
                     bad_keys.append(previous_key)
-                    
-                elif 'Month Day' in phi[previous_key] and 'Month Day Year' in phi[current_key]:
+                
+                elif any(re.match(r'^Month Day \[', x) for x in phi[previous_key]) and any(re.match(r'^Month Day Year \[', x) for x in phi[current_key]):
                     bad_keys.append(previous_key)
+
+                elif any(re.match(r'^Day Month \[', x) for x in phi[previous_key]) and any(re.match(r'^Month Day Year \[', x) for x in phi[current_key]):
+                    pass
                     
                 else:
                     new_key = PHI(previous_start, current_end, raw_text[previous_start:current_end])
@@ -91,6 +95,6 @@ def prune_phi(raw_text, phi):
             bad_keys.append(key)
                 
     for key in bad_keys:
-        phi.pop(key, None) # check this
+        phi.pop(key, None)
 
     return phi
