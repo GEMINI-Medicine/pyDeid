@@ -226,6 +226,10 @@ def build_sin():
     return str(random.randint(100, 999)) + '-' + str(random.randint(100, 999)) + '-' + str(random.randint(100, 999))
 
 
+def build_encounter_id():
+    return str(random.randint(0, 10**8))
+
+
 def replace_phi(x, phi, return_surrogates = False):
     deid_text = ""
     surrogates = []
