@@ -88,6 +88,14 @@ def hospital(x, phi):
             for m in re.finditer(r'\b(' + terms[0] + ')\s(' + terms[1] + ')\s(' + terms[2] + ')\s(' + terms[3] + r')\b', x, re.IGNORECASE):
                 add_type(PHI(m.start(), m.end(), m.group()), 'Hospital', phi)
 
+        if n_terms == 5:
+            for m in re.finditer(r'\b(' + terms[0] + ')\s(' + terms[1] + ')\s(' + terms[2] + ')\s(' + terms[3] + ')\s(' + terms[4] + r')\b', x, re.IGNORECASE):
+                add_type(PHI(m.start(), m.end(), m.group()), 'Hospital', phi)
+
+        if n_terms == 6:
+            for m in re.finditer(r'\b(' + terms[0] + ')\s(' + terms[1] + ')\s(' + terms[2] + ')\s(' + terms[3] + ')\s(' + terms[4] + ')\s(' + terms[5] + r')\b', x, re.IGNORECASE):
+                add_type(PHI(m.start(), m.end(), m.group()), 'Hospital', phi)
+
     for acronym in hospital_acronyms:
         for m in re.finditer(acronym, x):
             add_type(PHI(m.start(), m.end(), m.group()), 'Site Acronym', phi)
