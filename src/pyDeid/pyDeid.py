@@ -34,7 +34,7 @@ def pyDeid(
     file_encoding: str = 'utf-8',
     read_error_handling: str = None,
     max_field_size: Union[Literal['auto', 131072], int] = 131072,
-    types: List[str] = ["names", "dates", "IDs", "locations", "hospitals", "contact"],
+    types: List[str] = ["names", "dates", "sin", "ohip", "mrn", "locations", "hospitals", "contact"],
     **custom_regexes: str
     ):
     """Remove and replace PHI from free text
@@ -92,7 +92,7 @@ def pyDeid(
         For very large notes, prevents _csv.Error: field larger than field limit. 'auto' will find the
         max size that does not result in an OverflowError. The default is usually 131072.
     types
-        Which PHI types to consider. Any or all of "names", "dates", "IDs", "locations", "hospitals", "contact".
+        Which PHI types to consider. Any or all of "names", "dates", "sin", "ohip", "mrn", "locations", "hospitals", "contact".
     **custom_regexes
         These are named arguments that will be taken as regexes to be scrubbed from
         the given note. The keyword/argument name itself will be used to label the
@@ -280,7 +280,7 @@ def deid_string(
     custom_patient_first_names: Set[str] = None, 
     custom_patient_last_names: Set[str] = None,
     named_entity_recognition: bool = False,
-    types: List[str] = ["names", "dates", "IDs", "locations", "hospitals", "contact"],
+    types: List[str] = ["names", "dates", "sin", "ohip", "mrn", "locations", "hospitals", "contact"],
     **custom_regexes: str
     ):
     """Remove and replace PHI from a single string for debugging
@@ -304,7 +304,7 @@ def deid_string(
     named_entity_recognition
         Whether to use NER as implemented in the spaCy package for better detection of names.
     types
-        Which PHI types to consider. Any or all of "names", "dates", "IDs", "locations", "hospitals", "contact".
+        Which PHI types to consider. Any or all of "names", "dates", "sin", "ohip", "mrn", "locations", "hospitals", "contact".
     **custom_regexes
         These are named arguments that will be taken as regexes to be scrubbed from
         the given note. The keyword/argument name itself will be used to label the

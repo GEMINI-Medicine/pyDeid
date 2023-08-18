@@ -5,7 +5,7 @@ from ..phi_types.contact_info import email, telephone
 from ..phi_types.IDs import sin, mrn, ohip
 
 
-def find_phi(x, phi, custom_regexes, model=None, types=["names", "dates", "IDs", "locations", "hospitals", "contact"]):
+def find_phi(x, phi, custom_regexes, model=None, types=["names", "dates", "sin", "ohip", "mrn", "locations", "hospitals", "contact"]):
 
     if "names" in types:
         combine_prefix_and_lastname(phi)
@@ -34,9 +34,13 @@ def find_phi(x, phi, custom_regexes, model=None, types=["names", "dates", "IDs",
         monthly(x, phi)
         holiday(x, phi)
     
-    if "IDs" in types:
+    if "sin" in types:
         sin(x, phi)
+
+    if "ohip" in types:
         ohip(x, phi)
+
+    if "mrn" in types:
         mrn(x, phi)
     
     if "locations" in types:
