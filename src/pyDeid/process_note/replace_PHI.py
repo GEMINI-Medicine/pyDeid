@@ -3,7 +3,7 @@ import calendar
 import random
 import string
 from ..phi_types.dates import months, days, Date
-from ..phi_types.utils import just_common_words
+from ..phi_types.utils import just_common_words, CustomRegex
 from ..phi_types.names import all_first_names, all_last_names
 from ..phi_types.contact_info import canadian_area_codes
 from ..phi_types.addresses import strict_street_add_suff, local_places_unambig, hospitals
@@ -230,7 +230,7 @@ def build_encounter_id():
     return str(random.randint(0, 10**8))
 
 
-def replace_phi(x, phi, return_surrogates = False):
+def replace_phi(x, phi, return_surrogates = False, custom_regexes = None):
     deid_text = ""
     surrogates = []
     where_we_left_off = 0
@@ -259,6 +259,8 @@ def replace_phi(x, phi, return_surrogates = False):
         month_abbr = False
 
     name_lookup = {}
+
+    custom_phi_types = {v.phi_type: v.surrogate_builder_fn for k, v in custom_regexes.items() if isinstance(v, CustomRegex) }
     
     for key in sorted(phi.keys(), key = lambda x: x.start):
         for val in phi[key]:
@@ -327,6 +329,9 @@ def replace_phi(x, phi, return_surrogates = False):
             
             elif re.search('Hospital', val):
                 surrogate = random.choice(tuple(hospitals))
+
+            elif val in custom_phi_types.keys():
+                surrogate = custom_phi_types[val]()
 
             else:
                 surrogate = '<PHI>'

@@ -1,5 +1,6 @@
 from ..phi_types.names import *
 from ..phi_types.dates import *
+from ..phi_types.utils import CustomRegex
 from ..phi_types.addresses import address, postal_code, hospital, hospital_acronyms
 from ..phi_types.contact_info import email, telephone
 from ..phi_types.IDs import sin, mrn, ohip
@@ -55,7 +56,12 @@ def find_phi(x, phi, custom_regexes, model=None, types=["names", "dates", "sin",
         telephone(x, phi)
 
     for custom_regex in custom_regexes:
-        if isinstance(custom_regex, str):
+        if isinstance(custom_regexes[custom_regex], str):
             find_custom(x, custom_regexes[custom_regex], custom_regex, phi)
+
+        elif isinstance(custom_regexes[custom_regex], CustomRegex):
+            regex_info = custom_regexes[custom_regex]
+            find_custom(x, regex_info.pattern, regex_info.phi_type, phi)
+
 
     return phi

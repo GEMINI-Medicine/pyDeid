@@ -1,4 +1,5 @@
 from .phi_types.names import name_first_pass
+from .phi_types.utils import CustomRegex
 from .process_note.find_PHI import find_phi
 from .process_note.prune_PHI import prune_phi
 from .process_note.replace_PHI import replace_phi
@@ -35,7 +36,7 @@ def pyDeid(
     read_error_handling: str = None,
     max_field_size: Union[Literal['auto', 131072], int] = 131072,
     types: List[str] = ["names", "dates", "sin", "ohip", "mrn", "locations", "hospitals", "contact"],
-    **custom_regexes: str
+    **custom_regexes: Union[CustomRegex, str]
     ):
     """Remove and replace PHI from free text
 
@@ -96,7 +97,7 @@ def pyDeid(
     **custom_regexes
         These are named arguments that will be taken as regexes to be scrubbed from
         the given note. The keyword/argument name itself will be used to label the
-        PHI in the `phi_output`. Note that all custom patterns will be repalced with
+        PHI in the `phi_output`. Note that all custom patterns will be replaced with
         `<PHI>`.
     
 
@@ -204,7 +205,7 @@ def pyDeid(
                 find_phi(original_note, phi, custom_regexes, model)
 
                 prune_phi(original_note, phi)
-                surrogates, new_note = replace_phi(original_note, phi, return_surrogates=True)
+                surrogates, new_note = replace_phi(original_note, phi, return_surrogates=True, custom_regexes=custom_regexes)
             except:
                 surrogates = pd.DataFrame(columns = ['phi_start', 'phi_end', 'phi', 'surrogate_start', 'surrogate_end', 'surrogate', 'types'])
                 new_note = original_note
@@ -281,7 +282,7 @@ def deid_string(
     custom_patient_last_names: Set[str] = None,
     named_entity_recognition: bool = False,
     types: List[str] = ["names", "dates", "sin", "ohip", "mrn", "locations", "hospitals", "contact"],
-    **custom_regexes: str
+    **custom_regexes: Union[CustomRegex, str]
     ):
     """Remove and replace PHI from a single string for debugging
 
@@ -306,9 +307,9 @@ def deid_string(
     types
         Which PHI types to consider. Any or all of "names", "dates", "sin", "ohip", "mrn", "locations", "hospitals", "contact".
     **custom_regexes
-        These are named arguments that will be taken as regexes to be scrubbed from
+        These are arguments that will be taken as regexes to be scrubbed from
         the given note. The keyword/argument name itself will be used to label the
-        PHI in the `phi_output`. Note that all custom patterns will be repalced with
+        PHI in the `phi_output`. Note that all custom patterns will be replaced with
         `<PHI>`.
     
     
@@ -347,7 +348,7 @@ def deid_string(
     find_phi(x, phi, custom_regexes, model, types)
 
     prune_phi(x, phi)
-    surrogates, x_deid = replace_phi(x, phi, return_surrogates=True)
+    surrogates, x_deid = replace_phi(x, phi, return_surrogates=True, custom_regexes=custom_regexes)
 
     return surrogates, x_deid
 
