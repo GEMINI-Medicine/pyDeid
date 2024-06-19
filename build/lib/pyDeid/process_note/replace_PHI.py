@@ -442,5 +442,5 @@ def replace_value(val, val_type, note, phi):
             surrogate = '<PHI>'
 
     deid_text = note.replace(val, surrogate)
-    # print("New string is: ", deid_text)
+    print("New string is: ", deid_text)
     return (surrogate, deid_text)

@@ -1,0 +1,31 @@
+encounter_id,phi,surrogate,types
+1,Justin,Carl,first_name
+1,Bieber,Alfson,last_name
+1,"March 1st, 1994",<PHI>,birth_date
+1,M5B 1W8,U6N4T3,postal_code
+1,011-0111,3886450,mrn
+2,Justin,Carl,first_name
+2,Bieber,Alfson,last_name
+2,"March 1st, 1994",<PHI>,birth_date
+2,M5B 1W8,U6N4T3,postal_code
+2,011-0111,3886450,mrn
+2,Justin,Florida,first_name
+2,Bieber,Teske,last_name
+2,"March 1st, 1994",<PHI>,birth_date
+2,M5B 1W8,X5R9W9,postal_code
+2,011-0111,5383588,mrn
+3,Justin,Carl,first_name
+3,Bieber,Alfson,last_name
+3,"March 1st, 1994",<PHI>,birth_date
+3,M5B 1W8,U6N4T3,postal_code
+3,011-0111,3886450,mrn
+3,Justin,Florida,first_name
+3,Bieber,Teske,last_name
+3,"March 1st, 1994",<PHI>,birth_date
+3,M5B 1W8,X5R9W9,postal_code
+3,011-0111,5383588,mrn
+3,Justin,Kermit,first_name
+3,Bieber,Chaiken,last_name
+3,"March 1st, 1994",<PHI>,birth_date
+3,M5B 1W8,X7K6L1,postal_code
+3,011-0111,2218161,mrn

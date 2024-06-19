@@ -1,0 +1,25 @@
+genc_id,note_id,note_text
+1,Record 1,Grazyna Bram was born on <PHI>.
+2,Record 2,"St.Michael's hospital is located at 30 Bond St, Toronto, ON, R2P8B0"
+3,Record 3,"St.Michael's hospital is located at 30 Bond St, Toronto, ON, R2P8B0"
+genc_id,note_id,note_text
+1,Record 1,Sanda Ruthers was born on <PHI>.
+2,Record 2,"St.Michael's hospital is located at 30 Bond St, Toronto, ON, J2F6H9"
+3,Record 3,Test MRN: 6170941
+genc_id,note_id,note_text
+1,Record 1,Tamar Oravetz was born on <PHI>.
+2,Record 2,"St.Michael's hospital is located at 30 Bond St, Toronto, ON, N5J5U6"
+3,Record 3,Test MRN: 5972624
+genc_id,note_id,note_text
+1,Record 1,Fallon Ostrzyeki was born on 19/12/2010.
+2,Record 2,"St.Michael's hospital is located at 9766 LYNWOOD Blvd, GEORGINA, ON, E1U6E1"
+3,Record 3,Test MRN: 769278
+genc_id,note_id,note_text
+1,Record 1,Seth Whitherspoon was born on 2018-13-10.
+2,Record 2,"St.Michael's hospital is located at 7266 NORBERT Drive, MOUNT DENNIS, ON, L4V9E9"
+3,Record 3,Test MRN: 4406505
+genc_id,note_id,note_text
+genc_id,note_id,note_text
+1,Record 1,Carl Alfson was born on <PHI>.
+2,Record 2,"St.Michael's hospital is located at 30 Bond St, Toronto, ON, X5R9W9"
+3,Record 3,Test MRN: 2218161

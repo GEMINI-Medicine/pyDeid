@@ -1,0 +1,10 @@
+genc_id,note_id,note_text
+1,Record 1,"Justin Bieber was born on March 1st, 1994."
+2,Record 2,"St.Michael's hospital is located at 30 Bond St, Toronto, ON, M5B 1W8
+"
+3,Record 3,Test MRN: 011-0111
+genc_id,note_id,note_text
+1,Record 1,"Justin Bieber was born on March 1st, 1994."
+2,Record 3,"St.Michael's hospital is located at 30 Bond St, Toronto, ON, M5B 1W8
+"
+3,Record 4,Test MRN: 011-0111

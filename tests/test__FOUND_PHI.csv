@@ -1,0 +1,8 @@
+encounter_id,note_id,phi_start,phi_end,phi,types
+1,0,6,Justin,"['Female First Name (ambig)', 'Male First Name (ambig)', 'Last Name (ambig)', 'First Name8 (NamePattern2)']"
+1,7,13,Bieber,['Last Name (un)']
+1,26,41,"Date(date_string='March 1st, 1994', day='1', month='March', year='1994')","['Month Day Year (2) [Month dd, yy(yy)]']"
+2,36,46,30 Bond St,['Street Address']
+2,48,55,Toronto,['Location (un)']
+2,61,68,M5B 1W8,['Postalcode']
+3,10,18,011-0111,['MRN']

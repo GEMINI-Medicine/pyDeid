@@ -292,7 +292,7 @@ def pyDeid(
             # raise Exception('')
             print("Cannot perform replacement without finding, removed replacement action")
             actions = actions.replace('r', 'x')
-        if actions == 'xxx' or actions == 'xxr' or (actions[0] == 'm' and mll_file is None):
+        if actions == 'xxx' or actions == 'xxr':
             print("Invalid actions, changed to default settings (xfr)")
             actions = 'xfr'
         mll_surrogates = []
