@@ -2,3 +2,9 @@ __pycache__/*
 src/pyDeid/phi_types/__pycache__/*
 src/pyDeid/process_note/__pycache__/*
 pyDeid.zip
+*.egg-info/
+build/
+tests/test__DE-IDENTIFIED.csv/
+tests/test__PHI.csv/
+tests/test__FOUND_PHI.csv/
+tests/test__MLL_PHI.csv/
