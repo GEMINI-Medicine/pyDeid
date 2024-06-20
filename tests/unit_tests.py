@@ -2,9 +2,7 @@ import unittest
 import csv
 from pyDeid import *
 import os
-# from pyDeid.phi_types import *
-# from pyDeid.process_note import *
-# from pyDeid.wordlists import *
+
 filepath = os.path.dirname(os.path.realpath(__file__))
 # pyDeid(original_file = 'C:/Users/kairu/OneDrive/Desktop/Everything/Unity Health/new_pyDeid/pyDeid/tests/test.csv', 
 #       note_varname = 'note_text', 
