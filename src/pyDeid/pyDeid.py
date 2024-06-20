@@ -161,6 +161,7 @@ def pyDeid(
     custom_patient_last_names = {x for x in custom_patient_last_names if x==x} if custom_patient_last_names else None
     custom_patient_first_names = {x for x in custom_patient_first_names if x==x} if custom_patient_first_names else None
 
+    # File for de-identified note
     if new_file is None:
         new_file = os.path.splitext(original_file)[0] + '__DE-IDENTIFIED.csv'
     else:
@@ -168,11 +169,13 @@ def pyDeid(
     temp = open(new_file, "w+")
     temp.close()
 
+    # File for identified PHIs and surrogates
     if phi_output_file is None:
         phi_output_file = os.path.splitext(original_file)[0] + '__PHI.' + phi_output_file_type
     else:
         phi_output_file = os.path.splitext(phi_output_file)[0] + '.' + phi_output_file_type
 
+    # File for de-identified note using MLL
     if mll_new_file is None:
         mll_new_file = os.path.splitext(original_file)[0] + '__MLL_DEID.csv'
     else:
@@ -180,21 +183,27 @@ def pyDeid(
     temp = open(mll_new_file, "w+")
     temp.close()
 
+    # File for outputing the found PHIs from the notes
+    if found_phi_output_file is None:
+        found_phi_output_file = os.path.splitext(original_file)[0] + '__FOUND_PHI.' + phi_output_file_type
+    else:
+        phi_output_file = os.path.splitext(phi_output_file)[0] + '.' + phi_output_file_type
+
+    # File for outputing the found PHIs from the notes using MLL
+    if mll_phi_output_file is None:
+        mll_phi_output_file = os.path.splitext(original_file)[0] + '__MLL_PHI.' + phi_output_file_type
+    else:
+        phi_output_file = os.path.splitext(phi_output_file)[0] + '.' + phi_output_file_type
+
     reader = csv.DictReader(
         open(original_file, newline='', encoding=file_encoding, errors=read_error_handling), 
         delimiter=',', 
         quotechar='"', 
         quoting=csv.QUOTE_MINIMAL
         )
+    reader_fieldnames = reader.fieldnames  # store reader fieldnames for later use
     
-    reader2 = csv.DictReader(
-        open(original_file, newline='', encoding=file_encoding, errors=read_error_handling), 
-        delimiter=',', 
-        quotechar='"', 
-        quoting=csv.QUOTE_MINIMAL
-        )
-    
-    if mll_file is not None:
+    if mll_file is not None:  # Setup to read MLL file if MLL exists
         mll_find_replace = True
         mll_rows = {}
         mll_reader = csv.DictReader(
@@ -209,16 +218,20 @@ def pyDeid(
             mll_rows[key] = row
     # import ipdb
     # ipdb.set_trace()
-    # return reader.fieldnames
 
     if phi_output_file_type == 'json':
         if encounter_id_varname is None:
             raise ValueError('An encounter ID varname must be supplied to output PHI as a JSON file. It would be overwritten!')
 
+        phi_output = {}
         if not os.path.isfile(phi_output_file):
-            phi_output = {}
-
             with io.open(phi_output_file, 'w') as file:
+                file.write(json.dumps(phi_output))
+        if not os.path.isfile(found_phi_output_file):
+            with io.open(found_phi_output_file, 'w') as file:
+                file.write(json.dumps(phi_output))
+        if not os.path.isfile(mll_phi_output_file):
+            with io.open(mll_phi_output_file, 'w') as file:
                 file.write(json.dumps(phi_output))
         else:
             raise ValueError('A PHI output JSON file already exists with the same name.')
@@ -230,38 +243,6 @@ def pyDeid(
             writer.writerow(
                 ['encounter_id', 'note_id', 'phi_start', 'phi_end', 'phi', 'surrogate_start', 'surrogate_end', 'surrogate', 'types']
                 )
-    
-    # For outputing the found PHIs from the notes
-    if found_phi_output_file is None:
-        found_phi_output_file = os.path.splitext(original_file)[0] + '__FOUND_PHI.' + phi_output_file_type
-    else:
-        phi_output_file = os.path.splitext(phi_output_file)[0] + '.' + phi_output_file_type
-
-    # For outputing the found PHIs from the notes using MLL
-    if mll_phi_output_file is None:
-        mll_phi_output_file = os.path.splitext(original_file)[0] + '__MLL_PHI.' + phi_output_file_type
-    else:
-        phi_output_file = os.path.splitext(phi_output_file)[0] + '.' + phi_output_file_type
-
-    if phi_output_file_type == 'json':
-        if encounter_id_varname is None:
-            raise ValueError('An encounter ID varname must be supplied to output PHI as a JSON file. It would be overwritten!')
-
-        if not os.path.isfile(found_phi_output_file):
-            phi_output = {}
-
-            with io.open(found_phi_output_file, 'w') as file:
-                file.write(json.dumps(phi_output))
-        if not os.path.isfile(mll_phi_output_file):
-            phi_output = {}
-
-            with io.open(mll_phi_output_file, 'w') as file:
-                file.write(json.dumps(phi_output))
-        else:
-            raise ValueError('A PHI output JSON file already exists with the same name.')
-
-    elif phi_output_file_type == "csv":
-        # write header
         with open(found_phi_output_file, 'w', newline='') as o:
             writer = csv.writer(o)
             writer.writerow(
@@ -273,10 +254,12 @@ def pyDeid(
                 ['encounter_id', 'phi', 'surrogate', 'types']
                 )
     
+    # Start Process
     with open(new_file, 'a', encoding=file_encoding) as f:
         writer = csv.DictWriter(f, fieldnames=reader.fieldnames, lineterminator='\n')
         writer.writeheader()
         
+        # Write headers for de-identified note using MLL
         with open(mll_new_file, 'a', encoding=file_encoding) as j:
             mll_writer = csv.DictWriter(j, fieldnames=reader.fieldnames, lineterminator='\n')
             mll_writer.writeheader()
@@ -292,7 +275,7 @@ def pyDeid(
         else:
             model = None
 
-        # set default actions if invalid options given
+        # set default actions if invalid options are given
         if not regex_find and regex_replace:
             print("Cannot perform replacement without finding, removed replacement action")
             regex_find = True
@@ -314,15 +297,15 @@ def pyDeid(
                 original_note, 
                 custom_dr_first_names, custom_dr_last_names, custom_patient_first_names, custom_patient_last_names
                 )
-            if mll_find_replace:
-                # take the encounter ID from the notes
+            if mll_find_replace:  # If MLL is provided
+                # Take the encounter ID from the notes
                 enc_id = row[encounter_id_varname]
-                # find the encouter ID from MLL
+                # Find the encouter ID from MLL
                 mll_vals = mll_rows.get(enc_id)
-                # utilize MLL information to replace all matching information
+                # Utilize MLL information to replace all matching information
                 if mll_vals is not None:
                     for val in mll_vals:
-                        # Function still needs to directly match with entries in the MLL
+                        # @TODO Function still needs to directly match with entries in the MLL
                         if val != encounter_id_varname:
                             cur_surrogate, mll_new_note = replace_value(mll_vals[val], val, str(row[note_varname]), phi)
                             mll_surrogates.append({'phi': mll_vals[val], 
@@ -330,7 +313,7 @@ def pyDeid(
                                                 'type': val})
                             row[note_varname] = mll_new_note
 
-            if regex_find:
+            if regex_find:  # If regex find is desired
                 try:
 
                     find_phi(original_note, phi, custom_regexes, model)
@@ -339,7 +322,7 @@ def pyDeid(
 
                     found_phis = return_phi(original_note, phi, return_surrogates=True)
                 
-                    if regex_replace:
+                    if regex_replace:  # Create surrogates if regex replacement is desired
                         surrogates, new_note = replace_phi(original_note, phi, return_surrogates=True)
                 
                 except:
@@ -351,18 +334,18 @@ def pyDeid(
                         errors.append((row[encounter_id_varname],row[note_id_varname]))
                     elif encounter_id_varname is not None:
                         errors.append(row[encounter_id_varname])
-            if mll_find_replace:
+            if mll_find_replace:  # Write outputs from MLL actions
                 write_to_file(mll_surrogates, row, encounter_id_varname, note_id_varname, phi_output_file_type, 
                                 mll_phi_output_file)
                 with open(mll_new_file, 'a', encoding=file_encoding) as j:
-                    mll_writer = csv.DictWriter(j, fieldnames=reader2.fieldnames, lineterminator='\n')
+                    mll_writer = csv.DictWriter(j, fieldnames=reader_fieldnames, lineterminator='\n')
                     # mll_writer.writeheader()
                     row[note_varname] = mll_new_note
                     mll_writer.writerow(row)
-            if regex_find:
+            if regex_find:  # Write outputs for regex find
                 write_to_file(found_phis, row, encounter_id_varname, note_id_varname, phi_output_file_type, 
                                 found_phi_output_file)
-            if regex_replace:
+            if regex_replace:  # Write outputs for regex replacement
                 row[note_varname] = new_note
                 writer.writerow(row)
 
