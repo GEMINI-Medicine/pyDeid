@@ -47,17 +47,17 @@ filepath = os.path.dirname(os.path.realpath(__file__))
 #          self.assertEqual(note[note_end_name:note_end_name+len(' was born on ')], ' was born on ')
 
 # @unittest.skip("Skipping MLL only argument test")
-# class TestCorrectOutputMllOnlyCsv(unittest.TestCase):
-#    pyDeid(original_file = filepath + '\\test.csv', 
-#       note_varname = 'note_text', 
-#       encounter_id_varname = 'genc_id',
-#       regex_find = False,
-#       regex_replace = False,
-#       mll_file = filepath + '\\mll_test.csv'
-#       )
+class TestCorrectOutputMllOnlyCsv(unittest.TestCase):
+   pyDeid(original_file = filepath + '\\test.csv', 
+      note_varname = 'note_text', 
+      encounter_id_varname = 'genc_id',
+      regex_find = False,
+      regex_replace = False,
+      mll_file = filepath + '\\mll_test.csv'
+      )
 
-#    def setUp(self):
-#       print("In method", self._testMethodName)
+   def setUp(self):
+      print("In method", self._testMethodName)
 
    # def test_first_name_index(self):
    #    with open(filepath + '\\test__PHI.csv', 'r') as csvfile:
@@ -72,16 +72,16 @@ filepath = os.path.dirname(os.path.realpath(__file__))
    #       next(csv_reader)
    #       self.assertEqual(next(csv_reader)[3], 'Bieber')
 
-class TestCorrectOutputMllAndFindCsv(unittest.TestCase):
-   pyDeid(original_file = filepath + '\\test.csv', 
-      note_varname = 'note_text', 
-      encounter_id_varname = 'genc_id',
-      regex_replace = False,
-      mll_file = filepath + '\\mll_test.csv'
-      )
+# class TestCorrectOutputMllAndFindCsv(unittest.TestCase):
+#    pyDeid(original_file = filepath + '\\test.csv', 
+#       note_varname = 'note_text', 
+#       encounter_id_varname = 'genc_id',
+#       regex_replace = False,
+#       mll_file = filepath + '\\mll_test.csv'
+#       )
 
-   def setUp(self):
-      print("In method", self._testMethodName)
+#    def setUp(self):
+#       print("In method", self._testMethodName)
 
 if __name__ == '__main__':
    unittest.main()

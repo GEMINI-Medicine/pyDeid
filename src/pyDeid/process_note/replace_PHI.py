@@ -440,7 +440,13 @@ def replace_value(val, val_type, note, phi):
         #         surrogate = '<PHI>'
         case _:
             surrogate = '<PHI>'
-
-    deid_text = note.replace(val, surrogate)
-    # print("New string is: ", deid_text)
+    
+    found = False
+    for m in re.finditer(r'\b(' + val + r')\b', note, re.IGNORECASE):
+        found = True
+        if m is not None:
+            deid_text = note[:m.start(0)] + surrogate + note[m.end(0):]
+    if not found:
+        deid_text = note
+    # deid_text = note.replace(val, surrogate)
     return (surrogate, deid_text)
