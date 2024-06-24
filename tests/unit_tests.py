@@ -1,4 +1,4 @@
-import unittest
+import unittest, time
 import csv
 from pyDeid import *
 import os
@@ -11,11 +11,21 @@ filepath = os.path.dirname(os.path.realpath(__file__))
 
 # @unittest.skip("Skipping default arguments test")
 # class TestCorrectOutputDefaultCsv(unittest.TestCase):
-#    pyDeid(original_file = filepath + '\\test.csv', 
+#    # start_time = time.time()
+
+#    # pyDeid(original_file = filepath + '\\test.csv', 
+#    #    note_varname = 'note_text', 
+#    #    encounter_id_varname = 'genc_id'
+#    #    )
+   
+#    pyDeid(original_file = filepath + '\\tests_advanced\\100_words.csv', 
 #       note_varname = 'note_text', 
-#       encounter_id_varname = 'genc_id'
+#       encounter_id_varname = 'genc_id',
 #       )
    
+   # end_time = time.time()
+   
+   # print("Elapsed runtime: " + end_time-start_time)
 #    def setUp(self):
 #       print("Testing", self._testMethodName)
    
@@ -48,16 +58,25 @@ filepath = os.path.dirname(os.path.realpath(__file__))
 
 # @unittest.skip("Skipping MLL only argument test")
 class TestCorrectOutputMllOnlyCsv(unittest.TestCase):
-   pyDeid(original_file = filepath + '\\test.csv', 
+   # pyDeid(original_file = filepath + '\\test.csv', 
+   #    note_varname = 'note_text', 
+   #    encounter_id_varname = 'genc_id',
+   #    regex_find = False,
+   #    regex_replace = False,
+   #    mll_file = filepath + '\\mll_test.csv'
+   #    )
+   
+   pyDeid(original_file = filepath + '\\tests_advanced\\100_words.csv', 
       note_varname = 'note_text', 
       encounter_id_varname = 'genc_id',
       regex_find = False,
       regex_replace = False,
-      mll_file = filepath + '\\mll_test.csv'
+      mll_file = filepath + '\\tests_advanced\\mll_100_test.csv'
       )
 
-   def setUp(self):
-      print("In method", self._testMethodName)
+
+#    def setUp(self):
+#       print("In method", self._testMethodName)
 
    # def test_first_name_index(self):
    #    with open(filepath + '\\test__PHI.csv', 'r') as csvfile:
