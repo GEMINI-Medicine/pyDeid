@@ -1,6 +1,6 @@
 import unittest, time
 import csv
-from pyDeid import *
+#from pyDeid import *
 import os
 
 filepath = os.path.dirname(os.path.realpath(__file__))
