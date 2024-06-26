@@ -114,13 +114,13 @@ class TestCorrectOutputDefaultCsv(unittest.TestCase):
    #    mll_file = filepath + '\\mll_test.csv'
    #    )
    
-   pyDeid(original_file = filepath + '\\tests_advanced\\100_words.csv', 
-      note_varname = 'note_text', 
-      encounter_id_varname = 'genc_id',
-      regex_find = False,
-      regex_replace = False,
-      mll_file = filepath + '\\tests_advanced\\mll_100_test.csv'
-      )
+   # pyDeid(original_file = filepath + '\\tests_advanced\\100_words.csv', 
+   #    note_varname = 'note_text', 
+   #    encounter_id_varname = 'genc_id',
+   #    regex_find = False,
+   #    regex_replace = False,
+   #    mll_file = filepath + '\\tests_advanced\\mll_100_test.csv'
+   #    )
 
 
 #    def setUp(self):
