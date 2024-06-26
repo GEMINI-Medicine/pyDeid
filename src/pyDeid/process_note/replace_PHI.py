@@ -362,7 +362,7 @@ def return_phi(x, phi, return_surrogates = False):
     return phis
 
 def replace_value(val, val_type, note, phi):
-    deid_text = ""
+    deid_text = note
     surrogates = []
     where_we_left_off = 0
     
@@ -441,12 +441,20 @@ def replace_value(val, val_type, note, phi):
         case _:
             surrogate = '<PHI>'
     
+    # indices = []
+    increment = 0
     found = False
-    for m in re.finditer(r'\b(' + val + r')\b', note, re.IGNORECASE):
+    for m in re.finditer(r'\b' + re.escape(val) + r'\b', note, re.IGNORECASE):
         found = True
         if m is not None:
-            deid_text = note[:m.start(0)] + surrogate + note[m.end(0):]
-    if not found:
-        deid_text = note
+            # print(note)
+            # indices.append(tuple(m.start(),m.end()))
+            deid_text = deid_text[:m.start()+increment] + surrogate + deid_text[m.end()+increment:]
+            increment = increment + (len(surrogate) - len(val))
+    # if found:
+    #     for pair in indices:
+    #         deid_text = deid_text[:m.start()] + surrogate + deid_text[m.end():]
+    # if not found:
+    #     deid_text = note
     # deid_text = note.replace(val, surrogate)
     return (surrogate, deid_text)
