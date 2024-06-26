@@ -9,3 +9,15 @@ tests/test__PHI.csv
 tests/test__FOUND_PHI.csv
 tests/test__MLL_PHI.csv
 tests/test__MLL_DEID.csv
+tests/tests_advanced/100_words__DE-IDENTIFIED.csv
+tests/tests_advanced/100_words__FOUND_PHI.csv
+tests/tests_advanced/100_words__MLL_DEID.csv
+tests/tests_advanced/100_words__MLL_PHI.csv
+tests/tests_advanced/100_words__PHI.csv
+tests/tests_advanced/1600_words.csv
+tests/tests_advanced/200_words.csv
+tests/tests_advanced/3200_words.csv
+tests/tests_advanced/400_words.csv
+tests/tests_advanced/6400_words.csv
+tests/tests_advanced/800_words.csv
+

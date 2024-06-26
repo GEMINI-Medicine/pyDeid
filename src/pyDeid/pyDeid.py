@@ -312,6 +312,9 @@ def pyDeid(
                                                 'surrogate': cur_surrogate, 
                                                 'type': val})
                             row[note_varname] = mll_new_note
+                else:
+                    print("No MLL entries found")
+                    mll_new_note = ''
 
             if regex_find:  # If regex find is desired
                 try:
