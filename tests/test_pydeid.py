@@ -1,7 +1,10 @@
 import unittest, time
 import csv
-#from pyDeid import *
+import sys
 import os
+
+# Add the src directory to the Python path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 
 filepath = os.path.dirname(os.path.realpath(__file__))
 # pyDeid(original_file = 'C:/Users/kairu/OneDrive/Desktop/Everything/Unity Health/new_pyDeid/pyDeid/tests/test.csv', 
