@@ -361,7 +361,7 @@ def return_phi(x, phi, return_surrogates = False):
             
     return phis
 
-def replace_value(val, val_type, note, phi):
+def replace_value(val, val_type, note, mll_surrogates, mll_replace_phis):
     deid_text = note
     # surrogates = []
     # where_we_left_off = 0
@@ -503,7 +503,15 @@ def replace_value(val, val_type, note, phi):
         if m is not None:
             # print(note)
             # indices.append(tuple(m.start(),m.end()))
-            deid_text = deid_text[:m.start()+increment] + surrogate + deid_text[m.end()+increment:]
+            if mll_replace_phis:
+                deid_text = deid_text[:m.start()+increment] + surrogate + deid_text[m.end()+increment:]
+            mll_surrogates.append({'phi_start': m.start(),
+                                'phi_end': m.end(),
+                                'phi': val, 
+                                'surrogate_start': m.start() + increment,
+                                'surrogate_end': m.end() + increment,
+                                'surrogate': surrogate, 
+                                'type': val_type})
             increment = increment + (len(surrogate) - len(val))
     # if found:
     #     for pair in indices:
