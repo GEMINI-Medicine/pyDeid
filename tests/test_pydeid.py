@@ -36,24 +36,24 @@ class TestCorrectOutputDefaultCsv(unittest.TestCase):
       print("Testing", self._testMethodName)
    
    def test_first_name_index(self):
-      with open(filepath + '\\test__PHI.csv', 'r') as csvfile:
+      with open(os.path.join(filepath, 'test__PHI.csv'), 'r') as csvfile:
          csv_reader = csv.reader(csvfile)
          next(csv_reader)
          self.assertEqual(next(csv_reader)[3], 'Justin')
    
    def test_last_name_index(self):
-      with open(filepath + '\\test__PHI.csv', 'r') as csvfile:
+      with open(os.path.join(filepath, 'test__PHI.csv'), 'r') as csvfile:
          csv_reader = csv.reader(csvfile)
          next(csv_reader)
          next(csv_reader)
          self.assertEqual(next(csv_reader)[3], 'Bieber')
 
    def test_correct_note_output(self):
-      with open(filepath + '\\test__DE-IDENTIFIED.csv', 'r') as csvfile:
+      with open(os.path.join(filepath, 'test_DE-IDENTIFIED_PHI.csv'), 'r') as csvfile:
          csv_reader = csv.reader(csvfile)
          next(csv_reader)
          note = next(csv_reader)[2]
-         with open(filepath + '\\test__PHI.csv', 'r') as csvfile:
+         with open(os.path.join(filepath, 'test__PHI.csv'), 'r') as csvfile:
             csv_reader = csv.reader(csvfile)
             next(csv_reader)
             next(csv_reader)
