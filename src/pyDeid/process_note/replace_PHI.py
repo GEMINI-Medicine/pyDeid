@@ -363,8 +363,8 @@ def return_phi(x, phi, return_surrogates = False):
 
 def replace_value(val, val_type, note, phi):
     deid_text = note
-    surrogates = []
-    where_we_left_off = 0
+    # surrogates = []
+    # where_we_left_off = 0
     
     # keep a consistent date shift so all dates maintain relative distace
     day_shift = random.randint(0, 29)
@@ -389,63 +389,59 @@ def replace_value(val, val_type, note, phi):
         suffix = False
         month_abbr = False
 
-    name_lookup = {}
+    # name_lookup = {}
 
-    match val_type:
-         
-        case 'mrn':
-            surrogate = str(random.randint(0, 10**7))
-            
-        # case 'sin':
-        #     surrogate = build_sin()
+    if val_type == 'mrn':
+        surrogate = str(random.randint(0, 10**7))
         
-        case 'health_card_number':
-            surrogate = build_ohip()
-        
-        # case re.search('telephone/fax', val):
-        #     surrogate = build_telephone()
-        
-        # case re.search('email address', val):
-        #     surrogate = build_email()
-        
-        # case re.search('address', val):
-        #     surrogate = build_address()
+    # case 'sin':
+    #     surrogate = build_sin()
+    
+    elif val_type == 'health_card_number':
+        surrogate = build_ohip()
+    
+    # case re.search('telephone/fax', val):
+    #     surrogate = build_telephone()
+    
+    # case re.search('email address', val):
+    #     surrogate = build_email()
+    
+    # case re.search('address', val):
+    #     surrogate = build_address()
 
-        # case re.search('location', val):
-        #     surrogate = random.choice(tuple(local_places_unambig))
-        
-        case 'first_name':
-            # if val.phi not in name_lookup.keys():
-            surrogate = random.choice(tuple(all_first_names)).title()
+    # case re.search('location', val):
+    #     surrogate = random.choice(tuple(local_places_unambig))
+    
+    elif val_type == 'first_name':
+        # if val.phi not in name_lookup.keys():
+        surrogate = random.choice(tuple(all_first_names)).title()
 
-            # surrogate = name_lookup[key.phi]
-            
-        case 'last_name':
-            # if key.phi not in name_lookup.keys():
-            surrogate = random.choice(tuple(all_last_names)).title()
-
-            # surrogate = name_lookup[key.phi]
+        # surrogate = name_lookup[key.phi]
         
-        case 'postal_code':
-            surrogate = generate_postal_code()
-        
-        # Still need to figure out the best way to find the dates
-        # case 'birth_date' | 'admission_date' | 'discharge_date':
-        #     re.search(r'day|month|year', val, re.IGNORECASE)
-        #     if isinstance(key.phi, Date):
-        #         day, month, year = date_shifter(key.phi, day_shift, month_shift, year_shift)
+    elif val_type == 'last_name':
+        # if key.phi not in name_lookup.keys():
+        surrogate = random.choice(tuple(all_last_names)).title()
 
-        #         surrogate = build_date(day, month, year, month_before_day, year_first, month_name, month_abbr, suffix, leading_zeros)
-        #     else:
-        #         surrogate = '<PHI>'
-        case _:
-            surrogate = '<PHI>'
+        # surrogate = name_lookup[key.phi]
+    
+    elif val_type == 'postal_code':
+        surrogate = generate_postal_code()
+    
+    # Still need to figure out the best way to find the dates
+    # case 'birth_date' | 'admission_date' | 'discharge_date':
+    #     re.search(r'day|month|year', val, re.IGNORECASE)
+    #     if isinstance(key.phi, Date):
+    #         day, month, year = date_shifter(key.phi, day_shift, month_shift, year_shift)
+
+    #         surrogate = build_date(day, month, year, month_before_day, year_first, month_name, month_abbr, suffix, leading_zeros)
+    #     else:
+    #         surrogate = '<PHI>'
+    else:
+        surrogate = '<PHI>'
     
     # indices = []
     increment = 0
-    found = False
     for m in re.finditer(r'\b' + re.escape(val) + r'\b', note, re.IGNORECASE):
-        found = True
         if m is not None:
             # print(note)
             # indices.append(tuple(m.start(),m.end()))
