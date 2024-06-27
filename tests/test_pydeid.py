@@ -18,7 +18,8 @@ filepath = os.path.dirname(os.path.realpath(__file__))
 class TestCorrectOutputDefaultCsv(unittest.TestCase):
    # start_time = time.time()
 
-   pyDeid(original_file = filepath + '\\test.csv', 
+   pyDeid(
+      original_file = os.path.join(filepath, 'test.csv'), 
       note_varname = 'note_text', 
       encounter_id_varname = 'genc_id'
       )
