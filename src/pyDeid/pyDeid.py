@@ -14,7 +14,6 @@ import time
 from typing import *
 from pathlib import Path
 from tqdm import tqdm
-import spacy
 import re
 import sys
 
@@ -130,6 +129,10 @@ def pyDeid(
         Nothing is explicitly returned. Side effects produce a de-identified CSV
         file under `new_file` and PHI replaced under `phi_output_file`.
     """
+
+    if named_entity_recognition:
+        import spacy
+
     if custom_regexes:
         print('Supplied custom regexes through **kwargs (see custom_regexes in docstring):\n')
         for key in custom_regexes:

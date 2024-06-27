@@ -18,7 +18,8 @@ filepath = os.path.dirname(os.path.realpath(__file__))
 class TestCorrectOutputDefaultCsv(unittest.TestCase):
    # start_time = time.time()
 
-   pyDeid(original_file = filepath + '\\test.csv', 
+   pyDeid(
+      original_file = os.path.join(filepath, 'test.csv'), 
       note_varname = 'note_text', 
       encounter_id_varname = 'genc_id'
       )
@@ -35,24 +36,24 @@ class TestCorrectOutputDefaultCsv(unittest.TestCase):
       print("Testing", self._testMethodName)
    
    def test_first_name_index(self):
-      with open(filepath + '\\test__PHI.csv', 'r') as csvfile:
+      with open(os.path.join(filepath, 'test__PHI.csv'), 'r') as csvfile:
          csv_reader = csv.reader(csvfile)
          next(csv_reader)
          self.assertEqual(next(csv_reader)[4], 'Justin')
    
    def test_last_name_index(self):
-      with open(filepath + '\\test__PHI.csv', 'r') as csvfile:
+      with open(os.path.join(filepath, 'test__PHI.csv'), 'r') as csvfile:
          csv_reader = csv.reader(csvfile)
          next(csv_reader)
          next(csv_reader)
          self.assertEqual(next(csv_reader)[4], 'Bieber')
 
    def test_correct_note_output(self):
-      with open(filepath + '\\test__DE-IDENTIFIED.csv', 'r') as csvfile:
+      with open(os.path.join(filepath, 'test__DE-IDENTIFIED.csv'), 'r') as csvfile:
          csv_reader = csv.reader(csvfile)
          next(csv_reader)
          note = next(csv_reader)[2]
-         with open(filepath + '\\test__PHI.csv', 'r') as csvfile:
+         with open(os.path.join(filepath, 'test__PHI.csv'), 'r') as csvfile:
             csv_reader = csv.reader(csvfile)
             next(csv_reader)
             next(csv_reader)
