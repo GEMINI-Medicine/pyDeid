@@ -609,6 +609,8 @@ def write_to_file(
 
         if note_id_varname is not None:
             phi_output.insert(0, 'note_id', row[note_id_varname])
+        else:
+            phi_output.insert(0, 'note_id', "NULL")
 
         if encounter_id_varname is not None:
             phi_output.insert(0, 'encounter_id', row[encounter_id_varname])

@@ -38,14 +38,14 @@ class TestCorrectOutputDefaultCsv(unittest.TestCase):
       with open(filepath + '\\test__PHI.csv', 'r') as csvfile:
          csv_reader = csv.reader(csvfile)
          next(csv_reader)
-         self.assertEqual(next(csv_reader)[3], 'Justin')
+         self.assertEqual(next(csv_reader)[4], 'Justin')
    
    def test_last_name_index(self):
       with open(filepath + '\\test__PHI.csv', 'r') as csvfile:
          csv_reader = csv.reader(csvfile)
          next(csv_reader)
          next(csv_reader)
-         self.assertEqual(next(csv_reader)[3], 'Bieber')
+         self.assertEqual(next(csv_reader)[4], 'Bieber')
 
    def test_correct_note_output(self):
       with open(filepath + '\\test__DE-IDENTIFIED.csv', 'r') as csvfile:
@@ -56,7 +56,7 @@ class TestCorrectOutputDefaultCsv(unittest.TestCase):
             csv_reader = csv.reader(csvfile)
             next(csv_reader)
             next(csv_reader)
-            surrogate_name = next(csv_reader)[6]
+            surrogate_name = next(csv_reader)[7]
          note_end_name = note.find(surrogate_name) + len(surrogate_name)
          self.assertNotEqual(note[:note_end_name], 'Justin Bieber')
          self.assertEqual(note[note_end_name:note_end_name+len(' was born on ')], ' was born on ')
