@@ -586,7 +586,7 @@ def display_deid(original_string, phi):
       "title": None,
     }
     ]
-    spacy.displacy.render(render_data, style="ent", manual=True)
+    # spacy.displacy.render(render_data, style="ent", manual=True)
 
 def write_to_file(
         items,
