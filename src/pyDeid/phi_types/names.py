@@ -49,7 +49,6 @@ def name_first_pass(
     ):
 
     res = {}
-    word_pattern = re.compile('\w+')
 
     custom_names = []
 
@@ -62,7 +61,8 @@ def name_first_pass(
     if custom_patient_last_names is not None:
         custom_names.append(({name.upper() for name in custom_patient_last_names}, 'Custom Patient Last Name'))
 
-    for word in word_pattern.finditer(x):
+    # word_pattern = re.compile('\w+')
+    for word in re.finditer('\w+', x):
         for names, tag in namesets:
             if word.group().upper() in names:
                 res.setdefault(PHI(word.start(), word.end(), word.group()),[]).append(tag)

@@ -3,7 +3,7 @@ import calendar
 import random
 import string
 from ..phi_types.dates import months, days, Date
-from ..phi_types.utils import just_common_words
+from ..phi_types.utils import just_common_words, add_type
 from ..phi_types.names import all_first_names, all_last_names
 from ..phi_types.contact_info import canadian_area_codes
 from ..phi_types.addresses import strict_street_add_suff, local_places_unambig
@@ -346,3 +346,177 @@ def replace_phi(x, phi, return_surrogates = False):
     deid_text = deid_text + x[where_we_left_off:]
     
     return (surrogates, deid_text)
+
+def return_phi(x, phi, return_surrogates = False):
+    phis = []
+    
+    for key in sorted(phi.keys(), key = lambda x: x.start):        
+        if return_surrogates:
+            phis.append({
+                'phi_start': key.start,
+                'phi_end': key.end,
+                'phi': key.phi,
+                'types': phi[key]
+                })
+            
+    return phis
+
+def replace_value(val, val_type, note, mll_surrogates, mll_replace_phis):
+    deid_text = note
+    # surrogates = []
+    # where_we_left_off = 0
+    
+    # keep a consistent date shift so all dates maintain relative distace
+    day_shift = random.randint(0, 29)
+    month_shift = random.randint(0, 11)
+    year_shift = random.randint(-30, 30)
+
+    # similarly for time shift
+    hour_shift = random.randint(0, 11)
+    minute_shift = random.randint(0, 59)
+    second_shift = random.randint(0, 59)
+
+    # configure surrogate date format (will be consistent within note)
+    month_before_day = random.choice([True, False])
+    year_first = random.choice([True, False])
+    leading_zeros = random.choice([True, False])
+    month_name = random.choice([True, False])
+    
+    if month_name:
+        suffix = random.choice([True, False])
+        month_abbr = random.choice([True, False])
+    else:
+        suffix = False
+        month_abbr = False
+
+    name_lookup = {}
+
+    if val_type == 'mrn':
+        surrogate = str(random.randint(0, 10**7))
+        
+    # case 'sin':
+    #     surrogate = build_sin()
+    
+    elif val_type == 'health_card_number':
+        surrogate = build_ohip()
+    
+    # case re.search('telephone/fax', val):
+    #     surrogate = build_telephone()
+    
+    # case re.search('email address', val):
+    #     surrogate = build_email()
+    
+    # case re.search('address', val):
+    #     surrogate = build_address()
+
+    # case re.search('location', val):
+    #     surrogate = random.choice(tuple(local_places_unambig))
+    
+    elif val_type == 'first_name':
+        # if val.phi not in name_lookup.keys():
+        surrogate = random.choice(tuple(all_first_names)).title()
+
+        # surrogate = name_lookup[key.phi]
+        
+    elif val_type == 'last_name':
+        # if key.phi not in name_lookup.keys():
+        surrogate = random.choice(tuple(all_last_names)).title()
+
+        # surrogate = name_lookup[key.phi]
+    
+    elif val_type == 'postal_code':
+        surrogate = generate_postal_code()
+    
+    # @TODO
+    # Still need to figure out the best way to find the dates
+    # case 'birth_date' | 'admission_date' | 'discharge_date':
+    #     re.search(r'day|month|year', val, re.IGNORECASE)
+    #     if isinstance(key.phi, Date):
+    #         day, month, year = date_shifter(key.phi, day_shift, month_shift, year_shift)
+
+    #         surrogate = build_date(day, month, year, month_before_day, year_first, month_name, month_abbr, suffix, leading_zeros)
+    #     else:
+    #         surrogate = '<PHI>'
+
+    elif val_type == 'encounter_id':
+        surrogate = int(random.randrange(1, 1000))
+    elif val_type == 'er_encounter_id':
+        surrogate = int(random.randrange(1, 1000))
+    elif val_type == 'ip_abstract_id':
+        surrogate = int(random.randrange(1, 1000))
+    elif val_type == 'er_abstract_id':
+        surrogate = int(random.randrange(1, 1000))
+    elif val_type == 'hospital_id':
+        surrogate = int(random.randrange(1, 1000))
+
+
+    elif val_type == 'mrp_first_name':
+        # if key.phi not in name_lookup.keys():
+        name_lookup[val] = random.choice(tuple(all_first_names)).title()
+        surrogate = name_lookup[val]
+    elif val_type == 'mrp_last_name':
+        # if key.phi not in name_lookup.keys():
+        name_lookup[val] = random.choice(tuple(all_last_names)).title()
+        surrogate = name_lookup[val]
+
+    elif val_type == 'admphy_first_name':
+        # if key.phi not in name_lookup.keys():
+        name_lookup[val] = random.choice(tuple(all_first_names)).title()
+        surrogate = name_lookup[val]
+    elif val_type == 'admphy_last_name':
+        # if key.phi not in name_lookup.keys():
+        name_lookup[val] = random.choice(tuple(all_last_names)).title()
+        surrogate = name_lookup[val]
+
+    elif val_type == 'wardphy_first_name':
+        # if key.phi not in name_lookup.keys():
+        name_lookup[val] = random.choice(tuple(all_first_names)).title()
+        surrogate = name_lookup[val]
+    elif val_type == 'wardphy_last_name':
+        # if key.phi not in name_lookup.keys():
+        name_lookup[val] = random.choice(tuple(all_last_names)).title()
+        surrogate = name_lookup[val]
+
+    elif val_type == 'wardphy_first_name':
+        # if key.phi not in name_lookup.keys():
+        name_lookup[val] = random.choice(tuple(all_first_names)).title()
+        surrogate = name_lookup[val]
+    elif val_type == 'wardphy_last_name':
+        # if key.phi not in name_lookup.keys():
+        name_lookup[val] = random.choice(tuple(all_last_names)).title()
+        surrogate = name_lookup[val]
+
+    elif val_type == 'family_physician_first_name':
+        # if key.phi not in name_lookup.keys():
+        name_lookup[val] = random.choice(tuple(all_first_names)).title()
+        surrogate = name_lookup[val]
+    elif val_type == 'family_physician_last_name':
+        # if key.phi not in name_lookup.keys():
+        name_lookup[val] = random.choice(tuple(all_last_names)).title()
+        surrogate = name_lookup[val]
+    else:
+        surrogate = '<PHI>'
+    
+    # indices = []
+    increment = 0
+    for m in re.finditer(r'\b' + re.escape(val) + r'\b', note, re.IGNORECASE):
+        if m is not None:
+            # print(note)
+            # indices.append(tuple(m.start(),m.end()))
+            if mll_replace_phis:
+                deid_text = deid_text[:m.start()+increment] + surrogate + deid_text[m.end()+increment:]
+            mll_surrogates.append({'phi_start': m.start(),
+                                'phi_end': m.end(),
+                                'phi': val, 
+                                'surrogate_start': m.start() + increment,
+                                'surrogate_end': m.end() + increment,
+                                'surrogate': surrogate, 
+                                'type': val_type})
+            increment = increment + (len(surrogate) - len(val))
+    # if found:
+    #     for pair in indices:
+    #         deid_text = deid_text[:m.start()] + surrogate + deid_text[m.end():]
+    # if not found:
+    #     deid_text = note
+    # deid_text = note.replace(val, surrogate)
+    return (surrogate, deid_text)
