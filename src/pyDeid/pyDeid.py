@@ -24,8 +24,6 @@ def pyDeid(
     encounter_id_varname: str,
     new_file: Optional[Union[str, Path]] = None, 
     phi_output_file: Optional[Union[str, Path]] = None, 
-    found_phi_output_file: Optional[Union[str, Path]] = None, 
-    mll_phi_output_file: Optional[Union[str, Path]] = None, 
     mll_new_file: Optional[Union[str, Path]] = None, 
     note_id_varname: Optional[str] = None, 
     phi_output_file_type: Literal['json', 'csv'] = 'csv',
@@ -71,14 +69,6 @@ def pyDeid(
         data structure, which is lighter on disk space.
         If `'csv'`, will output a tidy dataframe formatted as a CSV to `phi_output_file`. 
         This data structure contains redundant information, but is lighter on memory.
-    found_phi_output_file
-        The output file containing the PHIs that have been found in the notes.
-        If `'json'`, will format the `phi_output_file` into an efficient JSON nested 
-        data structure, which is lighter on disk space.
-        If `'csv'`, will output a tidy dataframe formatted as a CSV to `phi_output_file`. 
-        This data structure contains redundant information, but is lighter on memory.
-    mll_phi_output_file
-        The output file containing the PHIs that have been found in the notes using the MLL.
     custom_dr_first_names
         (Optional) set containing site-specific physician first names, generally taken 
         from the physician mapping file. This set should exist in RAM and  will remain 
@@ -187,16 +177,16 @@ def pyDeid(
     temp.close()
 
     # File for outputing the found PHIs from the notes
-    if found_phi_output_file is None:
-        found_phi_output_file = os.path.splitext(original_file)[0] + '__FOUND_PHI.' + phi_output_file_type
-    else:
-        phi_output_file = os.path.splitext(phi_output_file)[0] + '.' + phi_output_file_type
+    # if found_phi_output_file is None:
+    #     found_phi_output_file = os.path.splitext(original_file)[0] + '__FOUND_PHI.' + phi_output_file_type
+    # else:
+    #     phi_output_file = os.path.splitext(phi_output_file)[0] + '.' + phi_output_file_type
 
     # File for outputing the found PHIs from the notes using MLL
-    if mll_phi_output_file is None:
-        mll_phi_output_file = os.path.splitext(original_file)[0] + '__MLL_PHI.' + phi_output_file_type
-    else:
-        phi_output_file = os.path.splitext(phi_output_file)[0] + '.' + phi_output_file_type
+    # if mll_phi_output_file is None:
+    #     mll_phi_output_file = os.path.splitext(original_file)[0] + '__MLL_PHI.' + phi_output_file_type
+    # else:
+    #     phi_output_file = os.path.splitext(phi_output_file)[0] + '.' + phi_output_file_type
 
     reader = csv.DictReader(
         open(original_file, newline='', encoding=file_encoding, errors=read_error_handling), 
@@ -230,12 +220,12 @@ def pyDeid(
         if not os.path.isfile(phi_output_file):
             with io.open(phi_output_file, 'w') as file:
                 file.write(json.dumps(phi_output))
-        if not os.path.isfile(found_phi_output_file):
-            with io.open(found_phi_output_file, 'w') as file:
-                file.write(json.dumps(phi_output))
-        if not os.path.isfile(mll_phi_output_file):
-            with io.open(mll_phi_output_file, 'w') as file:
-                file.write(json.dumps(phi_output))
+        # if not os.path.isfile(found_phi_output_file):
+        #     with io.open(found_phi_output_file, 'w') as file:
+        #         file.write(json.dumps(phi_output))
+        # if not os.path.isfile(mll_phi_output_file):
+        #     with io.open(mll_phi_output_file, 'w') as file:
+        #         file.write(json.dumps(phi_output))
         else:
             raise ValueError('A PHI output JSON file already exists with the same name.')
 
@@ -246,16 +236,16 @@ def pyDeid(
             writer.writerow(
                 ['encounter_id', 'note_id', 'phi_start', 'phi_end', 'phi', 'surrogate_start', 'surrogate_end', 'surrogate', 'types']
                 )
-        with open(found_phi_output_file, 'w', newline='') as o:
-            writer = csv.writer(o)
-            writer.writerow(
-                ['encounter_id', 'phi_start', 'phi_end', 'phi', 'types']
-                )
-        with open(mll_phi_output_file, 'w', newline='') as o:
-            writer = csv.writer(o)
-            writer.writerow(
-                ['encounter_id', 'phi', 'surrogate', 'types']
-                )
+        # with open(found_phi_output_file, 'w', newline='') as o:
+        #     writer = csv.writer(o)
+        #     writer.writerow(
+        #         ['encounter_id', 'phi_start', 'phi_end', 'phi', 'types']
+        #         )
+        # with open(mll_phi_output_file, 'w', newline='') as o:
+        #     writer = csv.writer(o)
+        #     writer.writerow(
+        #         ['encounter_id', 'phi', 'surrogate', 'types']
+        #         )
     
     # Start Process
     with open(new_file, 'a', encoding=file_encoding) as f:
@@ -341,16 +331,16 @@ def pyDeid(
                     elif encounter_id_varname is not None:
                         errors.append(row[encounter_id_varname])
             if mll_find_replace:  # Write outputs from MLL actions
-                write_to_file(mll_surrogates, row, encounter_id_varname, note_id_varname, phi_output_file_type, 
-                                mll_phi_output_file)
+                # write_to_file(mll_surrogates, row, encounter_id_varname, note_id_varname, phi_output_file_type, 
+                #                 mll_phi_output_file)
                 with open(mll_new_file, 'a', encoding=file_encoding) as j:
                     mll_writer = csv.DictWriter(j, fieldnames=reader_fieldnames, lineterminator='\n')
                     # mll_writer.writeheader()
                     row[note_varname] = mll_new_note
                     mll_writer.writerow(row)
-            if regex_find:  # Write outputs for regex find
-                write_to_file(found_phis, row, encounter_id_varname, note_id_varname, phi_output_file_type, 
-                                found_phi_output_file)
+            # if regex_find:  # Write outputs for regex find
+            #     write_to_file(found_phis, row, encounter_id_varname, note_id_varname, phi_output_file_type, 
+            #                     found_phi_output_file)
             if regex_replace:  # Write outputs for regex replacement
                 row[note_varname] = new_note
                 writer.writerow(row)

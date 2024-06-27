@@ -389,7 +389,7 @@ def replace_value(val, val_type, note, phi):
         suffix = False
         month_abbr = False
 
-    # name_lookup = {}
+    name_lookup = {}
 
     if val_type == 'mrn':
         surrogate = str(random.randint(0, 10**7))
@@ -427,6 +427,7 @@ def replace_value(val, val_type, note, phi):
     elif val_type == 'postal_code':
         surrogate = generate_postal_code()
     
+    # @TODO
     # Still need to figure out the best way to find the dates
     # case 'birth_date' | 'admission_date' | 'discharge_date':
     #     re.search(r'day|month|year', val, re.IGNORECASE)
@@ -436,6 +437,63 @@ def replace_value(val, val_type, note, phi):
     #         surrogate = build_date(day, month, year, month_before_day, year_first, month_name, month_abbr, suffix, leading_zeros)
     #     else:
     #         surrogate = '<PHI>'
+
+    elif val_type == 'encounter_id':
+        surrogate = int(random.randrange(1, 1000))
+    elif val_type == 'er_encounter_id':
+        surrogate = int(random.randrange(1, 1000))
+    elif val_type == 'ip_abstract_id':
+        surrogate = int(random.randrange(1, 1000))
+    elif val_type == 'er_abstract_id':
+        surrogate = int(random.randrange(1, 1000))
+    elif val_type == 'hospital_id':
+        surrogate = int(random.randrange(1, 1000))
+
+
+    elif val_type == 'mrp_first_name':
+        # if key.phi not in name_lookup.keys():
+        name_lookup[val] = random.choice(tuple(all_first_names)).title()
+        surrogate = name_lookup[val]
+    elif val_type == 'mrp_last_name':
+        # if key.phi not in name_lookup.keys():
+        name_lookup[val] = random.choice(tuple(all_last_names)).title()
+        surrogate = name_lookup[val]
+
+    elif val_type == 'admphy_first_name':
+        # if key.phi not in name_lookup.keys():
+        name_lookup[val] = random.choice(tuple(all_first_names)).title()
+        surrogate = name_lookup[val]
+    elif val_type == 'admphy_last_name':
+        # if key.phi not in name_lookup.keys():
+        name_lookup[val] = random.choice(tuple(all_last_names)).title()
+        surrogate = name_lookup[val]
+
+    elif val_type == 'wardphy_first_name':
+        # if key.phi not in name_lookup.keys():
+        name_lookup[val] = random.choice(tuple(all_first_names)).title()
+        surrogate = name_lookup[val]
+    elif val_type == 'wardphy_last_name':
+        # if key.phi not in name_lookup.keys():
+        name_lookup[val] = random.choice(tuple(all_last_names)).title()
+        surrogate = name_lookup[val]
+
+    elif val_type == 'wardphy_first_name':
+        # if key.phi not in name_lookup.keys():
+        name_lookup[val] = random.choice(tuple(all_first_names)).title()
+        surrogate = name_lookup[val]
+    elif val_type == 'wardphy_last_name':
+        # if key.phi not in name_lookup.keys():
+        name_lookup[val] = random.choice(tuple(all_last_names)).title()
+        surrogate = name_lookup[val]
+
+    elif val_type == 'family_physician_first_name':
+        # if key.phi not in name_lookup.keys():
+        name_lookup[val] = random.choice(tuple(all_first_names)).title()
+        surrogate = name_lookup[val]
+    elif val_type == 'family_physician_last_name':
+        # if key.phi not in name_lookup.keys():
+        name_lookup[val] = random.choice(tuple(all_last_names)).title()
+        surrogate = name_lookup[val]
     else:
         surrogate = '<PHI>'
     
