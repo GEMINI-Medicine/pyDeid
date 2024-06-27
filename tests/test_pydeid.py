@@ -49,7 +49,7 @@ class TestCorrectOutputDefaultCsv(unittest.TestCase):
          self.assertEqual(next(csv_reader)[3], 'Bieber')
 
    def test_correct_note_output(self):
-      with open(os.path.join(filepath, 'test_DE-IDENTIFIED.csv'), 'r') as csvfile:
+      with open(os.path.join(filepath, 'test__DE-IDENTIFIED.csv'), 'r') as csvfile:
          csv_reader = csv.reader(csvfile)
          next(csv_reader)
          note = next(csv_reader)[2]
