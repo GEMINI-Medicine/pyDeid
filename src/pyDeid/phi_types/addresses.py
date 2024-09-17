@@ -23,7 +23,7 @@ def address(x, phi):
     for place in local_places_unambig:
         
         for m in re.finditer(place, x, re.IGNORECASE):
-            add_type(PHI(m.start(), m.end(), m.group()), 'Location (un)', phi)
+            add_type(PHI(m.start(), m.end(), m.group()), 'Location (unambig)', phi)
     
     for suff in strict_street_add_suff:
         
