@@ -47,7 +47,7 @@ def name_first_pass(
     x, 
     custom_dr_first_names = None, custom_dr_last_names = None, custom_patient_first_names = None, custom_patient_last_names = None
     ):
-
+    """Find first matches of names against the notes and the wordlists"""
     res = {}
     word_pattern = re.compile('\w+')
 
