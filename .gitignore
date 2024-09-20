@@ -2,3 +2,6 @@ __pycache__/*
 src/pyDeid/phi_types/__pycache__/*
 src/pyDeid/process_note/__pycache__/*
 pyDeid.zip
+tests/*__*.csv
+build/*
+pyDeid.egg-info

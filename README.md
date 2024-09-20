@@ -46,7 +46,8 @@ from pyDeid import pyDeid
 pyDeid(
     original_file = ‘test.csv’, 
     note_varname = ‘note_text’, 
-    encounter_id_varname = ‘genc_id’
+    encounter_id_varname = ‘genc_id’,
+    note_id_varname = 'note_id'
 )
 ```
 
