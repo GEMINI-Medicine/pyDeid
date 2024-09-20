@@ -6,8 +6,8 @@ pyDeid
    :caption: Contents:
 
    setup
-   api
-   tutorials
+   api/index
+   tutorials/index
 
 Indices and tables
 ==================
