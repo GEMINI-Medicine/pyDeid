@@ -1,0 +1,4 @@
+Installation
+============
+
+.. include:: ../../README.md
