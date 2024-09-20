@@ -5,7 +5,7 @@ pyDeid
    :maxdepth: 2
    :caption: Contents:
 
-   setup
+   readme
    api/index
    tutorials/index
 
