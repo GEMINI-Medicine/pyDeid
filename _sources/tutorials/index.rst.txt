@@ -8,4 +8,4 @@ This section contains tutorials for using pyDeid, presented as Jupyter notebooks
    :caption: Available Tutorials:
    :glob:
 
-   *.ipynb
+  basic_usage.ipynb
