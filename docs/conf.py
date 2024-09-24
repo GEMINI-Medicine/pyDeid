@@ -6,6 +6,10 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
+# show package structure to sphinx
+import sys
+sys.path.insert(0, os.path.abspath('../src/pyDeid'))
+
 project = 'pyDeid'
 copyright = '2024, GEMINI'
 author = 'GEMINI'
