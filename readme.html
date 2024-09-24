@@ -39,7 +39,7 @@
 <section id="objective">
 <h3>1 Objective<a class="headerlink" href="#objective" title="Permalink to this heading">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> is a Python-based refactor of the <a class="reference external" href="https://physionet.org/content/deid/1.1/">Physionet Perl-based De-identification Software</a>, which uses regular expressions and lookup dictionaries to identify and replace PHI in free text.</p>
-<p>The purpose was to create a faster, and easier to use process to de-identify large volumes of (large) clinical notes. <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> is up to 5.4x faster than the perl-based software, and requires no pre or post processing. Additional enhancements include the ability to re-identify text, supply custom patterns, and supply custom doctor and patient namelists without having to save them to persistent storage.</p>
+<p>The purpose was to create a faster, and easier to use tool to de-identify large volumes of (large) clinical notes. <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> is up to 5.4x faster than the perl-based software, and requires no pre or post processing. Additional enhancements include the ability to re-identify text, supply custom patterns, and supply custom doctor and patient namelists without having to save them to persistent storage, and incorporate <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> NER pipelines.</p>
 </section>
 <section id="local-installation-and-setup">
 <h3>2 Local Installation and Setup<a class="headerlink" href="#local-installation-and-setup" title="Permalink to this heading">¶</a></h3>
@@ -60,12 +60,27 @@
 </pre></div>
 </div>
 </section>
-<section id="de-identification-process">
-<h3>4 De-identification Process<a class="headerlink" href="#de-identification-process" title="Permalink to this heading">¶</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> only requires that the free text data be stored in a CSV file with named column headers.</p>
-<p>Specifying a column of encounter IDs (and optionally note IDs) with <code class="docutils literal notranslate"><span class="pre">encounter_id_varname</span></code> and <code class="docutils literal notranslate"><span class="pre">note_id_varname</span></code> respectively is relevant in only to assign the found PHI to a particular encounter and note identifier for further analysis. <code class="docutils literal notranslate"><span class="pre">encounter_id_varname</span></code> is required only when <code class="docutils literal notranslate"><span class="pre">phi_output_file_type</span></code> is <code class="docutils literal notranslate"><span class="pre">json</span></code>.</p>
-<p>There may be multiple columns containing free text, but <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> will only de-identify a single column at a time. In order to de-identify multiple columns of text, make multiple passes of the same file with <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code>.</p>
-<p>To de-identify a file with default settings, simply do:</p>
+<section id="csv-file-de-identification">
+<h3>3 CSV File De-identification<a class="headerlink" href="#csv-file-de-identification" title="Permalink to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">pyDeid</span></code> only requires that the free text data be stored in a CSV file with named column headers.</p>
+<p>Specifying a column of encounter IDs (and optionally note IDs) with <code class="docutils literal notranslate"><span class="pre">encounter_id_varname</span></code> and <code class="docutils literal notranslate"><span class="pre">note_id_varname</span></code> respectively is relevant in only to assign the found PHI to a particular encounter and note identifier for further analysis.</p>
+<p>There may be multiple columns containing free text, but <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> will only de-identify a single column at a time. In order to de-identify multiple columns of text, make multiple passes of the same file with <code class="docutils literal notranslate"><span class="pre">pyDeid</span></code> on the same file.</p>
+<p>Consider a <code class="docutils literal notranslate"><span class="pre">test.csv</span></code> that looks like this (and is provided under the <code class="docutils literal notranslate"><span class="pre">tests/</span></code> directory of the package):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">genc_id</span><span class="p">,</span><span class="n">note_id</span><span class="p">,</span><span class="n">note_text</span>
+<span class="mi">1</span><span class="p">,</span><span class="n">Record</span> <span class="mi">1</span><span class="p">,</span><span class="n">Justin</span> <span class="n">Bieber</span> <span class="n">was</span> <span class="n">born</span> <span class="n">on</span> <span class="n">March</span> <span class="mi">1</span><span class="n">st</span><span class="p">,</span> <span class="mf">1994.</span>
+<span class="mi">2</span><span class="p">,</span><span class="n">Record</span> <span class="mi">2</span><span class="p">,</span><span class="s2">&quot;St.Michael&#39;s hospital is located at 30 Bond St, Toronto, ON, M5B 1W8</span>
+<span class="s2">&quot;</span>
+<span class="mi">3</span><span class="p">,</span><span class="n">Record</span> <span class="mi">3</span><span class="p">,</span><span class="n">Test</span> <span class="n">MRN</span><span class="p">:</span> <span class="mi">011</span><span class="o">-</span><span class="mi">0111</span>
+</pre></div>
+</div>
+<p>Note that each note (in the <code class="docutils literal notranslate"><span class="pre">note_text</span></code> field) is uniquely identified by a <code class="docutils literal notranslate"><span class="pre">genc_id</span></code> and a <code class="docutils literal notranslate"><span class="pre">note_id</span></code>.</p>
+<p>To de-identify this file with default settings, simply supply:</p>
+<ul class="simple">
+<li><p>The filename as <code class="docutils literal notranslate"><span class="pre">original_file</span></code></p></li>
+<li><p>The name of the column containing the note as <code class="docutils literal notranslate"><span class="pre">note_varname</span></code></p></li>
+<li><p>The name of the encounter identifying column as <code class="docutils literal notranslate"><span class="pre">encounter_id_varname</span></code></p></li>
+<li><p>And the name of the note (within encounter) identifying column as <code class="docutils literal notranslate"><span class="pre">note_id_varname</span></code></p></li>
+</ul>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>from pyDeid import pyDeid
 
 pyDeid(
@@ -76,18 +91,17 @@ pyDeid(
 )
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">test.csv</span></code> may look like this (and is provided under the <code class="docutils literal notranslate"><span class="pre">tests/</span></code> directory of the package):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">genc_id</span><span class="p">,</span><span class="n">note_id</span><span class="p">,</span><span class="n">note_text</span>
-<span class="mi">1</span><span class="p">,</span><span class="n">Record</span> <span class="mi">1</span><span class="p">,</span><span class="n">Justin</span> <span class="n">Bieber</span> <span class="n">was</span> <span class="n">born</span> <span class="n">on</span> <span class="n">March</span> <span class="mi">1</span><span class="n">st</span><span class="p">,</span> <span class="mf">1994.</span>
-<span class="mi">2</span><span class="p">,</span><span class="n">Record</span> <span class="mi">2</span><span class="p">,</span><span class="s2">&quot;St.Michael&#39;s hospital is located at 30 Bond St, Toronto, ON, M5B 1W8</span>
-<span class="s2">&quot;</span>
-<span class="mi">3</span><span class="p">,</span><span class="n">Record</span> <span class="mi">3</span><span class="p">,</span><span class="n">Test</span> <span class="n">MRN</span><span class="p">:</span> <span class="mi">011</span><span class="o">-</span><span class="mi">0111</span>
-</pre></div>
-</div>
-<p>Additional settings are described in the function docstring. A file name for the de-identified csv can be supplied with new_file, or will take the form <code class="docutils literal notranslate"><span class="pre">&lt;original</span> <span class="pre">file</span> <span class="pre">name&gt;__DE-IDENTIFIED.csv</span></code>.</p>
-<p>The PHI output can be stored as a <code class="docutils literal notranslate"><span class="pre">json</span></code> or <code class="docutils literal notranslate"><span class="pre">csv</span></code> file (specified by the <code class="docutils literal notranslate"><span class="pre">phi_output_file_type</span></code> parameter), and optionally the file name can be provided using the <code class="docutils literal notranslate"><span class="pre">phi_output_file</span></code> parameter. The <code class="docutils literal notranslate"><span class="pre">json</span></code> data structure is more efficient on space, but is much heavier on memory. The <code class="docutils literal notranslate"><span class="pre">csv</span></code> data structure is inefficient on space but much lighter on memory.</p>
-<p>Additionally, there is a <code class="docutils literal notranslate"><span class="pre">verbose</span></code> mode which displays a progress bar and prints speed diagnostics at the end of the run.</p>
-<p>One of the main advantages of <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> over <code class="docutils literal notranslate"><span class="pre">GEMINI</span> <span class="pre">De-id</span> <span class="pre">v2</span></code> is the ability to supply a set of doctor and patient first and last names to be recognized as PHI, without having to store this sensitive information to persistent storage. MLLs can be read into memory from zone1 into a python Set and supplied to <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> through the <code class="docutils literal notranslate"><span class="pre">custom_dr_first_names</span></code>, <code class="docutils literal notranslate"><span class="pre">custom_dr_last_names</span></code>, <code class="docutils literal notranslate"><span class="pre">custom_patient_first_names</span></code>, and <code class="docutils literal notranslate"><span class="pre">custom_patient_last_names</span></code> parameters for better recall and precision.</p>
+</section>
+<section id="additional-arguments">
+<h3>4 Additional Arguments<a class="headerlink" href="#additional-arguments" title="Permalink to this heading">¶</a></h3>
+<p>Additional settings are described in the function docstring, and covered extensively in the tutorial notebooks.</p>
+<p>Some arguments are described below:</p>
+<ul class="simple">
+<li><p>A file name for the de-identified csv can be supplied with <code class="docutils literal notranslate"><span class="pre">new_file</span></code>, or will take the form <code class="docutils literal notranslate"><span class="pre">&lt;original</span> <span class="pre">file</span> <span class="pre">name&gt;__DE-IDENTIFIED.csv</span></code>.</p></li>
+<li><p>The PHI output can be stored as a <code class="docutils literal notranslate"><span class="pre">json</span></code> or <code class="docutils literal notranslate"><span class="pre">csv</span></code> file (specified by the <code class="docutils literal notranslate"><span class="pre">phi_output_file_type</span></code> parameter), and optionally the file name can be provided using the <code class="docutils literal notranslate"><span class="pre">phi_output_file</span></code> parameter. The <code class="docutils literal notranslate"><span class="pre">json</span></code> data structure is more efficient on space, but is much heavier on memory. The <code class="docutils literal notranslate"><span class="pre">csv</span></code> data structure is inefficient on space but much lighter on memory.</p></li>
+<li><p>There is a <code class="docutils literal notranslate"><span class="pre">verbose</span></code> mode which displays a progress bar and prints speed diagnostics at the end of the run.</p></li>
+</ul>
+<p>One of the main advantages of <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> over <code class="docutils literal notranslate"><span class="pre">Physionet</span> <span class="pre">De-identification</span> <span class="pre">Software</span> <span class="pre">v1.1</span></code> is the ability to supply a set of doctor and patient first and last names to be recognized as PHI, without having to write this sensitive information to persistent storage. These custom blacklists can be read into a python Set and supplied to <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> through the <code class="docutils literal notranslate"><span class="pre">custom_dr_first_names</span></code>, <code class="docutils literal notranslate"><span class="pre">custom_dr_last_names</span></code>, <code class="docutils literal notranslate"><span class="pre">custom_patient_first_names</span></code>, and <code class="docutils literal notranslate"><span class="pre">custom_patient_last_names</span></code> parameters for better recall and precision.</p>
 <p>Additionally, <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> allows custom regexes for site-specific PHI to be supplied through keyword arguments. Simply supply a named regex argument to <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> or <code class="docutils literal notranslate"><span class="pre">deid_string</span></code> like so:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>deid_string(
     ‘The site-specific identifier at your hospital is NH12345’,
@@ -95,8 +109,13 @@ pyDeid(
 )
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">deid_string</span></code> is a simplified function to de-identify a single string at a time which can be used for debugging, or written into a custom wrapper if <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> fails to meet the requirements of the problem. It can optionally be combined with the <code class="docutils literal notranslate"><span class="pre">reid_string</span></code> function which takes the output of <code class="docutils literal notranslate"><span class="pre">deid_string</span></code> and returns the input to <code class="docutils literal notranslate"><span class="pre">deid_string</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">original_string</span> <span class="o">=</span> <span class="s1">&#39;Justin Bieber was born in Stratford on March 1st, 1994.&#39;</span>
+</section>
+<section id="additional-functions">
+<h3>5 Additional Functions<a class="headerlink" href="#additional-functions" title="Permalink to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">deid_string</span></code> is a simplified function to de-identify a single string at a time which can be used for debugging, or written into a custom wrapper if <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> fails to meet the requirements of the problem. It can optionally be combined with the <code class="docutils literal notranslate"><span class="pre">reid_string</span></code> function which takes the output of <code class="docutils literal notranslate"><span class="pre">deid_string</span></code> and returns the input to <code class="docutils literal notranslate"><span class="pre">deid_string</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyDeid</span> <span class="kn">import</span> <span class="n">reid_string</span>
+
+<span class="n">original_string</span> <span class="o">=</span> <span class="s1">&#39;Justin Bieber was born in Stratford on March 1st, 1994.&#39;</span>
 
 <span class="n">phi</span><span class="p">,</span> <span class="n">new_string</span> <span class="o">=</span> <span class="n">deid_string</span><span class="p">(</span><span class="n">original_string</span><span class="p">)</span>
 <span class="n">reidentified_string</span> <span class="o">=</span> <span class="n">reid_string</span><span class="p">(</span><span class="n">new_string</span><span class="p">,</span> <span class="n">phi</span><span class="p">)</span>
@@ -104,9 +123,15 @@ pyDeid(
 <span class="nb">print</span><span class="p">(</span><span class="n">original_string</span> <span class="o">==</span> <span class="n">reidentified_string</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>Additionally, the de-identification results can be visualized with <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyDeid</span> <span class="kn">import</span> <span class="n">display_deid</span>
+
+<span class="n">display_deid</span><span class="p">(</span><span class="n">original_string</span><span class="p">,</span> <span class="n">phi</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 <section id="reporting-issues">
-<h3>5 Reporting Issues<a class="headerlink" href="#reporting-issues" title="Permalink to this heading">¶</a></h3>
+<h3>6 Reporting Issues<a class="headerlink" href="#reporting-issues" title="Permalink to this heading">¶</a></h3>
 <p>Please report any bugs or feature requests as issues to the <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> repository. For any bugs, please supply a minimal reproducible example to guarantee a quicker resolution.</p>
 </section>
 </section>
