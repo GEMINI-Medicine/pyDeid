@@ -13,6 +13,7 @@ from typing import *
 from pathlib import Path
 from tqdm import tqdm
 import spacy
+from spacy.language import Language
 import re
 import sys
 
@@ -30,7 +31,7 @@ def pyDeid(
     custom_patient_first_names: Optional[Set[str]] = None, 
     custom_patient_last_names: Optional[Set[str]] = None,
     verbose: bool = True,
-    named_entity_recognition: bool = False,
+    ner_pipeline: Language = None,
     file_encoding: str = 'utf-8',
     read_error_handling: str = None,
     max_field_size: Union[Literal['auto', 131072], int] = 131072,
@@ -78,8 +79,8 @@ def pyDeid(
     verbose
         Show a progress bar while running through the file with information about the current
         note being processed.
-    named_entity_recognition
-        Whether to use NER as implemented in the spaCy package for better detection of names.
+    ner_pipeline
+        A spaCy NER pipeline. See the tutorial notebook for examples.
     file_encoding
         Specify a non-default ('utf8') encoding for the file being read, and therefore the file
         to which the result is being written.
@@ -181,8 +182,8 @@ def pyDeid(
             notes = 0
             start_time = time.time()
 
-        if named_entity_recognition:
-            model = spacy.load("en_core_web_sm")  
+        if ner_pipeline:
+            model = ner_pipeline
         else:
             model = None  
 
@@ -211,7 +212,7 @@ def pyDeid(
                     errors.append((row[encounter_id_varname],row[note_id_varname]))
                 elif encounter_id_varname is not None:
                     errors.append(row[encounter_id_varname])
-
+                    
             row[note_varname] = new_note
             writer.writerow(row)
 
@@ -276,7 +277,7 @@ def deid_string(
     custom_dr_last_names: Set[str] = None, 
     custom_patient_first_names: Set[str] = None, 
     custom_patient_last_names: Set[str] = None,
-    named_entity_recognition: bool = False,
+    ner_pipeline: Language = None,
     **custom_regexes: str
     ):
     """Remove and replace PHI from a single string for debugging
@@ -297,8 +298,8 @@ def deid_string(
         in RAM during de-identification.
     custom_patient_last_names
         (Optional) set similar to `custom_patient_first_names`.
-    named_entity_recognition
-        Whether to use NER as implemented in the spaCy package for better detection of names.
+    ner_pipeline
+        A spaCy NER pipeline. See the tutorial notebook for examples.
     **custom_regexes
         These are named arguments that will be taken as regexes to be scrubbed from
         the given note. The keyword/argument name itself will be used to label the
@@ -330,8 +331,8 @@ def deid_string(
         custom_dr_first_names, custom_dr_last_names, custom_patient_first_names, custom_patient_last_names
         )
 
-    if named_entity_recognition:
-        model = spacy.load("en_core_web_sm")  
+    if ner_pipeline:
+        model = ner_pipeline
     else:
         model = None  
 

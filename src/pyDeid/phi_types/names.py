@@ -47,7 +47,7 @@ def name_first_pass(
     x, 
     custom_dr_first_names = None, custom_dr_last_names = None, custom_patient_first_names = None, custom_patient_last_names = None
     ):
-
+    """Find first matches of names against the notes and the wordlists"""
     res = {}
     word_pattern = re.compile('\w+')
 
@@ -135,7 +135,7 @@ def follows_name_indicator(x, phi):
             key = PHI(start, end, m.group(6))
             
             if is_probably_name(key, phi):
-                add_type(key, "Name (NI)", phi)
+                add_type(key, "Name (follows name indicator)", phi)
                 
             string_after = x[end:]
             
@@ -158,11 +158,19 @@ def follows_name_indicator(x, phi):
                     )
                 ):
                     if not re.search(r'\b[\d]\b', string_after):
-                        add_type(key_after, "Name2 (NI)", phi)
+                        add_type(
+                            key_after, 
+                            "Name (follows name indicator)", 
+                            phi
+                            )
                         
                 elif re.search(r'and', m.group(1)) and not is_medical_eponym(word_after):
                     if not (is_common(word_after) or is_name_indicator(word_after)):
-                        add_type(key_after, "Name2 (NI)", phi)
+                        add_type(
+                            key_after, 
+                            "Name (follows name indicator)", 
+                            phi
+                            )
 
 
 def lastname_comma_firstname(x, phi):
@@ -177,8 +185,8 @@ def lastname_comma_firstname(x, phi):
         key_2 = PHI(start_2, end_2, m.group(3))
         
         if (is_type(key_2, "Name", True, phi) and is_type(key_1, "Name (ambig)", True, phi) and not is_name_indicator(m.group(1))):
-            add_type(key_1, "Last Name (LF)", phi)
-            add_type(key_2, "First Name2 (LF)", phi)
+            add_type(key_1, "Last Name (lastname comma firstname)", phi)
+            add_type(key_2, "First Name (lastname comma firstname)", phi)
             
         if is_type(key_2, "First Name", True, phi):
             
@@ -187,8 +195,8 @@ def lastname_comma_firstname(x, phi):
             ) or (
                 not is_common(m.group(1)) and not is_commonest(m.group(1))
             ):
-                add_type(key_1, "Last Name (LF)", phi)
-                add_type(key_2, "First Name3 (LF)", phi)
+                add_type(key_1, "Last Name (lastname comma firstname)", phi)
+                add_type(key_2, "First Name (lastname comma firstname)", phi)
 
 
 def multiple_names_following_title(x, phi):
@@ -211,7 +219,7 @@ def multiple_names_following_title(x, phi):
                 
             for key in keys:
                 if (not is_commonest(key[2])) or is_type(key, "Name", True, phi):
-                    add_type(key, "Name5 (PTitle)", phi)
+                    add_type(key, "Name (multiple names following title)", phi)
 
 
 def followed_by_md(x, phi):
@@ -225,9 +233,9 @@ def followed_by_md(x, phi):
                 first_name_key = PHI(m.start(3), m.end(3), first_name)
                 
                 if len(first_name) == 1 or (len(first_name) == 2 and re.search(r'\b([A-Za-z])\.+\b', first_name, re.IGNORECASE)):
-                    add_type(first_name_key, "Name Initial (MD)", phi)
+                    add_type(first_name_key, "Name Initial (followed by MD)", phi)
                 elif is_probably_name(first_name_key, phi):
-                    add_type(first_name_key, "Name6 (MD)", phi)
+                    add_type(first_name_key, "Name (followed by MD)", phi)
 
             
             last_name = m.group(6)
@@ -236,7 +244,7 @@ def followed_by_md(x, phi):
                 last_name_key = PHI(m.start(6), m.end(6), last_name)
                 
                 if is_probably_name(last_name_key, phi):
-                    add_type(last_name_key, "Name8 (MD)", phi)
+                    add_type(last_name_key, "Name (followed by MD)", phi)
             
             initials = m.group(5)
             
@@ -244,10 +252,10 @@ def followed_by_md(x, phi):
                 initials_key = PHI(m.start(5), m.end(5), initials)
                 
                 if len(initials) == 1 or (len(initials) == 2 and re.search(r'\b([A-Za-z])\.+\b', initials)) or is_probably_prefix(initials):
-                    add_type(initials_key, "Name Initial (MD)", phi)
+                    add_type(initials_key, "Name Initial (followed by MD)", phi)
                     
                 elif is_probably_name(initials_key, phi):
-                    add_type(initials_key, "Name7 (MD)", phi)
+                    add_type(initials_key, "Name (followed by MD)", phi)
 
 
 def follows_pcp_name(x, phi):
@@ -271,9 +279,9 @@ def follows_pcp_name(x, phi):
                 
             for key in keys:
                 if len(key[2]) == 1 or re.search(r'\b([A-Za-z])\.\b', key[2]):
-                    add_type(key, "Name Initial (PRE)", phi)
+                    add_type(key, "Name Initial (follows PCP name)", phi)
                 elif is_probably_name(key, phi):
-                    add_type(key, "Name9 (PRE)", phi)
+                    add_type(key, "Name (follows PCP name)", phi)
 
         for m in re.finditer(r'\b((' + pre + r'( +name)?( +is)? ?([\#\:\-\=\.\,])+ *)([A-Za-z\-]+)((\s*\,*\s*)? *)([A-Za-z\-]+\.?)((\s*\,*\s*)? *)([A-Za-z\-]+)?)\b', x, re.IGNORECASE):
             
@@ -292,11 +300,11 @@ def follows_pcp_name(x, phi):
             first_found = False
             if first_name is not None:
                 if len(first_name) == 1 or re.search(r'\b([A-Za-z])\.\b', first_name, re.IGNORECASE):
-                    add_type(first_name_key, "Name Initial (NameIs)", phi)
+                    add_type(first_name_key, "Name Initial (name is)", phi)
                     first_found = True
                     
                 elif is_probably_name(first_name_key, phi):
-                    add_type(first_name_key, "Name10 (NameIs)", phi)
+                    add_type(first_name_key, "Name (name is)", phi)
                     first_found = True
                         
             if first_found:
@@ -304,20 +312,20 @@ def follows_pcp_name(x, phi):
                 
                 if initials is not None:
                     if len(initials) == 2 or re.search(r'\b([A-Za-z])\.\b', initials, re.IGNORECASE):
-                        add_type(initials_key, "Name Initial (NameIs)", phi)
+                        add_type(initials_key, "Name Initial (name is)", phi)
                         second_found = True
                         
                     elif is_probably_name(initials_key, phi):
-                        add_type(initials_key, "Name11 (NameIs)", phi)
+                        add_type(initials_key, "Name (name is)", phi)
                         second_found = True
                         
                     if second_found:
                         if last_name is not None:
                             if (len(last_name) == 1) or re.search(r'\b([A-Za-z])\.\b', last_name, re.IGNORECASE):
-                                add_type(last_name_key, "Name Initial (NameIs)", phi)
+                                add_type(last_name_key, "Name Initial (name is)", phi)
 
                             elif is_probably_name(last_name_key, phi):
-                                add_type(last_name_key, "Name12 (NameIs)", phi)
+                                add_type(last_name_key, "Name (name is)", phi)
 
 
 prefixes_unambig = set(line.strip() for line in open(os.path.join(DATA_PATH, 'prefixes_unambig.txt')))
@@ -338,8 +346,8 @@ def prefixes(x, phi):
             last_name_key = PHI(m.start(4), m.end(4), last_name)
             
             if (not is_commonest(last_name)) or is_type(last_name_key, "Name", True, phi):
-                add_type(prefix_key, "Name Prefix (Prefixes)", phi)
-                add_type(last_name_key, "Last Name (Prefixes)", phi)
+                add_type(prefix_key, "Name Prefix (prefixes)", phi)
+                add_type(last_name_key, "Last Name (prefixes)", phi)
 
 
 def titles(x, phi):
@@ -354,9 +362,9 @@ def titles(x, phi):
             key = PHI(start, end, potential_name)
             
             if is_type(key, "Name", True, phi):
-                add_type(key, "Name13 (STitle)", phi)
+                add_type(key, "Name (specific title)", phi)
             elif not is_common(potential_name):
-                add_type(key, "Name14 (STitle)", phi)
+                add_type(key, "Name (specific title)", phi)
     
     strict_titles = ["Dr", "DRS", "Mrs"]
     
@@ -370,7 +378,7 @@ def titles(x, phi):
             key = PHI(start, end, word)
             
             if word.upper() in last_name_prefixes:
-                add_type(key, "Last Name (STitle)", phi)
+                add_type(key, "Last Name (specific title)", phi)
                 
                 next_word = m.group(6)
                 if next_word is not None:
@@ -378,7 +386,7 @@ def titles(x, phi):
                     if next_word.upper() in last_name_prefixes:
                         key = PHI(m.start(6), m.end(6), next_word)
 
-                        add_type(key, "Last Name (STitle)", phi)
+                        add_type(key, "Last Name (specific title)", phi)
                         
                         if m.group(8) is not None:
                             key = PHI(m.start(8), m.end(8), m.group(8))
@@ -387,7 +395,7 @@ def titles(x, phi):
                         key = PHI(m.start(6), m.end(6), next_word)
                         
                         if is_probably_name(key, phi):
-                            add_type(key, "Last Name (STitle)", phi)
+                            add_type(key, "Last Name (specific title)", phi)
                             
             else:
                 starts_w_apostophe = re.search(r"\'([A-Za-z]+)", word)
@@ -403,11 +411,11 @@ def titles(x, phi):
                     key = PHI(start, end, word)
                     
             
-            add_type(key, "Last Name (STitle)", phi)
+            add_type(key, "Last Name (specific title)", phi)
             
             # Dr. John
             if is_type(key, "First Name", True, phi):
-                add_type(key, "First Name (STitle)", phi)
+                add_type(key, "First Name (specific title)", phi)
                 
             # Dr. John Smith
             if m.group(6) is not None:
@@ -419,7 +427,7 @@ def titles(x, phi):
                     (is_type(potential_last_name_key, "Name", True, phi) and is_type(potential_last_name_key, "(un)", False, phi)) or
                     (is_type(potential_last_name_key, "Name", True, phi) and re.search(r'\b(([A-Z])([a-z]+))\b', potential_last_name))
                 ):
-                    add_type(potential_last_name_key, "Name (STitle)", phi)
+                    add_type(potential_last_name_key, "Name (specific title)", phi)
 
     other_titles = ['MISTER', 'DOCTOR', 'DOCTORS', 'MISS', 'PROF', 'PROFESSOR', 'REV', 'RABBI', 'NURSE', 'MD', 'PRINCESS', 'PRINCE', 'DEACON', 'DEACONESS', 'CAREGIVER', 'PRACTITIONER', 'MR', 'MS', 'RESIDENT', 'STAFF', 'FELLOW']
 
@@ -437,7 +445,7 @@ def titles(x, phi):
             key_after = PHI(start_after, end_after, word_after)
             
             if word.upper in last_name_prefixes:
-                add_type(key, "Last Name (Titles)", phi)
+                add_type(key, "Last Name (titles)", phi)
                 
                 next_word = m.group(8)
                 string_after = x[end:]
@@ -451,7 +459,7 @@ def titles(x, phi):
                     
                     if token.upper in last_name_prefixes:
                         new_key = PHI(start, token_end, x[start:token_end])
-                        add_type(new_key, 'Last Name (Titles)', phi)
+                        add_type(new_key, 'Last Name (titles)', phi)
                         
                         string_after_after = x[token_end:]
                         
@@ -466,7 +474,7 @@ def titles(x, phi):
                         new_key = PHI(token_start, token_end, token)
                         
                         if is_probably_name(new_key, phi) and len(token) > 1:
-                            add_type(new_key, 'Last Name (Titles)', phi)
+                            add_type(new_key, 'Last Name (titles)', phi)
             else:
                 apostrophes = re.search(r'(\')?([A-Za-z]+)(\')?', word)
                 
@@ -484,16 +492,16 @@ def titles(x, phi):
                     (is_type(key_after, 'Name', True, phi) and is_type(key_after, '(un)', False, phi)) or
                     (is_type(key_after, "Name", True, phi) and re.search(r'\b(([A-Z])([a-z]+))\b', word_after))) 
                 ):
-                    add_type(key_after, 'Last Name (Titles)', phi)
-                    add_type(key, 'First Name (Titles)', phi)
+                    add_type(key_after, 'Last Name (titles)', phi)
+                    add_type(key, 'First Name (titles)', phi)
             elif key in phi:
                 if is_type(key, 'Name', True, phi) and is_probably_name(key, phi):
-                    add_type(key, 'Last Name (Titles)', phi)
+                    add_type(key, 'Last Name (titles)', phi)
             else:
                 if (word is not None) and (not is_common(word)) and is_probably_name(key, phi):
-                    add_type(key, 'Last Name (Titles)', phi)
+                    add_type(key, 'Last Name (titles)', phi)
                 else:
-                    add_type(key, 'Last Name (Titles ambig)', phi)
+                    add_type(key, 'Last Name (titles, ambig)', phi)
                         
 
 def follows_first_name(x, phi):
@@ -511,12 +519,12 @@ def follows_first_name(x, phi):
                 
                 if key in phi:
                     if (is_type(key, "Name", True, phi) and (is_probably_name(key, phi))):
-                        add_type(key, "Last Name (NamePattern1)", phi)
-                        add_type(i, "First Name4 (NamePattern1)", phi) # make it unambig
+                        add_type(key, "Last Name (follows first name)", phi)
+                        add_type(i, "First Name (followed by last name)", phi) # make it unambig
                 
                 elif is_probably_name(key, phi):
-                    add_type(key, "Last Name (NamePattern1)", phi)
-                    add_type(key, "First Name5 (NamePattern1)", phi)
+                    add_type(key, "Last Name (follows first name)", phi)
+                    add_type(key, "First Name (followed by last name)", phi)
                     
                     middle_initial = re.search(r'^( +)([A-Za-z])(\.? )([A-Za-z\-][A-Za-z\-]+)\b', string_after)
                     
@@ -527,20 +535,20 @@ def follows_first_name(x, phi):
                         last_name_key = PHI(i[1] + middle_initial.start(4), i[1] + middle_initial.end(4), last_name)
                         
                         if last_name_key in phi and not is_type(last_name_key, "Last Name", False, phi):
-                            add_type(last_name_key, "Last Name (NamePattern1)", phi)
-                            add_type(initial_key, "Initial (NamePattern1)", phi)
-                            add_type(i, "First Name11 (Name Pattern1)", phi)
+                            add_type(last_name_key, "Last Name (follows first name)", phi)
+                            add_type(initial_key, "Initial (follows first name)", phi)
+                            add_type(i, "First Name (followed by last name)", phi)
                             
                         else:
                             if re.search(r'( +)([A-Za-z])(\.? )([A-Za-z][A-Za-z]+)\b\s*', string_after):
-                                add_type(last_name_key, "Last Name (NamePattern1)", phi)
-                                add_type(initial_key, "Initial (NamePattern1)", phi)
-                                add_type(i, "First Name6 (NamePattern1)", phi)
+                                add_type(last_name_key, "Last Name (follows first name)", phi)
+                                add_type(initial_key, "Initial (follows first name)", phi)
+                                add_type(i, "First Name (followed by last name)", phi)
                                 
                             elif not is_commonest(last_name):
-                                add_type(last_name_key, "Last Name (NamePattern1)", phi)
-                                add_type(initial_key, "Initial (NamePattern1)", phi)
-                                add_type(i, "First Name7 (NamePattern1)", phi)
+                                add_type(last_name_key, "Last Name (follows first name)", phi)
+                                add_type(initial_key, "Initial (follows first name)", phi)
+                                add_type(i, "First Name (followed by last name)", phi)
 
 
 def precedes_last_name(x, phi):
@@ -556,10 +564,10 @@ def precedes_last_name(x, phi):
                 
                 if first_name_key in phi:
                     if is_type(first_name_key, "First Name", True, phi) and (not is_name_indicator(first_name)):
-                        add_type(first_name_key, "First Name8 (NamePattern2)", phi)
+                        add_type(first_name_key, "First Name (precedes last name)", phi)
                 
                 elif not is_common(first_name):
-                    add_type(first_name_key, "First Name9 (NamePattern2)", phi)
+                    add_type(first_name_key, "First Name (precedes last name)", phi)
 
 
 def compound_last_names(x, phi):
@@ -571,7 +579,7 @@ def compound_last_names(x, phi):
             hyphenated_last_name = re.search(r'^-([A-Za-z]+)\b', string_after)
                 
             if hyphenated_last_name:
-                add_type(PHI(i[1] + hyphenated_last_name.start(1), i[1] + hyphenated_last_name.end(1), hyphenated_last_name.group(1)), "Last Name (NamePattern3)", phi)
+                add_type(PHI(i[1] + hyphenated_last_name.start(1), i[1] + hyphenated_last_name.end(1), hyphenated_last_name.group(1)), "Last Name (compound last name)", phi)
             
             double_last_name = re.search(r'^( *)([A-Za-z]+)\b', string_after)
             
@@ -581,10 +589,10 @@ def compound_last_names(x, phi):
                 
                 if last_name_key in phi:
                     if not is_type(last_name_key, "ambig", True, phi) and not is_type(last_name_key, "Last Name", False, phi):
-                        add_type(last_name_key, "Last Name (NamePattern3)", phi)
+                        add_type(last_name_key, "Last Name (compound last name)", phi)
                 
                 elif not is_common(last_name):
-                    add_type(last_name_key, "Last Name (NamePattern3)", phi)
+                    add_type(last_name_key, "Last Name (compound last name)", phi)
 
 
 def initials(x, phi):
@@ -596,15 +604,15 @@ def initials(x, phi):
             single_initial = re.search(r'\b([A-Za-z]\.?) ?$', string_before)
             
             if two_initials:
-                add_type(PHI(i[0] - len(two_initials.group()), i[0] - len(two_initials.group()) + len(two_initials.group(1)), two_initials.group(1)), "Initials (NamePattern4)", phi)
+                add_type(PHI(i[0] - len(two_initials.group()), i[0] - len(two_initials.group()) + len(two_initials.group(1)), two_initials.group(1)), "Initials (double)", phi)
             elif single_initial:
                 initial = single_initial.group(1)
                 initial_key = PHI(i[0] - len(single_initial.group()), i[0] - len(single_initial.group()) + len(single_initial.group(1)), single_initial.group(1))
                 
                 if len(initial) == 2 or len(initial) == 1:
-                    add_type(initial_key, "Initials (NamePattern4)", phi)
+                    add_type(initial_key, "Initials (single)", phi)
                 if not is_type(i, "Last Name", 0, phi):
-                    add_type(i, "Last Name (NamePattern4)", phi)
+                    add_type(i, "Last Name (single)", phi)
                     
         if is_type(i, "Last Name", True, phi) and not is_type(i, "ambig", True, phi):
             string_before = x[:i[0]]
@@ -613,10 +621,10 @@ def initials(x, phi):
             single_initial = re.search(r'\b([A-Za-z]\.?) ?$', string_before)
             
             if two_initials:
-                add_type(PHI(i[1] + two_initials.start(1), i[1] + two_initials.end(1), two_initials.group(1)), "Initials (NamePattern5)", phi)
+                add_type(PHI(i[1] + two_initials.start(1), i[1] + two_initials.end(1), two_initials.group(1)), "Initials (double)", phi)
                 
                 if not is_type(i, "Last Name", False, phi):
-                    add_type(i, "Last Name (NamePattern5)", phi)
+                    add_type(i, "Last Name (follows initials)", phi)
                     
             elif single_initial:
                 initial = single_initial.group(1)
@@ -637,14 +645,14 @@ def list_of_names(x, phi):
                 name_key = PHI(i[1] + and_or.start(1), i[1] + and_or.end(1), name)
                 
                 if is_type(name_key, "Name", True, phi) or is_common(name):
-                    add_type(name_key, "Last Name (NamePattern6)", phi)
+                    add_type(name_key, "Name (list of names)", phi)
                     
             elif and_or_symbols:
                 name = and_or_symbols.group(2)
                 name_key = PHI(i[1] + and_or_symbols.start(2), i[1] + and_or_symbols.end(2), name)
                 
                 if not is_common(name):
-                    add_type(name_key, "Last Name (NamePattern6)", phi)
+                    add_type(name_key, "Name (list of names)", phi)
                     
             elif three_names:
                 name1 = three_names.group(1)
@@ -654,9 +662,9 @@ def list_of_names(x, phi):
                 name2_key = PHI(i[1] + three_names.start(3), i[1] + three_names.end(3), name2)
                 
                 if not is_common(name1):
-                    add_type(name1_key, "Last Name (NamePattern6)", phi)
+                    add_type(name1_key, "Name (list of names)", phi)
                 if not is_common(name2):
-                    add_type(name2_key, "Last Name (NamePattern6)", phi)
+                    add_type(name2_key, "Name (list of names)", phi)
 
 def ner(x, phi, model):
     res = model(x)
