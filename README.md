@@ -1,5 +1,7 @@
 # `PyDeid`
 
+See [read the docs](https://gemini-medicine.github.io/pyDeid/index.html) for extensive examples and a detailed feature breakdown.
+
 ## 1 Objective
 
 `PyDeid` is a Python-based refactor of the [Physionet Perl-based De-identification Software](https://physionet.org/content/deid/1.1/), which uses regular expressions and lookup dictionaries to identify and replace PHI in free text.
