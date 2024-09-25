@@ -70,7 +70,7 @@ pyDeid(
 
 ## 4 Additional Arguments
 
-Additional settings are described in the function docstring, and covered extensively in the tutorial notebooks. 
+Additional settings are described in the [API documentation](https://gemini-medicine.github.io/pyDeid/api/index.html), and covered extensively in the [tutorial notebooks](https://gemini-medicine.github.io/pyDeid/tutorials/index.html). 
 
 Some arguments are described below:
 

@@ -3,7 +3,7 @@ name: Build and Deploy Docs
 on:
   push:
     branches:
-      - 5_improve_README
+      - master
 
 jobs:
   build-and-deploy:
