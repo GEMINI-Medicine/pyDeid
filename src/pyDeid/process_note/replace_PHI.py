@@ -346,3 +346,35 @@ def replace_phi(x, phi, return_surrogates = False):
     deid_text = deid_text + x[where_we_left_off:]
     
     return (surrogates, deid_text)
+
+
+def find_phi_type(types):
+    """
+    Match a list of types against predefined patterns and return the corresponding output.
+    
+    :param types: List of strings representing types to match
+    :return: The output string corresponding to the first matching pattern, or None if no match
+    """
+    patterns = [
+        (r"Holiday", "HOLIDAY"),
+        (r"Time", "TIME"),
+        (r"Day|Month|Year", "DATE"),
+        (r"(First|Last\s*)?Name(\sPrefix)?", "NAME"),
+        (r"Address|Street|City|State|Zip|Location", "LOCATION"),
+        (r"Email Address", "EMAIL"),
+        (r"Telephone/Fax", "CONTACT"),
+        (r"OHIP", "ID"),
+        (r"SIN", "ID"),
+        (r"MRN", "ID"),
+    ]
+
+    # Join all types into one string, separated by spaces
+    combined_types = ' '.join(types)
+    
+    # Check each pattern in the order they are defined
+    for pattern, output in patterns:
+        if re.search(pattern, combined_types, re.IGNORECASE):
+            return output
+    
+    # If no match found
+    return None

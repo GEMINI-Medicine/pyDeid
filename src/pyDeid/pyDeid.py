@@ -25,7 +25,7 @@ def pyDeid(
     new_file: Optional[Union[str, Path]] = None, 
     phi_output_file: Optional[Union[str, Path]] = None, 
     note_id_varname: Optional[str] = None, 
-    phi_output_file_type: Literal['json', 'csv'] = 'csv',
+    phi_output_file_type: Literal['json', 'csv', 'xmls'] = 'csv',
     custom_dr_first_names: Optional[Set[str]] = None, 
     custom_dr_last_names: Optional[Set[str]] = None, 
     custom_patient_first_names: Optional[Set[str]] = None, 
@@ -172,6 +172,10 @@ def pyDeid(
                 ['encounter_id', 'note_id', 'phi_start', 'phi_end', 'phi', 'surrogate_start', 'surrogate_end', 'surrogate', 'types']
                 )
 
+    elif phi_output_file_type == "xmls":
+        if not os.path.isdir(phi_output_file):
+            raise ValueError('To output XML files please specify an output directory to phi_output_file_type.')
+
     with open(new_file, 'a', encoding=file_encoding) as f:
         writer = csv.DictWriter(f, fieldnames=reader.fieldnames, lineterminator='\n')
         writer.writeheader()
@@ -237,6 +241,18 @@ def pyDeid(
                     phi_output.insert(0, 'encounter_id', row[encounter_id_varname])
 
                 phi_output.to_csv(phi_output_file, mode = 'a', index = False, header = False)
+
+            elif phi_output_file_type == "xmls":
+
+                xml_output = phi_to_xml(new_note, surrogates)
+
+                xml_output_file = note_id_varname:
+
+
+                with open("ner_output.xml", "w", encoding="utf-8") as f:
+                    f.write(xml_output)
+
+                
 
             if verbose:
                 chars += len(original_note)
