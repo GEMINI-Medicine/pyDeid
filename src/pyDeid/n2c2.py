@@ -8,9 +8,6 @@ from .process_note.prune_PHI import prune_phi
 from .process_note.replace_PHI import replace_phi
 from .phi_types.dates import Date, Time
 
-# Import the create_ner_xml function from the previous example
-from .phi_types.utils import phi_to_xml
-
 import xml.etree.ElementTree as ET
 from xml.sax.saxutils import escape
 from xml.dom import minidom
