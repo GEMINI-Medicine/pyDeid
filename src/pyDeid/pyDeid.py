@@ -246,9 +246,6 @@ def pyDeid(
 
                 xml_output = phi_to_xml(new_note, surrogates)
 
-                xml_output_file = note_id_varname:
-
-
                 with open("ner_output.xml", "w", encoding="utf-8") as f:
                     f.write(xml_output)
 
