@@ -10,7 +10,7 @@ def email(x, phi):
         add_type(PHI(m.start(), m.end(), m.group()), 'Email Address', phi)
 
 
-area_codes = load_file(os.path.join(DATA_PATH, 'US/area_codes.txt'))
+area_codes = load_file(os.path.join(DATA_PATH, 'us_area_codes.txt'))
 phone_disqualifiers = ["HR","Heart", "BP", "SVR", "STV", "VT", "Tidal Volumes", "Tidal Volume", "TV", "CKS"]
 
 

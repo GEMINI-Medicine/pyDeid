@@ -6,9 +6,9 @@ import os
 
 DATA_PATH = pkg_resources.resource_filename('pyDeid', 'wordlists/')
 
-local_places_unambig = load_file(os.path.join(DATA_PATH, 'US/local_places_unambig_v2.txt'), optimization='iteration')
+local_places_unambig = load_file(os.path.join(DATA_PATH, 'us_local_places_unambig_v2.txt'), optimization='iteration')
 
-states = load_file(os.path.join(DATA_PATH, 'US/us_states.txt'), optimization='iteration')
+states = load_file(os.path.join(DATA_PATH, 'us_states.txt'), optimization='iteration')
 
 apt_indicators = ["apt", "suite"] #only check these after the street address is found
 street_add_suff = ["park", "drive", "street", "road", "lane", "boulevard", "blvd", "avenue", "highway", "circle","ave", "place", "rd", "st"]

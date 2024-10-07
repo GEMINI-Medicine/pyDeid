@@ -5,7 +5,7 @@ import string
 from ..phi_types.dates import months, days, Date
 from ..phi_types.utils import just_common_words
 from ..phi_types.names import all_first_names, all_last_names
-from ..phi_types.contact_info import canadian_area_codes
+from ..phi_types.contact_info import area_codes
 from ..phi_types.addresses import strict_street_add_suff, local_places_unambig
 
 # create realistic surrogates
@@ -234,7 +234,7 @@ def replace_phi(x, phi, return_surrogates = False):
     surrogates = []
     where_we_left_off = 0
 
-    faker = Faker() # for realistic surrogates of certain types
+    fake = Faker() # for realistic surrogates of certain types
     
     # keep a consistent date shift so all dates maintain relative distace
     day_shift = random.randint(0, 29)

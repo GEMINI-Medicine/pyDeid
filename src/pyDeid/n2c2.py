@@ -15,8 +15,10 @@ from xml.dom import minidom
 import re
 import pandas as pd
 
+from typing import List
 
-def pyDeid_n2c2(input_dir, output_dir):
+
+def pyDeid_n2c2(input_dir, output_dir, types: List[str] = ["names", "dates", "ssn", "mrn", "locations", "zip", "contact"]):
     # Create the output directory if it doesn't exist
     os.makedirs(output_dir, exist_ok=True)
 
@@ -148,6 +150,13 @@ def split_multi_word_tags(input_dir, output_dir):
     # Create the output directory if it doesn't exist
     os.makedirs(output_dir, exist_ok=True)
 
+    def smart_split(text):
+        # Split on word boundaries, keeping track of positions
+        words_with_positions = []
+        for match in re.finditer(r'\b\w+\b', text):
+            words_with_positions.append((match.group(), match.start(), match.end()))
+        return words_with_positions
+
     # Process each XML file in the input directory
     for filename in os.listdir(input_dir):
         if filename.endswith('.xml'):
@@ -167,27 +176,23 @@ def split_multi_word_tags(input_dir, output_dir):
                 tag_type = tag.tag
                 
                 # Split the text into words
-                words = text.split()
+                words_with_positions = smart_split(text)
                 
-                if len(words) > 1 and tag_type == "NAME":
-                    # Remove the original tag
+                if len(words_with_positions) > 1 and tag_type == "NAME":
                     root.find('.//TAGS').remove(tag)
                     
-                    # Add new tags for each word
-                    for i, word in enumerate(words):
-                        word_start = start + text.index(word)
-                        word_end = word_start + len(word)
-                        
+                    # add new tags for each word
+                    for i, (word, word_start, word_end) in enumerate(words_with_positions):
                         new_tag = ET.Element(tag_type)
                         new_tag.set('id', f"{tag.get('id')}_{i}")
-                        new_tag.set('start', str(word_start))
-                        new_tag.set('end', str(word_end))
+                        new_tag.set('start', str(start + word_start))
+                        new_tag.set('end', str(start + word_end))
                         new_tag.set('text', word)
                         new_tag.set('TYPE', tag.get('TYPE'))
                         new_tag.set('comment', tag.get('comment', ''))
                         
                         root.find('.//TAGS').append(new_tag)
-            
+
             # Convert the ElementTree to a string
             rough_string = ET.tostring(root, 'utf-8')
             
@@ -200,3 +205,5 @@ def split_multi_word_tags(input_dir, output_dir):
                 f.write(pretty_xml)
             
             print(f"Processed {input_file} and saved results to {output_file}")
+
+    print(f"Finished processing all XML files from {input_dir}")

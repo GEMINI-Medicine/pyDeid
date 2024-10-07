@@ -233,7 +233,11 @@ class CSVEvaluator:
         recall = true_positives / (true_positives + false_negatives) if (true_positives + false_negatives) > 0 else 0
         f1_score = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0
 
-        return precision, recall, f1_score
+        return {
+            'precision': precision,
+            'recall': recall,
+            'f1_score': f1_score
+        }
 
 
 def tokenize_csv(
@@ -299,7 +303,7 @@ def tokenize_csv(
         if not set(required_columns).issubset(set(input_columns)):
             raise ValueError("Specified columns not found in input file")
         
-        fieldnames = [encounter_id_varname, note_id_varname, 'token', 'start', 'end']
+        fieldnames = [encounter_id_varname, note_id_varname, 'token', 'start', 'end', 'annotation']
         writer = csv.DictWriter(outfile, fieldnames=fieldnames)
         writer.writeheader()
         
@@ -325,7 +329,8 @@ def tokenize_csv(
                         note_id_varname: note_id,
                         'token': clean_token_text,
                         'start': start_index,
-                        'end': end_index
+                        'end': end_index,
+                        'annotation': ''
                     })
                     
                     # Update index for next search

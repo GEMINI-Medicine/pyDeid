@@ -29,10 +29,12 @@ def find_phi(x, phi, custom_regexes, model=None, types=["names", "dates", "sin",
         year_with_context_check(x, phi)
         date_range(x, phi)
         season_year(x, phi)
-        find_time(x, phi)
         monthly(x, phi)
         holiday(x, phi)
-    
+
+    if "times" in types:
+        find_time(x, phi)
+
     if "sin" in types:
         sin(x, phi)
     
@@ -44,13 +46,13 @@ def find_phi(x, phi, custom_regexes, model=None, types=["names", "dates", "sin",
 
     if "ssn" in types:
         ssn(x, phi)
-
-    if "zip" in types:
-        zip(x, phi)
     
     if "locations" in types:
-        postal_code(x, phi)
         address(x, phi)
+        if "zip" in types:
+            zip(x, phi)
+        else:
+            postal_code(x, phi)
     
     if "contact" in types:
         email(x, phi)
