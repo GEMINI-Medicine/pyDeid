@@ -8,6 +8,9 @@ from ..phi_types.names import all_first_names, all_last_names
 from ..phi_types.contact_info import canadian_area_codes
 from ..phi_types.addresses import strict_street_add_suff, local_places_unambig
 
+# create realistic surrogates
+from faker import Faker
+
 
 def generate_postal_code():
     letters = random.choices(string.ascii_uppercase, k = 3)
@@ -230,6 +233,8 @@ def replace_phi(x, phi, return_surrogates = False):
     deid_text = ""
     surrogates = []
     where_we_left_off = 0
+
+    faker = Faker() # for realistic surrogates of certain types
     
     # keep a consistent date shift so all dates maintain relative distace
     day_shift = random.randint(0, 29)
@@ -272,23 +277,23 @@ def replace_phi(x, phi, return_surrogates = False):
                 surrogate = build_telephone()
             
             elif re.search('Email Address', val):
-                surrogate = build_email()
+                surrogate = fake.company_email()
             
             elif re.search('Address', val):
-                surrogate = build_address()
+                surrogate = fake.street_address()
 
             elif re.search('Location', val):
                 surrogate = random.choice(tuple(local_places_unambig))
             
             elif re.search('First Name', val):
                 if key.phi not in name_lookup.keys():
-                    name_lookup[key.phi] = random.choice(tuple(all_first_names)).title()
+                    name_lookup[key.phi] = fake.first_name()
 
                 surrogate = name_lookup[key.phi]
                 
             elif re.search('Last Name', val):
                 if key.phi not in name_lookup.keys():
-                    name_lookup[key.phi] = random.choice(tuple(all_last_names)).title()
+                    name_lookup[key.phi] = fake.last_name()
 
                 surrogate = name_lookup[key.phi]
             
