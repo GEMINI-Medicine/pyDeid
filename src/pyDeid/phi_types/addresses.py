@@ -6,8 +6,9 @@ import os
 
 DATA_PATH = pkg_resources.resource_filename('pyDeid', 'wordlists/')
 
-local_places_unambig = load_file(os.path.join(DATA_PATH, 'local_places_unambig_v2.txt'), optimization='iteration')
+local_places_unambig = load_file(os.path.join(DATA_PATH, 'us_local_places_unambig_v2.txt'), optimization='iteration')
 
+states = load_file(os.path.join(DATA_PATH, 'us_states.txt'), optimization='iteration')
 
 apt_indicators = ["apt", "suite"] #only check these after the street address is found
 street_add_suff = ["park", "drive", "street", "road", "lane", "boulevard", "blvd", "avenue", "highway", "circle","ave", "place", "rd", "st"]
@@ -62,3 +63,9 @@ def address(x, phi):
 def postal_code(x, phi):
     for m in re.finditer(r'\b([a-zA-Z]\d[a-zA-Z][ \-]?\d[a-zA-Z]\d)\b', x):
         add_type(PHI(m.start(), m.end(), m.group()), 'Postalcode', phi)
+
+
+def zip_code(x, phi):
+    for state in states:
+        for m in re.finditer(r'\b' + state + ' *[\.\,]*\.*\s*(\d{5}[-]?[0-9]*)\b', x, re.IGNORECASE):
+            add_type(PHI(m.start(1), m.end(1), m.group(1)), 'Zipcode', phi)

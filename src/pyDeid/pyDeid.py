@@ -25,7 +25,7 @@ def pyDeid(
     new_file: Optional[Union[str, Path]] = None, 
     phi_output_file: Optional[Union[str, Path]] = None, 
     note_id_varname: Optional[str] = None, 
-    phi_output_file_type: Literal['json', 'csv'] = 'csv',
+    phi_output_file_type: Literal['json', 'csv', 'xmls'] = 'csv',
     custom_dr_first_names: Optional[Set[str]] = None, 
     custom_dr_last_names: Optional[Set[str]] = None, 
     custom_patient_first_names: Optional[Set[str]] = None, 
@@ -35,6 +35,7 @@ def pyDeid(
     file_encoding: str = 'utf-8',
     read_error_handling: str = None,
     max_field_size: Union[Literal['auto', 131072], int] = 131072,
+    types: List[str] = ["names", "dates", "sin", "ohip", "mrn", "locations", "hospitals", "contact"],
     **custom_regexes: str
     ):
     """Remove and replace PHI from free text
@@ -91,6 +92,8 @@ def pyDeid(
     max_field_size
         For very large notes, prevents _csv.Error: field larger than field limit. 'auto' will find the
         max size that does not result in an OverflowError. The default is usually 131072.
+    types
+        Which PHI types to consider. Any or all of "names", "dates", "sin", "ohip", "mrn", "locations", "hospitals", "contact".
     **custom_regexes
         These are named arguments that will be taken as regexes to be scrubbed from
         the given note. The keyword/argument name itself will be used to label the
@@ -172,6 +175,10 @@ def pyDeid(
                 ['encounter_id', 'note_id', 'phi_start', 'phi_end', 'phi', 'surrogate_start', 'surrogate_end', 'surrogate', 'types']
                 )
 
+    elif phi_output_file_type == "xmls":
+        if not os.path.isdir(phi_output_file):
+            raise ValueError('To output XML files please specify an output directory to phi_output_file_type.')
+
     with open(new_file, 'a', encoding=file_encoding) as f:
         writer = csv.DictWriter(f, fieldnames=reader.fieldnames, lineterminator='\n')
         writer.writeheader()
@@ -199,7 +206,7 @@ def pyDeid(
                     custom_dr_first_names, custom_dr_last_names, custom_patient_first_names, custom_patient_last_names
                     )
 
-                find_phi(original_note, phi, custom_regexes, model)
+                find_phi(original_note, phi, custom_regexes, model, types)
 
                 prune_phi(original_note, phi)
                 surrogates, new_note = replace_phi(original_note, phi, return_surrogates=True)
@@ -237,6 +244,15 @@ def pyDeid(
                     phi_output.insert(0, 'encounter_id', row[encounter_id_varname])
 
                 phi_output.to_csv(phi_output_file, mode = 'a', index = False, header = False)
+
+            elif phi_output_file_type == "xmls":
+
+                xml_output = phi_to_xml(new_note, surrogates)
+
+                with open("ner_output.xml", "w", encoding="utf-8") as f:
+                    f.write(xml_output)
+
+                
 
             if verbose:
                 chars += len(original_note)
@@ -278,6 +294,7 @@ def deid_string(
     custom_patient_first_names: Set[str] = None, 
     custom_patient_last_names: Set[str] = None,
     ner_pipeline: Language = None,
+    types: List[str] = ["names", "dates", "sin", "ohip", "mrn", "locations", "hospitals", "contact"],
     **custom_regexes: str
     ):
     """Remove and replace PHI from a single string for debugging
@@ -300,6 +317,8 @@ def deid_string(
         (Optional) set similar to `custom_patient_first_names`.
     ner_pipeline
         A spaCy NER pipeline. See the tutorial notebook for examples.
+    types
+        Which PHI types to consider. Any or all of "names", "dates", "sin", "ohip", "mrn", "locations", "hospitals", "contact".
     **custom_regexes
         These are named arguments that will be taken as regexes to be scrubbed from
         the given note. The keyword/argument name itself will be used to label the
@@ -336,7 +355,7 @@ def deid_string(
     else:
         model = None  
 
-    find_phi(x, phi, custom_regexes, model)
+    find_phi(x, phi, custom_regexes, model, types)
 
     prune_phi(x, phi)
     surrogates, x_deid = replace_phi(x, phi, return_surrogates=True)
