@@ -1,0 +1,21 @@
+genc_id,note_id,token,start,end,annotation
+1,Record 1,Justin,0,6,n
+1,Record 1,Bieber,7,13,n
+1,Record 1,was,14,17,
+1,Record 1,born,18,22,
+1,Record 1,on,23,25,
+1,Record 1,March 1st 1994,26,41,d
+2,Record 2,St,0,2,
+2,Record 2,Michael,4,11,
+2,Record 2,'s,11,13,
+2,Record 2,hospital,14,22,
+2,Record 2,is,23,25,
+2,Record 2,located,26,33,
+2,Record 2,at,34,36,
+2,Record 2,30 Bond St,37,47,l
+2,Record 2,Toronto,49,56,
+2,Record 2,ON,58,60,
+2,Record 2,M5B 1W8,62,69,l
+3,Record 3,Test,0,4,
+3,Record 3,MRN,5,8,
+3,Record 3,011-0111,10,18,i

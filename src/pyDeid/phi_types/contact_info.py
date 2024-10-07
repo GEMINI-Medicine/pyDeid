@@ -10,12 +10,12 @@ def email(x, phi):
         add_type(PHI(m.start(), m.end(), m.group()), 'Email Address', phi)
 
 
-canadian_area_codes = load_file(os.path.join(DATA_PATH, 'canadian_area_code.txt'))
+area_codes = load_file(os.path.join(DATA_PATH, 'US/area_codes.txt'))
 phone_disqualifiers = ["HR","Heart", "BP", "SVR", "STV", "VT", "Tidal Volumes", "Tidal Volume", "TV", "CKS"]
 
 
 def is_common_area_code(x):
-    return x in canadian_area_codes
+    return x in area_codes
 
 
 def is_probably_phone(x):

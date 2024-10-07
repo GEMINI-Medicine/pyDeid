@@ -233,7 +233,7 @@ class CSVEvaluator:
         recall = true_positives / (true_positives + false_negatives) if (true_positives + false_negatives) > 0 else 0
         f1_score = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0
 
-        return precision, recall, f1
+        return precision, recall, f1_score
 
 
 def tokenize_csv(

@@ -15,3 +15,7 @@ def ohip(x, phi):
 def mrn(x, phi):
     for m in re.finditer(r'\b((mrn|medical record)( *)(number|num|no)?( *)[\)\#\:\-\=\s\.]?( *)(\t*)( *)((\d+)[\/\-\:]?(\d+)?))\b', x, re.IGNORECASE):
         add_type(PHI(m.start(9), m.end(9), m.group(9)), 'MRN', phi)
+
+def ssn(x, phi):
+    for m in re.finditer(r'\b\d\d\d([- /]?)\d\d\1\d\d\d\d\b', x):
+        add_type(PHI(m.start(), m.end(), m.group()), 'SSN', phi)
