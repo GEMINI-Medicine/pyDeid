@@ -214,7 +214,7 @@ def build_email():
 
 
 def build_telephone():
-    return random.choice(tuple(canadian_area_codes)) + '-' + str(random.randint(100, 999)) + '-' + str(random.randint(1000, 9999))
+    return random.choice(tuple(area_codes)) + '-' + str(random.randint(100, 999)) + '-' + str(random.randint(1000, 9999))
 
 
 def build_address():

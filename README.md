@@ -29,7 +29,7 @@ Test your installation by running the following:
 
 ```
 from pyDeid import deid_string
-deid_string('Justin Bieber was born on March 1st, 1994.')
+deid_string('Elijah Wood starred in The Lord of the Rings, released on 10 December 2001.')
 ```
 
 ## 3 CSV File De-identification
@@ -44,7 +44,7 @@ Consider a `test.csv` that looks like this (and is provided under the `tests/` d
 
 ```
 genc_id,note_id,note_text
-1,Record 1,Justin Bieber was born on March 1st, 1994.
+1,Record 1,"Elijah Wood starred in The Lord of the Rings, released on 10 December 2001."
 2,Record 2,"St.Michael's hospital is located at 30 Bond St, Toronto, ON, M5B 1W8
 "
 3,Record 3,Test MRN: 011-0111
@@ -98,7 +98,7 @@ deid_string(
 ```
 from pyDeid import reid_string
 
-original_string = 'Justin Bieber was born in Stratford on March 1st, 1994.'
+original_string = 'Elijah Wood starred in The Lord of the Rings, released on 10 December 2001.'
 
 phi, new_string = deid_string(original_string)
 reidentified_string = reid_string(new_string, phi)
