@@ -265,15 +265,7 @@
 <section id="Running-a-basic-example">
 <h2>Running a basic example<a class="headerlink" href="#Running-a-basic-example" title="Permalink to this heading">¶</a></h2>
 <p>If running this notebook locally, without using a virtual environment- run the block of code below (note that <code class="docutils literal notranslate"><span class="pre">'/path/from/pip/show/pydeid'</span></code> can be found with <code class="docutils literal notranslate"><span class="pre">!pip</span> <span class="pre">show</span> <span class="pre">pydeid</span></code>):</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>!pip show pydeid
-</pre></div>
-</div>
-</div>
-import sys
+!pip show pydeidimport sys
 sys.path.insert(0,'/path/from/pip/show/pydeid')<p>For this demo, import the following functions from <code class="docutils literal notranslate"><span class="pre">pyDeid</span></code>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">deid_string()</span></code>, <code class="docutils literal notranslate"><span class="pre">reid_string()</span></code>, and <code class="docutils literal notranslate"><span class="pre">display_deid()</span></code> are useful shortcut functions for exploring <code class="docutils literal notranslate"><span class="pre">pyDeid</span></code> features, to test and debug, and may be useful to investigate errors if they occur during the bulk de-identification process described later in the tutorial.</p>
 <div class="nbinput nblast docutils container">
@@ -289,7 +281,7 @@ sys.path.insert(0,'/path/from/pip/show/pydeid')<p>For this demo, import the foll
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>original_string = &#39;Elijah Wood starred in The Lord of the Rings, released on 10 December 2001&#39;
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>original_string = &#39;Elijah Wood starred in The Lord of the Rings, released on December 10, 2001&#39;
 phi, new_string = deid_string(original_string)
 </pre></div>
 </div>
@@ -313,33 +305,27 @@ phi, new_string = deid_string(original_string)
   &#39;phi_end&#39;: 6,
   &#39;phi&#39;: &#39;Elijah&#39;,
   &#39;surrogate_start&#39;: 0,
-  &#39;surrogate_end&#39;: 7,
-  &#39;surrogate&#39;: &#39;Jeffrey&#39;,
+  &#39;surrogate_end&#39;: 4,
+  &#39;surrogate&#39;: &#39;Mary&#39;,
   &#39;types&#39;: [&#39;Male First Name (un)&#39;,
    &#39;Last Name (un)&#39;,
    &#39;First Name (followed by last name)&#39;]},
  {&#39;phi_start&#39;: 7,
   &#39;phi_end&#39;: 11,
   &#39;phi&#39;: &#39;Wood&#39;,
-  &#39;surrogate_start&#39;: 8,
-  &#39;surrogate_end&#39;: 13,
-  &#39;surrogate&#39;: &#39;Jones&#39;,
+  &#39;surrogate_start&#39;: 5,
+  &#39;surrogate_end&#39;: 12,
+  &#39;surrogate&#39;: &#39;Edwards&#39;,
   &#39;types&#39;: [&#39;Last Name (ambig)&#39;, &#39;Last Name (follows first name)&#39;]},
  {&#39;phi_start&#39;: 58,
-  &#39;phi_end&#39;: 74,
-  &#39;phi&#39;: Date(date_string=&#39;10 December 2001&#39;, day=&#39;10&#39;, month=&#39;December&#39;, year=&#39;2001&#39;),
-  &#39;surrogate_start&#39;: 60,
-  &#39;surrogate_end&#39;: 77,
-  &#39;surrogate&#39;: &#39;25th of Oct, 2001&#39;,
-  &#39;types&#39;: [&#39;Day Month Year [dd-Month-yy(yy)]&#39;,
-   &#39;Day Month Year [dd of Month, yy(yy)]&#39;]},
- {&#39;phi_start&#39;: 58,
-  &#39;phi_end&#39;: 74,
-  &#39;phi&#39;: &#39;10 December 2001&#39;,
-  &#39;surrogate_start&#39;: 77,
-  &#39;surrogate_end&#39;: 82,
-  &#39;surrogate&#39;: &#39;&lt;PHI&gt;&#39;,
-  &#39;types&#39;: [&#39;Month Year [Month of yy(yy)]&#39;, &#39;Day Month [dd of Month]&#39;]}]
+  &#39;phi_end&#39;: 75,
+  &#39;phi&#39;: Date(date_string=&#39;December 10, 2001&#39;, day=&#39;10&#39;, month=&#39;December&#39;, year=&#39;2001&#39;),
+  &#39;surrogate_start&#39;: 59,
+  &#39;surrogate_end&#39;: 71,
+  &#39;surrogate&#39;: &#39;2006-6th-Aug&#39;,
+  &#39;types&#39;: [&#39;Month Day Year [Month-dd-yy(yy)]&#39;,
+   &#39;Month Day Year [Month dd, yy(yy)]&#39;,
+   &#39;Month Day Year [Month dd, yy(yy)]&#39;]}]
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -356,7 +342,7 @@ phi, new_string = deid_string(original_string)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&#39;Jeffrey Jones starred in The Lord of the Rings, released on 25th of Oct, 2001&lt;PHI&gt;&#39;
+&#39;Mary Edwards starred in The Lord of the Rings, released on 2006-6th-Aug&#39;
 </pre></div></div>
 </div>
 </section>
@@ -387,12 +373,7 @@ phi, new_string = deid_string(original_string)
 </mark>
  starred in The Lord of the Rings, released on
 <mark class="entity" style="background: #bfe1d9; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;">
-    10 December 2001
-    <span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem">DATE</span>
-</mark>
-
-<mark class="entity" style="background: #bfe1d9; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;">
-    10 December 2001
+    December 10, 2001
     <span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem">DATE</span>
 </mark>
 </div></span></div>
@@ -412,7 +393,7 @@ phi, new_string = deid_string(original_string)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&#39;Elijah Wood starred in The Lord of the Rings, released on 10 December 200110 December 2001&#39;
+&#39;Elijah Wood starred in The Lord of the Rings, released on December 10, 2001&#39;
 </pre></div></div>
 </div>
 <p>Some contexts may have known custom patterns for PHI that we’d like to also de-identify.</p>
