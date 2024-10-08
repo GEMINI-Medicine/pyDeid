@@ -264,20 +264,20 @@
 <p>Follow the installation instructions in the <a class="reference external" href="https://gitlab.smh.smhroot.net/geminidata/pydeid">README.md</a> before running this notebook.</p>
 <section id="Running-a-basic-example">
 <h2>Running a basic example<a class="headerlink" href="#Running-a-basic-example" title="Permalink to this heading">¶</a></h2>
-<p>If running this notebook locally, without using a virtual environment- run the block of code below (note that the path added to the search path is taken from the output of <code class="docutils literal notranslate"><span class="pre">!pip</span> <span class="pre">show</span> <span class="pre">pydeid</span></code>):</p>
+<p>If running this notebook locally, without using a virtual environment- run the block of code below (note that <code class="docutils literal notranslate"><span class="pre">'/path/from/pip/show/pydeid'</span></code> can be found with <code class="docutils literal notranslate"><span class="pre">!pip</span> <span class="pre">show</span> <span class="pre">pydeid</span></code>):</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import sys
-sys.path.insert(0,&#39;/path/from/pip/show/pydeid&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>!pip show pydeid
 </pre></div>
 </div>
 </div>
-<p>For this demo, import the following functions from <code class="docutils literal notranslate"><span class="pre">pyDeid</span></code>.</p>
-<p><code class="docutils literal notranslate"><span class="pre">deid_string</span></code>, <code class="docutils literal notranslate"><span class="pre">reid_string</span></code>, and <code class="docutils literal notranslate"><span class="pre">display_deid</span></code> are only imported for demonstration purposes and are not required in the usual workflow. These can be useful to test and debug <code class="docutils literal notranslate"><span class="pre">pyDeid</span></code> and may be useful to investigate errors if they occur during the de-identification process.</p>
+import sys
+sys.path.insert(0,'/path/from/pip/show/pydeid')<p>For this demo, import the following functions from <code class="docutils literal notranslate"><span class="pre">pyDeid</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">deid_string()</span></code>, <code class="docutils literal notranslate"><span class="pre">reid_string()</span></code>, and <code class="docutils literal notranslate"><span class="pre">display_deid()</span></code> are useful shortcut functions for exploring <code class="docutils literal notranslate"><span class="pre">pyDeid</span></code> features, to test and debug, and may be useful to investigate errors if they occur during the bulk de-identification process described later in the tutorial.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from pyDeid import pyDeid, deid_string, reid_string, display_deid
@@ -286,17 +286,17 @@ sys.path.insert(0,&#39;/path/from/pip/show/pydeid&#39;)
 </div>
 <p>Test out the installation using the following example:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>original_string = &#39;Justin Bieber was born in Stratford on March 1st, 1994.&#39;
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>original_string = &#39;Elijah Wood starred in The Lord of the Rings, released on 10 December 2001&#39;
 phi, new_string = deid_string(original_string)
 </pre></div>
 </div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">deid_string</span></code> takes as input a string, and outputs a <code class="docutils literal notranslate"><span class="pre">new_string</span></code> with the PHI found in the original string replaced with surrogates, as well as a <code class="docutils literal notranslate"><span class="pre">phi</span></code> list of information regarding the found PHI:</p>
+<p><code class="docutils literal notranslate"><span class="pre">deid_string()</span></code> takes as input a string, and outputs a <code class="docutils literal notranslate"><span class="pre">new_string()</span></code> with the PHI found in the original string replaced with surrogates, as well as a <code class="docutils literal notranslate"><span class="pre">phi</span></code> list of information regarding the found PHI:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>phi
@@ -304,39 +304,46 @@ phi, new_string = deid_string(original_string)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 [{&#39;phi_start&#39;: 0,
   &#39;phi_end&#39;: 6,
-  &#39;phi&#39;: &#39;Justin&#39;,
+  &#39;phi&#39;: &#39;Elijah&#39;,
   &#39;surrogate_start&#39;: 0,
   &#39;surrogate_end&#39;: 7,
-  &#39;surrogate&#39;: &#39;Lorinda&#39;,
-  &#39;types&#39;: [&#39;Female First Name (ambig)&#39;,
-   &#39;Male First Name (ambig)&#39;,
-   &#39;Last Name (ambig)&#39;,
-   &#39;First Name8 (NamePattern2)&#39;]},
+  &#39;surrogate&#39;: &#39;Jeffrey&#39;,
+  &#39;types&#39;: [&#39;Male First Name (un)&#39;,
+   &#39;Last Name (un)&#39;,
+   &#39;First Name (followed by last name)&#39;]},
  {&#39;phi_start&#39;: 7,
-  &#39;phi_end&#39;: 13,
-  &#39;phi&#39;: &#39;Bieber&#39;,
+  &#39;phi_end&#39;: 11,
+  &#39;phi&#39;: &#39;Wood&#39;,
   &#39;surrogate_start&#39;: 8,
   &#39;surrogate_end&#39;: 13,
-  &#39;surrogate&#39;: &#39;Pronk&#39;,
-  &#39;types&#39;: [&#39;Last Name (un)&#39;]},
- {&#39;phi_start&#39;: 36,
-  &#39;phi_end&#39;: 51,
-  &#39;phi&#39;: Date(date_string=&#39;March 1st, 1994&#39;, day=&#39;1&#39;, month=&#39;March&#39;, year=&#39;1994&#39;),
-  &#39;surrogate_start&#39;: 36,
-  &#39;surrogate_end&#39;: 45,
-  &#39;surrogate&#39;: &#39;2006/13/5&#39;,
-  &#39;types&#39;: [&#39;Month Day Year (2) [Month dd, yy(yy)]&#39;]}]
+  &#39;surrogate&#39;: &#39;Jones&#39;,
+  &#39;types&#39;: [&#39;Last Name (ambig)&#39;, &#39;Last Name (follows first name)&#39;]},
+ {&#39;phi_start&#39;: 58,
+  &#39;phi_end&#39;: 74,
+  &#39;phi&#39;: Date(date_string=&#39;10 December 2001&#39;, day=&#39;10&#39;, month=&#39;December&#39;, year=&#39;2001&#39;),
+  &#39;surrogate_start&#39;: 60,
+  &#39;surrogate_end&#39;: 77,
+  &#39;surrogate&#39;: &#39;25th of Oct, 2001&#39;,
+  &#39;types&#39;: [&#39;Day Month Year [dd-Month-yy(yy)]&#39;,
+   &#39;Day Month Year [dd of Month, yy(yy)]&#39;]},
+ {&#39;phi_start&#39;: 58,
+  &#39;phi_end&#39;: 74,
+  &#39;phi&#39;: &#39;10 December 2001&#39;,
+  &#39;surrogate_start&#39;: 77,
+  &#39;surrogate_end&#39;: 82,
+  &#39;surrogate&#39;: &#39;&lt;PHI&gt;&#39;,
+  &#39;types&#39;: [&#39;Month Year [Month of yy(yy)]&#39;, &#39;Day Month [dd of Month]&#39;]}]
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>new_string
@@ -344,20 +351,20 @@ phi, new_string = deid_string(original_string)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&#39;Lorinda Pronk was born in London on 2006/13/5.&#39;
+&#39;Jeffrey Jones starred in The Lord of the Rings, released on 25th of Oct, 2001&lt;PHI&gt;&#39;
 </pre></div></div>
 </div>
 </section>
 <section id="pyDeid-Features">
 <h2><code class="docutils literal notranslate"><span class="pre">pyDeid</span></code> Features<a class="headerlink" href="#pyDeid-Features" title="Permalink to this heading">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">display_deid</span></code> allows for visualization of the de-identification in interactive settings such as in Jupyter notebooks. This can be useful for demonstration and debugging:</p>
+<p><code class="docutils literal notranslate"><span class="pre">display_deid()</span></code> allows for visualization of the de-identification in interactive settings such as in Jupyter notebooks. This can be useful for demonstration and debugging:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>display_deid(original_string, phi)
@@ -370,24 +377,29 @@ phi, new_string = deid_string(original_string)
 <div class="output_area rendered_html docutils container">
 <span class="tex2jax_ignore"><div class="entities" style="line-height: 2.5; direction: ltr">
 <mark class="entity" style="background: #ddd; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;">
-    Justin
-    <span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; text-transform: uppercase; vertical-align: middle; margin-left: 0.5rem">NAME</span>
+    Elijah
+    <span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem">NAME</span>
 </mark>
 
 <mark class="entity" style="background: #ddd; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;">
-    Bieber
-    <span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; text-transform: uppercase; vertical-align: middle; margin-left: 0.5rem">NAME</span>
+    Wood
+    <span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem">NAME</span>
 </mark>
- was born in London on
+ starred in The Lord of the Rings, released on
 <mark class="entity" style="background: #bfe1d9; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;">
-    March 1st, 1994
-    <span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; text-transform: uppercase; vertical-align: middle; margin-left: 0.5rem">DATE</span>
+    10 December 2001
+    <span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem">DATE</span>
 </mark>
-.</div></span></div>
+
+<mark class="entity" style="background: #bfe1d9; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;">
+    10 December 2001
+    <span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem">DATE</span>
+</mark>
+</div></span></div>
 </div>
 <p>We can also re-identify the string to return back the original string:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>reid_string(new_string, phi)
@@ -395,22 +407,23 @@ phi, new_string = deid_string(original_string)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&#39;Justin Bieber was born in London on March 1st, 1994.&#39;
+&#39;Elijah Wood starred in The Lord of the Rings, released on 10 December 200110 December 2001&#39;
 </pre></div></div>
 </div>
-<p>Some sites may have custom identifiers. We can also replace these by supplying a custom regular expression as a named argument to either <code class="docutils literal notranslate"><span class="pre">deid_string</span></code> or <code class="docutils literal notranslate"><span class="pre">pyDeid</span></code> as follows:</p>
+<p>Some contexts may have known custom patterns for PHI that we’d like to also de-identify.</p>
+<p>We can do this by supplying a custom regular expression as a named argument to <code class="docutils literal notranslate"><span class="pre">deid_string()</span></code> as follows:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>original_string = &#39;Niagara has a custom patient identifier in the format NH12345.&#39;
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>original_string = &#39;Elves use 1 yén to refer to 144 of our years&#39;
 
-phi, new_string = deid_string(original_string, niagara_patient_id = &#39;NH\d{5}&#39;)
+phi, new_string = deid_string(original_string, solar_years = &#39;\\d\syén&#39;)
 </pre></div>
 </div>
 </div>
@@ -421,14 +434,14 @@ phi, new_string = deid_string(original_string, niagara_patient_id = &#39;NH\d{5}
 <div class="highlight"><pre>
 Supplied custom regexes through **kwargs (see custom_regexes in docstring):
 
-- niagara_patient_id : NH\d{5}
+- solar_years : \d\syén
 
 These custom patterns will be replaced with &lt;PHI&gt;.
 
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>new_string
@@ -436,17 +449,17 @@ These custom patterns will be replaced with &lt;PHI&gt;.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&#39;Niagara has a custom patient identifier in the format &lt;PHI&gt;.&#39;
+&#39;Elves use &lt;PHI&gt; to refer to 144 of our years&#39;
 </pre></div></div>
 </div>
 <p>Note that the name of the argument that was supplied is used to identify the PHI type:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>phi
@@ -454,32 +467,30 @@ These custom patterns will be replaced with &lt;PHI&gt;.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[{&#39;phi_start&#39;: 54,
-  &#39;phi_end&#39;: 61,
-  &#39;phi&#39;: &#39;NH12345&#39;,
-  &#39;surrogate_start&#39;: 54,
-  &#39;surrogate_end&#39;: 59,
+[{&#39;phi_start&#39;: 10,
+  &#39;phi_end&#39;: 15,
+  &#39;phi&#39;: &#39;1 yén&#39;,
+  &#39;surrogate_start&#39;: 10,
+  &#39;surrogate_end&#39;: 15,
   &#39;surrogate&#39;: &#39;&lt;PHI&gt;&#39;,
-  &#39;types&#39;: [&#39;niagara_patient_id&#39;]}]
+  &#39;types&#39;: [&#39;solar_years&#39;]}]
 </pre></div></div>
 </div>
 <p>Currently these “custom” regular expressions are replaced with <code class="docutils literal notranslate"><span class="pre">&lt;PHI&gt;</span></code> placeholders, but in the future the user will be able to supply a custom replacement string generator function.</p>
-<p>We also have the ability to use a CNN-based Named Entity Recognition pass on the string to identify any missed names. See how rare names are treated <em>without</em> named entity recognition:</p>
+<p>We also have the ability to use a <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> named entity recognition pass on the string to identify any missed names.</p>
+<p>See how rare names are treated <em>without</em> named entity recognition:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>original_string = &#39;Frodo Baggins was born in Middle Earth.&#39;
 
-phi, new_string = deid_string(
-    original_string,
-    named_entity_recognition=False
-)
+phi, new_string = deid_string(original_string)
 
 display_deid(original_string, phi)
 </pre></div>
@@ -492,13 +503,23 @@ display_deid(original_string, phi)
 <span class="tex2jax_ignore"><div class="entities" style="line-height: 2.5; direction: ltr">Frodo Baggins was born in Middle Earth.</div></span></div>
 </div>
 <p>And <em>with</em> named entity recognition:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import spacy
+
+nlp = spacy.load(&quot;en_core_web_lg&quot;)
+</pre></div>
+</div>
+</div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>phi, new_string = deid_string(
     original_string,
-    named_entity_recognition=True
+    ner_pipeline=nlp
 )
 
 display_deid(original_string, phi)
@@ -512,16 +533,16 @@ display_deid(original_string, phi)
 <span class="tex2jax_ignore"><div class="entities" style="line-height: 2.5; direction: ltr">
 <mark class="entity" style="background: #ddd; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;">
     Frodo
-    <span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; text-transform: uppercase; vertical-align: middle; margin-left: 0.5rem">NAME</span>
+    <span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem">NAME</span>
 </mark>
 
 <mark class="entity" style="background: #ddd; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;">
     Baggins
-    <span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; text-transform: uppercase; vertical-align: middle; margin-left: 0.5rem">NAME</span>
+    <span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem">NAME</span>
 </mark>
  was born in Middle Earth.</div></span></div>
 </div>
-<p>However, since we have access to patient and doctor names in our master linking logs (MLLs), we will not need to use named entity recognition in our workflow (more on this in section 4.1).</p>
+<p>However, if we have access to patient and doctor names, we will not need to use named entity recognition in our workflow.</p>
 <p>We can supply a list of:</p>
 <ol class="arabic simple">
 <li><p>Patient first names (through <code class="docutils literal notranslate"><span class="pre">custom_patient_first_names</span></code>)</p></li>
@@ -531,7 +552,7 @@ display_deid(original_string, phi)
 </ol>
 <p>See the example usage below:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>phi, new_string = deid_string(
@@ -551,12 +572,12 @@ display_deid(original_string, phi)
 <span class="tex2jax_ignore"><div class="entities" style="line-height: 2.5; direction: ltr">
 <mark class="entity" style="background: #ddd; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;">
     Frodo
-    <span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; text-transform: uppercase; vertical-align: middle; margin-left: 0.5rem">NAME</span>
+    <span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem">NAME</span>
 </mark>
 
 <mark class="entity" style="background: #ddd; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;">
     Baggins
-    <span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; text-transform: uppercase; vertical-align: middle; margin-left: 0.5rem">NAME</span>
+    <span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem">NAME</span>
 </mark>
  was born in Middle Earth.</div></span></div>
 </div>
@@ -573,47 +594,77 @@ display_deid(original_string, phi)
 </section>
 <section id="Bulk-De-identification">
 <h2>Bulk De-identification<a class="headerlink" href="#Bulk-De-identification" title="Permalink to this heading">¶</a></h2>
-<p>In our workflow, we will be de-identifying large CSVs of free-text clinical notes and radiology reports (at present). Although users can write a custom loop using <code class="docutils literal notranslate"><span class="pre">deid_string</span></code> to de-identify a large CSV, this has already been done for you in the <code class="docutils literal notranslate"><span class="pre">pyDeid</span></code> function (with some useful additional features).</p>
+<p>Many workflows require bulk de-identification of large CSVs containing notes with PHI. For this purpose we use <code class="docutils literal notranslate"><span class="pre">pyDeid()</span></code>.</p>
 <p>The most basic usage of the function only requires the user to supply the name of the file to be identified (<code class="docutils literal notranslate"><span class="pre">original_file</span></code>), the name of the column containing a unique identifier for the encounter (<code class="docutils literal notranslate"><span class="pre">encounter_id_varname</span></code>- in our applications this will generally be the <code class="docutils literal notranslate"><span class="pre">genc_id</span></code>), and the name of the column containing the note text to be de-identified (<code class="docutils literal notranslate"><span class="pre">note_varname</span></code>).</p>
-<p>Note that some sites will report multiple notes per encounter. Therefore an <code class="docutils literal notranslate"><span class="pre">encounter_id_varname</span></code> is not enough to uniquely identify a note. In these cases, please supply a <code class="docutils literal notranslate"><span class="pre">note_id_varname</span></code> in addition to the <code class="docutils literal notranslate"><span class="pre">encounter_id_varname</span></code>.</p>
-<p>Below we will de-identify a file containing dialog from Lord of the Rings:</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<p><strong>Note</strong> that if the <code class="docutils literal notranslate"><span class="pre">original_file</span></code> to de-identify contains multiple notes per encounter, an <code class="docutils literal notranslate"><span class="pre">encounter_id_varname</span></code> is not enough to uniquely identify a note. In these cases, please supply a <code class="docutils literal notranslate"><span class="pre">note_id_varname</span></code> in addition to the <code class="docutils literal notranslate"><span class="pre">encounter_id_varname</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pyDeid(
-    original_file=&#39;./tests/test.csv&#39;,
-    encounter_id_varname=&#39;encounter_id&#39;,
+    original_file=&#39;../../tests/test.csv&#39;,
+    encounter_id_varname=&#39;genc_id&#39;,
     note_id_varname=&#39;note_id&#39;,
     note_varname=&#39;note_text&#39;
 )
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Processing encounter 3, note Record 3: : 3it [00:01,  2.71it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Diagnostics:
+                - chars/s = 147.39932995948666
+                - s/note = 0.36861316363016766
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+
+</pre></div></div>
+</div>
 <p>Note that <code class="docutils literal notranslate"><span class="pre">pyDeid</span></code> accepts many other arguments, which can be seen in the function docstring:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pyDeid?
 </pre></div>
 </div>
 </div>
-<p>Note that just as in <code class="docutils literal notranslate"><span class="pre">deid_string</span></code>, custom regular expressions can be supplied with named arguments through <code class="docutils literal notranslate"><span class="pre">**custom_regexes</span></code>, named entity recognition can be used through <code class="docutils literal notranslate"><span class="pre">named_entity_recognition</span></code>, and custom patient and doctor names can be supplied through <code class="docutils literal notranslate"><span class="pre">custom_{dr/patient}_{first/last}_names</span></code>.</p>
-<p>We can specify a custom output filename for the de-identified file through <code class="docutils literal notranslate"><span class="pre">new_file</span></code>, and for the found PHI details through <code class="docutils literal notranslate"><span class="pre">phi_output_file</span></code>. If these names are not specified, they will default to <code class="docutils literal notranslate"><span class="pre">{original</span> <span class="pre">filename</span> <span class="pre">without</span> <span class="pre">extension}__DEID.csv</span></code> and <code class="docutils literal notranslate"><span class="pre">{original</span> <span class="pre">filename</span> <span class="pre">without</span> <span class="pre">extension}__PHI.csv</span></code> respectively.</p>
-<p>By default, <code class="docutils literal notranslate"><span class="pre">phi_output_file</span></code> is saved as a <code class="docutils literal notranslate"><span class="pre">csv</span></code>. This is the recommended file format for large files (we can consider all files for our applications to be “large”). <code class="docutils literal notranslate"><span class="pre">verbose</span></code> also defaults to true in order to print useful status updates during the run and diagnostics after the run. Please see the function docstring for more details.</p>
 </section>
-<section id="Full-Working-Example">
-<h2>Full Working Example<a class="headerlink" href="#Full-Working-Example" title="Permalink to this heading">¶</a></h2>
-<p>Below we show how to de-identify a file in an “average” workflow:</p>
+<section id="Putting-It-All-Together">
+<h2>Putting It All Together<a class="headerlink" href="#Putting-It-All-Together" title="Permalink to this heading">¶</a></h2>
+<p>Note that just as in <code class="docutils literal notranslate"><span class="pre">deid_string()</span></code>, custom regular expressions can be supplied with named arguments through <code class="docutils literal notranslate"><span class="pre">**custom_regexes</span></code>, named entity recognition can be used through <code class="docutils literal notranslate"><span class="pre">ner_pipeline</span></code>, and custom patient and doctor names can be supplied through <code class="docutils literal notranslate"><span class="pre">custom_{dr/patient}_{first/last}_names</span></code>.</p>
+<p>In the below example, we’ll combine all of <code class="docutils literal notranslate"><span class="pre">pyDeid</span></code>’s features:</p>
+<ol class="arabic simple">
+<li><p>Custom namelists for patient first and last names.</p></li>
+<li><p>Named entity recognition with <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>.</p></li>
+<li><p>Custom regular expressions.</p></li>
+</ol>
+<p>By default, <code class="docutils literal notranslate"><span class="pre">phi_output_file</span></code> is saved as a <code class="docutils literal notranslate"><span class="pre">csv</span></code>. In this example however, we will output to <code class="docutils literal notranslate"><span class="pre">json</span></code>.</p>
+<p>We will also specify a custom output filename for the de-identified file through <code class="docutils literal notranslate"><span class="pre">new_file</span></code>, and for the found PHI details through <code class="docutils literal notranslate"><span class="pre">phi_output_file</span></code>. If these names are not specified, they will default to <code class="docutils literal notranslate"><span class="pre">{original</span> <span class="pre">filename</span> <span class="pre">without</span> <span class="pre">extension}__DEID.csv</span></code> and <code class="docutils literal notranslate"><span class="pre">{original</span> <span class="pre">filename</span> <span class="pre">without</span> <span class="pre">extension}__PHI.csv</span></code> respectively.</p>
 <p>First we read the “MLLs” into python <code class="docutils literal notranslate"><span class="pre">Sets</span></code>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import pandas as pd
 
-MLL_filepath=&#39;./tests/mll.csv&#39;
+MLL_filepath=&#39;../../tests/namelist.csv&#39;
 MLL = pd.read_csv(MLL_filepath)
 
 MLL.head()
@@ -621,7 +672,7 @@ MLL.head()
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -643,58 +694,61 @@ MLL.head()
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>id</th>
-      <th>char</th>
+      <th>first_name</th>
+      <th>last_name</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
-      <td>0</td>
-      <td>DEAGOL</td>
+      <td>Frodo</td>
+      <td>Baggins</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>1</td>
-      <td>SMEAGOL</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>2</td>
-      <td>DEAGOL</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>3</td>
-      <td>SMEAGOL</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>4</td>
-      <td>SMEAGOL</td>
+      <td>Samwise</td>
+      <td>NaN</td>
     </tr>
   </tbody>
 </table>
 </div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>character_first_names = set(MLL.char)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>first_names = set(MLL.first_name)
+last_names = set(MLL.last_name)
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pyDeid(
-    original_file=&#39;./tests/test.csv&#39;,
-    encounter_id_varname=&#39;encounter_id&#39;,
+    # specify the name and format of the input file
+    original_file=&#39;../../tests/basic_usage_tutorial.csv&#39;,
+    encounter_id_varname=&#39;id&#39;,
     note_id_varname=&#39;note_id&#39;,
-    note_varname=&#39;note_text&#39;,
-    custom_patient_first_names=character_first_names
+    note_varname=&#39;text&#39;,
+
+    # specify the name of the de-identified result file
+    new_file=&#39;../../tests/test_deid&#39;,
+
+    # specify the name and format of the found PHI output file
+    phi_output_file=&#39;../../tests/phi.json&#39;,
+    phi_output_file_type=&#39;json&#39;,
+
+    # use custom namelists since they are available
+    custom_patient_first_names=first_names,
+    custom_patient_last_names=last_names,
+
+    # pass a spaCy NER pipeline to catch names outside our namelist
+    ner_pipeline=nlp,
+
+    # use custom regex for elven year format &quot;yén&quot;
+    solar_years=&quot;\\d\syén&quot;
 )
 </pre></div>
 </div>
@@ -702,9 +756,22 @@ MLL.head()
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Supplied custom regexes through **kwargs (see custom_regexes in docstring):
+
+- solar_years : \d\syén
+
+These custom patterns will be replaced with &lt;PHI&gt;.
+
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Processing encounter 2389: : 2390it [10:31,  3.79it/s]
+Processing encounter 3, note Record 1: : 4it [00:01,  3.47it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -713,8 +780,8 @@ Processing encounter 2389: : 2390it [10:31,  3.79it/s]
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 Diagnostics:
-                - chars/s = 230.95986752654892
-                - s/note = 0.26413507750842363
+                - chars/s = 139.8456593424458
+                - s/note = 0.2878172993659973
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -787,7 +854,7 @@ Diagnostics:
 <li><a class="reference internal" href="#Running-a-basic-example">Running a basic example</a></li>
 <li><a class="reference internal" href="#pyDeid-Features"><code class="docutils literal notranslate"><span class="pre">pyDeid</span></code> Features</a></li>
 <li><a class="reference internal" href="#Bulk-De-identification">Bulk De-identification</a></li>
-<li><a class="reference internal" href="#Full-Working-Example">Full Working Example</a></li>
+<li><a class="reference internal" href="#Putting-It-All-Together">Putting It All Together</a></li>
 </ul>
 </li>
 </ul>

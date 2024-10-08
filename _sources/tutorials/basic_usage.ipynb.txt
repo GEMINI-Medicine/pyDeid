@@ -29,15 +29,23 @@
    "id": "a85e1fcb",
    "metadata": {},
    "source": [
-    "If running this notebook locally, without using a virtual environment- run the block of code below (note that the path added to the search path is taken from the output of `!pip show pydeid`):"
+    "If running this notebook locally, without using a virtual environment- run the block of code below (note that `'/path/from/pip/show/pydeid'` can be found with `!pip show pydeid`):"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 1,
-   "id": "d1902612",
+   "execution_count": null,
+   "id": "4b76eeb5-cd1e-4b3e-b8d6-208f81b916dc",
    "metadata": {},
    "outputs": [],
+   "source": [
+    "!pip show pydeid"
+   ]
+  },
+  {
+   "cell_type": "raw",
+   "id": "a3501b72-7f78-4114-bd2b-c9202bada06c",
+   "metadata": {},
    "source": [
     "import sys\n",
     "sys.path.insert(0,'/path/from/pip/show/pydeid')"
@@ -50,12 +58,12 @@
    "source": [
     "For this demo, import the following functions from `pyDeid`.\n",
     "\n",
-    "`deid_string`, `reid_string`, and `display_deid` are only imported for demonstration purposes and are not required in the usual workflow. These can be useful to test and debug `pyDeid` and may be useful to investigate errors if they occur during the de-identification process."
+    "`deid_string()`, `reid_string()`, and `display_deid()` are useful shortcut functions for exploring `pyDeid` features, to test and debug, and may be useful to investigate errors if they occur during the bulk de-identification process described later in the tutorial."
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 2,
+   "execution_count": 3,
    "id": "aea3ce8b",
    "metadata": {},
    "outputs": [],
@@ -73,12 +81,12 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 7,
+   "execution_count": 4,
    "id": "b2417be7",
    "metadata": {},
    "outputs": [],
    "source": [
-    "original_string = 'Justin Bieber was born in Stratford on March 1st, 1994.'\n",
+    "original_string = 'Elijah Wood starred in The Lord of the Rings, released on 10 December 2001'\n",
     "phi, new_string = deid_string(original_string)"
    ]
   },
@@ -87,12 +95,12 @@
    "id": "2f2953d4",
    "metadata": {},
    "source": [
-    "`deid_string` takes as input a string, and outputs a `new_string` with the PHI found in the original string replaced with surrogates, as well as a `phi` list of information regarding the found PHI:"
+    "`deid_string()` takes as input a string, and outputs a `new_string()` with the PHI found in the original string replaced with surrogates, as well as a `phi` list of information regarding the found PHI:"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 8,
+   "execution_count": 5,
    "id": "6d068d0a",
    "metadata": {},
    "outputs": [
@@ -101,31 +109,38 @@
       "text/plain": [
        "[{'phi_start': 0,\n",
        "  'phi_end': 6,\n",
-       "  'phi': 'Justin',\n",
+       "  'phi': 'Elijah',\n",
        "  'surrogate_start': 0,\n",
        "  'surrogate_end': 7,\n",
-       "  'surrogate': 'Lorinda',\n",
-       "  'types': ['Female First Name (ambig)',\n",
-       "   'Male First Name (ambig)',\n",
-       "   'Last Name (ambig)',\n",
-       "   'First Name8 (NamePattern2)']},\n",
+       "  'surrogate': 'Jeffrey',\n",
+       "  'types': ['Male First Name (un)',\n",
+       "   'Last Name (un)',\n",
+       "   'First Name (followed by last name)']},\n",
        " {'phi_start': 7,\n",
-       "  'phi_end': 13,\n",
-       "  'phi': 'Bieber',\n",
+       "  'phi_end': 11,\n",
+       "  'phi': 'Wood',\n",
        "  'surrogate_start': 8,\n",
        "  'surrogate_end': 13,\n",
-       "  'surrogate': 'Pronk',\n",
-       "  'types': ['Last Name (un)']},\n",
-       " {'phi_start': 36,\n",
-       "  'phi_end': 51,\n",
-       "  'phi': Date(date_string='March 1st, 1994', day='1', month='March', year='1994'),\n",
-       "  'surrogate_start': 36,\n",
-       "  'surrogate_end': 45,\n",
-       "  'surrogate': '2006/13/5',\n",
-       "  'types': ['Month Day Year (2) [Month dd, yy(yy)]']}]"
+       "  'surrogate': 'Jones',\n",
+       "  'types': ['Last Name (ambig)', 'Last Name (follows first name)']},\n",
+       " {'phi_start': 58,\n",
+       "  'phi_end': 74,\n",
+       "  'phi': Date(date_string='10 December 2001', day='10', month='December', year='2001'),\n",
+       "  'surrogate_start': 60,\n",
+       "  'surrogate_end': 77,\n",
+       "  'surrogate': '25th of Oct, 2001',\n",
+       "  'types': ['Day Month Year [dd-Month-yy(yy)]',\n",
+       "   'Day Month Year [dd of Month, yy(yy)]']},\n",
+       " {'phi_start': 58,\n",
+       "  'phi_end': 74,\n",
+       "  'phi': '10 December 2001',\n",
+       "  'surrogate_start': 77,\n",
+       "  'surrogate_end': 82,\n",
+       "  'surrogate': '<PHI>',\n",
+       "  'types': ['Month Year [Month of yy(yy)]', 'Day Month [dd of Month]']}]"
       ]
      },
-     "execution_count": 8,
+     "execution_count": 5,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -136,17 +151,17 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 9,
+   "execution_count": 6,
    "id": "23f48672",
    "metadata": {},
    "outputs": [
     {
      "data": {
       "text/plain": [
-       "'Lorinda Pronk was born in London on 2006/13/5.'"
+       "'Jeffrey Jones starred in The Lord of the Rings, released on 25th of Oct, 2001<PHI>'"
       ]
      },
-     "execution_count": 9,
+     "execution_count": 6,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -168,12 +183,12 @@
    "id": "c6293156",
    "metadata": {},
    "source": [
-    "`display_deid` allows for visualization of the de-identification in interactive settings such as in Jupyter notebooks. This can be useful for demonstration and debugging:"
+    "`display_deid()` allows for visualization of the de-identification in interactive settings such as in Jupyter notebooks. This can be useful for demonstration and debugging:"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 10,
+   "execution_count": 7,
    "id": "b6c64dba",
    "metadata": {},
    "outputs": [
@@ -182,20 +197,25 @@
       "text/html": [
        "<span class=\"tex2jax_ignore\"><div class=\"entities\" style=\"line-height: 2.5; direction: ltr\">\n",
        "<mark class=\"entity\" style=\"background: #ddd; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;\">\n",
-       "    Justin\n",
-       "    <span style=\"font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; text-transform: uppercase; vertical-align: middle; margin-left: 0.5rem\">NAME</span>\n",
+       "    Elijah\n",
+       "    <span style=\"font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem\">NAME</span>\n",
        "</mark>\n",
        " \n",
        "<mark class=\"entity\" style=\"background: #ddd; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;\">\n",
-       "    Bieber\n",
-       "    <span style=\"font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; text-transform: uppercase; vertical-align: middle; margin-left: 0.5rem\">NAME</span>\n",
+       "    Wood\n",
+       "    <span style=\"font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem\">NAME</span>\n",
        "</mark>\n",
-       " was born in London on \n",
+       " starred in The Lord of the Rings, released on \n",
        "<mark class=\"entity\" style=\"background: #bfe1d9; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;\">\n",
-       "    March 1st, 1994\n",
-       "    <span style=\"font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; text-transform: uppercase; vertical-align: middle; margin-left: 0.5rem\">DATE</span>\n",
+       "    10 December 2001\n",
+       "    <span style=\"font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem\">DATE</span>\n",
        "</mark>\n",
-       ".</div></span>"
+       "\n",
+       "<mark class=\"entity\" style=\"background: #bfe1d9; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;\">\n",
+       "    10 December 2001\n",
+       "    <span style=\"font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem\">DATE</span>\n",
+       "</mark>\n",
+       "</div></span>"
       ],
       "text/plain": [
        "<IPython.core.display.HTML object>"
@@ -219,17 +239,17 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 11,
+   "execution_count": 8,
    "id": "b9fa216c",
    "metadata": {},
    "outputs": [
     {
      "data": {
       "text/plain": [
-       "'Justin Bieber was born in London on March 1st, 1994.'"
+       "'Elijah Wood starred in The Lord of the Rings, released on 10 December 200110 December 2001'"
       ]
      },
-     "execution_count": 11,
+     "execution_count": 8,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -243,12 +263,14 @@
    "id": "5f55979e",
    "metadata": {},
    "source": [
-    "Some sites may have custom identifiers. We can also replace these by supplying a custom regular expression as a named argument to either `deid_string` or `pyDeid` as follows:"
+    "Some contexts may have known custom patterns for PHI that we'd like to also de-identify. \n",
+    "\n",
+    "We can do this by supplying a custom regular expression as a named argument to `deid_string()` as follows:"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 12,
+   "execution_count": 9,
    "id": "0a60e1fd",
    "metadata": {},
    "outputs": [
@@ -258,7 +280,7 @@
      "text": [
       "Supplied custom regexes through **kwargs (see custom_regexes in docstring):\n",
       "\n",
-      "- niagara_patient_id : NH\\d{5}\n",
+      "- solar_years : \\d\\syén\n",
       "\n",
       "These custom patterns will be replaced with <PHI>.\n",
       "\n"
@@ -266,24 +288,24 @@
     }
    ],
    "source": [
-    "original_string = 'Niagara has a custom patient identifier in the format NH12345.'\n",
+    "original_string = 'Elves use 1 yén to refer to 144 of our years'\n",
     "\n",
-    "phi, new_string = deid_string(original_string, niagara_patient_id = 'NH\\d{5}')"
+    "phi, new_string = deid_string(original_string, solar_years = '\\\\d\\syén')"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 13,
+   "execution_count": 10,
    "id": "762ee3a7",
    "metadata": {},
    "outputs": [
     {
      "data": {
       "text/plain": [
-       "'Niagara has a custom patient identifier in the format <PHI>.'"
+       "'Elves use <PHI> to refer to 144 of our years'"
       ]
      },
-     "execution_count": 13,
+     "execution_count": 10,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -302,23 +324,23 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 14,
+   "execution_count": 11,
    "id": "7325f42c",
    "metadata": {},
    "outputs": [
     {
      "data": {
       "text/plain": [
-       "[{'phi_start': 54,\n",
-       "  'phi_end': 61,\n",
-       "  'phi': 'NH12345',\n",
-       "  'surrogate_start': 54,\n",
-       "  'surrogate_end': 59,\n",
+       "[{'phi_start': 10,\n",
+       "  'phi_end': 15,\n",
+       "  'phi': '1 yén',\n",
+       "  'surrogate_start': 10,\n",
+       "  'surrogate_end': 15,\n",
        "  'surrogate': '<PHI>',\n",
-       "  'types': ['niagara_patient_id']}]"
+       "  'types': ['solar_years']}]"
       ]
      },
-     "execution_count": 14,
+     "execution_count": 11,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -340,12 +362,14 @@
    "id": "60d48532",
    "metadata": {},
    "source": [
-    "We also have the ability to use a CNN-based Named Entity Recognition pass on the string to identify any missed names. See how rare names are treated *without* named entity recognition:"
+    "We also have the ability to use a `spaCy` named entity recognition pass on the string to identify any missed names. \n",
+    "\n",
+    "See how rare names are treated *without* named entity recognition:"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 21,
+   "execution_count": 12,
    "id": "60b9a5a5",
    "metadata": {},
    "outputs": [
@@ -365,10 +389,7 @@
    "source": [
     "original_string = 'Frodo Baggins was born in Middle Earth.'\n",
     "\n",
-    "phi, new_string = deid_string(\n",
-    "    original_string, \n",
-    "    named_entity_recognition=False\n",
-    ")\n",
+    "phi, new_string = deid_string(original_string)\n",
     "\n",
     "display_deid(original_string, phi)"
    ]
@@ -383,7 +404,19 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 27,
+   "execution_count": 13,
+   "id": "6bf7e72d-c08b-4b08-b8a8-bd4858004948",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import spacy\n",
+    "\n",
+    "nlp = spacy.load(\"en_core_web_lg\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
    "id": "30156f62",
    "metadata": {},
    "outputs": [
@@ -393,12 +426,12 @@
        "<span class=\"tex2jax_ignore\"><div class=\"entities\" style=\"line-height: 2.5; direction: ltr\">\n",
        "<mark class=\"entity\" style=\"background: #ddd; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;\">\n",
        "    Frodo\n",
-       "    <span style=\"font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; text-transform: uppercase; vertical-align: middle; margin-left: 0.5rem\">NAME</span>\n",
+       "    <span style=\"font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem\">NAME</span>\n",
        "</mark>\n",
        " \n",
        "<mark class=\"entity\" style=\"background: #ddd; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;\">\n",
        "    Baggins\n",
-       "    <span style=\"font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; text-transform: uppercase; vertical-align: middle; margin-left: 0.5rem\">NAME</span>\n",
+       "    <span style=\"font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem\">NAME</span>\n",
        "</mark>\n",
        " was born in Middle Earth.</div></span>"
       ],
@@ -413,7 +446,7 @@
    "source": [
     "phi, new_string = deid_string(\n",
     "    original_string, \n",
-    "    named_entity_recognition=True\n",
+    "    ner_pipeline=nlp\n",
     ")\n",
     "\n",
     "display_deid(original_string, phi)"
@@ -424,7 +457,7 @@
    "id": "68967b47",
    "metadata": {},
    "source": [
-    "However, since we have access to patient and doctor names in our master linking logs (MLLs), we will not need to use named entity recognition in our workflow (more on this in section 4.1).\n",
+    "However, if we have access to patient and doctor names, we will not need to use named entity recognition in our workflow.\n",
     "\n",
     "We can supply a list of:\n",
     "\n",
@@ -438,7 +471,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 28,
+   "execution_count": 15,
    "id": "407237a4",
    "metadata": {},
    "outputs": [
@@ -448,12 +481,12 @@
        "<span class=\"tex2jax_ignore\"><div class=\"entities\" style=\"line-height: 2.5; direction: ltr\">\n",
        "<mark class=\"entity\" style=\"background: #ddd; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;\">\n",
        "    Frodo\n",
-       "    <span style=\"font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; text-transform: uppercase; vertical-align: middle; margin-left: 0.5rem\">NAME</span>\n",
+       "    <span style=\"font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem\">NAME</span>\n",
        "</mark>\n",
        " \n",
        "<mark class=\"entity\" style=\"background: #ddd; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;\">\n",
        "    Baggins\n",
-       "    <span style=\"font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; text-transform: uppercase; vertical-align: middle; margin-left: 0.5rem\">NAME</span>\n",
+       "    <span style=\"font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem\">NAME</span>\n",
        "</mark>\n",
        " was born in Middle Earth.</div></span>"
       ],
@@ -514,7 +547,7 @@
    "id": "1593a3fa",
    "metadata": {},
    "source": [
-    "In our workflow, we will be de-identifying large CSVs of free-text clinical notes and radiology reports (at present). Although users can write a custom loop using `deid_string` to de-identify a large CSV, this has already been done for you in the `pyDeid` function (with some useful additional features)."
+    "Many workflows require bulk de-identification of large CSVs containing notes with PHI. For this purpose we use `pyDeid()`."
    ]
   },
   {
@@ -524,27 +557,43 @@
    "source": [
     "The most basic usage of the function only requires the user to supply the name of the file to be identified (`original_file`), the name of the column containing a unique identifier for the encounter (`encounter_id_varname`- in our applications this will generally be the `genc_id`), and the name of the column containing the note text to be de-identified (`note_varname`).\n",
     "\n",
-    "Note that some sites will report multiple notes per encounter. Therefore an `encounter_id_varname` is not enough to uniquely identify a note. In these cases, please supply a `note_id_varname` in addition to the `encounter_id_varname`."
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "13dbdd27",
-   "metadata": {},
-   "source": [
-    "Below we will de-identify a file containing dialog from Lord of the Rings:"
+    "**Note** that if the `original_file` to de-identify contains multiple notes per encounter, an `encounter_id_varname` is not enough to uniquely identify a note. In these cases, please supply a `note_id_varname` in addition to the `encounter_id_varname`."
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 17,
    "id": "20183349",
    "metadata": {},
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "Processing encounter 3, note Record 3: : 3it [00:01,  2.71it/s]"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Diagnostics:\n",
+      "                - chars/s = 147.39932995948666\n",
+      "                - s/note = 0.36861316363016766\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "\n"
+     ]
+    }
+   ],
    "source": [
     "pyDeid(\n",
-    "    original_file='./tests/test.csv',\n",
-    "    encounter_id_varname='encounter_id',\n",
+    "    original_file='../../tests/test.csv',\n",
+    "    encounter_id_varname='genc_id',\n",
     "    note_id_varname='note_id',\n",
     "    note_varname='note_text'\n",
     ")"
@@ -560,7 +609,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 29,
+   "execution_count": null,
    "id": "c4dc5d7b",
    "metadata": {},
    "outputs": [],
@@ -570,22 +619,18 @@
   },
   {
    "cell_type": "markdown",
-   "id": "d660f01a",
+   "id": "1d1cd1dc",
    "metadata": {},
    "source": [
-    "Note that just as in `deid_string`, custom regular expressions can be supplied with named arguments through `**custom_regexes`,  named entity recognition can be used through `named_entity_recognition`, and custom patient and doctor names can be supplied through `custom_{dr/patient}_{first/last}_names`.\n",
-    "\n",
-    "We can specify a custom output filename for the de-identified file through `new_file`, and for the found PHI details through `phi_output_file`. If these names are not specified, they will default to `{original filename without extension}__DEID.csv` and `{original filename without extension}__PHI.csv` respectively.\n",
-    "\n",
-    "By default, `phi_output_file` is saved as a `csv`. This is the recommended file format for large files (we can consider all files for our applications to be \"large\"). `verbose` also defaults to true in order to print useful status updates during the run and diagnostics after the run. Please see the function docstring for more details."
+    "## Putting It All Together"
    ]
   },
   {
    "cell_type": "markdown",
-   "id": "1d1cd1dc",
+   "id": "d660f01a",
    "metadata": {},
    "source": [
-    "## Full Working Example"
+    "Note that just as in `deid_string()`, custom regular expressions can be supplied with named arguments through `**custom_regexes`,  named entity recognition can be used through `ner_pipeline`, and custom patient and doctor names can be supplied through `custom_{dr/patient}_{first/last}_names`."
    ]
   },
   {
@@ -593,7 +638,21 @@
    "id": "04d691c1",
    "metadata": {},
    "source": [
-    "Below we show how to de-identify a file in an \"average\" workflow:"
+    "In the below example, we'll combine all of `pyDeid`'s features:\n",
+    "\n",
+    "1. Custom namelists for patient first and last names.\n",
+    "2. Named entity recognition with `spaCy`.\n",
+    "3. Custom regular expressions."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "9b696f5d-f306-4e25-9f3b-2782bf73234b",
+   "metadata": {},
+   "source": [
+    "By default, `phi_output_file` is saved as a `csv`. In this example however, we will output to `json`.\n",
+    "\n",
+    "We will also specify a custom output filename for the de-identified file through `new_file`, and for the found PHI details through `phi_output_file`. If these names are not specified, they will default to `{original filename without extension}__DEID.csv` and `{original filename without extension}__PHI.csv` respectively."
    ]
   },
   {
@@ -606,7 +665,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 30,
+   "execution_count": 19,
    "id": "5dd47c62",
    "metadata": {},
    "outputs": [
@@ -631,50 +690,32 @@
        "  <thead>\n",
        "    <tr style=\"text-align: right;\">\n",
        "      <th></th>\n",
-       "      <th>id</th>\n",
-       "      <th>char</th>\n",
+       "      <th>first_name</th>\n",
+       "      <th>last_name</th>\n",
        "    </tr>\n",
        "  </thead>\n",
        "  <tbody>\n",
        "    <tr>\n",
        "      <th>0</th>\n",
-       "      <td>0</td>\n",
-       "      <td>DEAGOL</td>\n",
+       "      <td>Frodo</td>\n",
+       "      <td>Baggins</td>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th>1</th>\n",
-       "      <td>1</td>\n",
-       "      <td>SMEAGOL</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>2</th>\n",
-       "      <td>2</td>\n",
-       "      <td>DEAGOL</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>3</th>\n",
-       "      <td>3</td>\n",
-       "      <td>SMEAGOL</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>4</th>\n",
-       "      <td>4</td>\n",
-       "      <td>SMEAGOL</td>\n",
+       "      <td>Samwise</td>\n",
+       "      <td>NaN</td>\n",
        "    </tr>\n",
        "  </tbody>\n",
        "</table>\n",
        "</div>"
       ],
       "text/plain": [
-       "   id     char\n",
-       "0   0   DEAGOL\n",
-       "1   1  SMEAGOL\n",
-       "2   2   DEAGOL\n",
-       "3   3  SMEAGOL\n",
-       "4   4  SMEAGOL"
+       "  first_name last_name\n",
+       "0      Frodo   Baggins\n",
+       "1    Samwise       NaN"
       ]
      },
-     "execution_count": 30,
+     "execution_count": 19,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -682,7 +723,7 @@
    "source": [
     "import pandas as pd\n",
     "\n",
-    "MLL_filepath='./tests/mll.csv'\n",
+    "MLL_filepath='../../tests/namelist.csv'\n",
     "MLL = pd.read_csv(MLL_filepath)\n",
     "\n",
     "MLL.head()"
@@ -690,25 +731,38 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 33,
+   "execution_count": 20,
    "id": "e96756be",
    "metadata": {},
    "outputs": [],
    "source": [
-    "character_first_names = set(MLL.char)"
+    "first_names = set(MLL.first_name)\n",
+    "last_names = set(MLL.last_name)"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 34,
+   "execution_count": 21,
    "id": "a1c77dc6",
    "metadata": {},
    "outputs": [
     {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Supplied custom regexes through **kwargs (see custom_regexes in docstring):\n",
+      "\n",
+      "- solar_years : \\d\\syén\n",
+      "\n",
+      "These custom patterns will be replaced with <PHI>.\n",
+      "\n"
+     ]
+    },
+    {
      "name": "stderr",
      "output_type": "stream",
      "text": [
-      "Processing encounter 2389: : 2390it [10:31,  3.79it/s]"
+      "Processing encounter 3, note Record 1: : 4it [00:01,  3.47it/s]"
      ]
     },
     {
@@ -716,8 +770,8 @@
      "output_type": "stream",
      "text": [
       "Diagnostics:\n",
-      "                - chars/s = 230.95986752654892\n",
-      "                - s/note = 0.26413507750842363\n"
+      "                - chars/s = 139.8456593424458\n",
+      "                - s/note = 0.2878172993659973\n"
      ]
     },
     {
@@ -730,11 +784,28 @@
    ],
    "source": [
     "pyDeid(\n",
-    "    original_file='./tests/test.csv',\n",
-    "    encounter_id_varname='encounter_id',\n",
+    "    # specify the name and format of the input file\n",
+    "    original_file='../../tests/basic_usage_tutorial.csv',\n",
+    "    encounter_id_varname='id',\n",
     "    note_id_varname='note_id',\n",
-    "    note_varname='note_text',\n",
-    "    custom_patient_first_names=character_first_names\n",
+    "    note_varname='text',\n",
+    "    \n",
+    "    # specify the name of the de-identified result file\n",
+    "    new_file='../../tests/test_deid',\n",
+    "    \n",
+    "    # specify the name and format of the found PHI output file\n",
+    "    phi_output_file='../../tests/phi.json',\n",
+    "    phi_output_file_type='json',\n",
+    "    \n",
+    "    # use custom namelists since they are available\n",
+    "    custom_patient_first_names=first_names,\n",
+    "    custom_patient_last_names=last_names,\n",
+    "    \n",
+    "    # pass a spaCy NER pipeline to catch names outside our namelist\n",
+    "    ner_pipeline=nlp,\n",
+    "    \n",
+    "    # use custom regex for elven year format \"yén\"\n",
+    "    solar_years=\"\\\\d\\syén\"\n",
     ")"
    ]
   }
@@ -755,7 +826,7 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.10.4"
+   "version": "3.8.8"
   }
  },
  "nbformat": 4,

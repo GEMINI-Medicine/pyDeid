@@ -283,7 +283,7 @@
 </div>
 <p>Test your installation by running the following:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyDeid</span> <span class="kn">import</span> <span class="n">deid_string</span>
-<span class="n">deid_string</span><span class="p">(</span><span class="s1">&#39;Justin Bieber was born on March 1st, 1994.&#39;</span><span class="p">)</span>
+<span class="n">deid_string</span><span class="p">(</span><span class="s1">&#39;Elijah Wood starred in The Lord of the Rings, released on 10 December 2001.&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -294,7 +294,7 @@
 <p>There may be multiple columns containing free text, but <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> will only de-identify a single column at a time. In order to de-identify multiple columns of text, make multiple passes of the same file with <code class="docutils literal notranslate"><span class="pre">pyDeid</span></code> on the same file.</p>
 <p>Consider a <code class="docutils literal notranslate"><span class="pre">test.csv</span></code> that looks like this (and is provided under the <code class="docutils literal notranslate"><span class="pre">tests/</span></code> directory of the package):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">genc_id</span><span class="p">,</span><span class="n">note_id</span><span class="p">,</span><span class="n">note_text</span>
-<span class="mi">1</span><span class="p">,</span><span class="n">Record</span> <span class="mi">1</span><span class="p">,</span><span class="n">Justin</span> <span class="n">Bieber</span> <span class="n">was</span> <span class="n">born</span> <span class="n">on</span> <span class="n">March</span> <span class="mi">1</span><span class="n">st</span><span class="p">,</span> <span class="mf">1994.</span>
+<span class="mi">1</span><span class="p">,</span><span class="n">Record</span> <span class="mi">1</span><span class="p">,</span><span class="s2">&quot;Elijah Wood starred in The Lord of the Rings, released on 10 December 2001.&quot;</span>
 <span class="mi">2</span><span class="p">,</span><span class="n">Record</span> <span class="mi">2</span><span class="p">,</span><span class="s2">&quot;St.Michael&#39;s hospital is located at 30 Bond St, Toronto, ON, M5B 1W8</span>
 <span class="s2">&quot;</span>
 <span class="mi">3</span><span class="p">,</span><span class="n">Record</span> <span class="mi">3</span><span class="p">,</span><span class="n">Test</span> <span class="n">MRN</span><span class="p">:</span> <span class="mi">011</span><span class="o">-</span><span class="mi">0111</span>
@@ -342,7 +342,7 @@ pyDeid(
 <p><code class="docutils literal notranslate"><span class="pre">deid_string</span></code> is a simplified function to de-identify a single string at a time which can be used for debugging, or written into a custom wrapper if <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> fails to meet the requirements of the problem. It can optionally be combined with the <code class="docutils literal notranslate"><span class="pre">reid_string</span></code> function which takes the output of <code class="docutils literal notranslate"><span class="pre">deid_string</span></code> and returns the input to <code class="docutils literal notranslate"><span class="pre">deid_string</span></code>.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyDeid</span> <span class="kn">import</span> <span class="n">reid_string</span>
 
-<span class="n">original_string</span> <span class="o">=</span> <span class="s1">&#39;Justin Bieber was born in Stratford on March 1st, 1994.&#39;</span>
+<span class="n">original_string</span> <span class="o">=</span> <span class="s1">&#39;Elijah Wood starred in The Lord of the Rings, released on 10 December 2001.&#39;</span>
 
 <span class="n">phi</span><span class="p">,</span> <span class="n">new_string</span> <span class="o">=</span> <span class="n">deid_string</span><span class="p">(</span><span class="n">original_string</span><span class="p">)</span>
 <span class="n">reidentified_string</span> <span class="o">=</span> <span class="n">reid_string</span><span class="p">(</span><span class="n">new_string</span><span class="p">,</span> <span class="n">phi</span><span class="p">)</span>
