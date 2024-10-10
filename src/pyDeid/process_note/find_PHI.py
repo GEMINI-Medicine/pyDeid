@@ -22,6 +22,7 @@ def find_phi(x, phi, custom_regexes, model=None, types=["names", "dates", "sin",
         list_of_names(x, phi)
         if model:
             ner(x, phi, model)
+        #recurring_name(phi)
     
     if "dates" in types:
         date(x, phi)

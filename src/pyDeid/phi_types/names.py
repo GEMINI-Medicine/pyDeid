@@ -5,6 +5,8 @@ import re
 from .utils import *
 import pkg_resources
 
+from collections import defaultdict
+
 DATA_PATH = pkg_resources.resource_filename('pyDeid', 'wordlists/')
 
 female_names_unambig = load_file(os.path.join(DATA_PATH, 'female_names_unambig_v2.txt'))
@@ -678,3 +680,18 @@ def ner(x, phi, model):
                 add_type(PHI(ent.start_char + m.start(2), ent.end_char, m.group(2)), "Last Name (NER)", phi)
             else:
                 add_type(PHI(ent.start_char, ent.end_char, ent.text), "Name (NER)", phi)
+
+def recurring_name(phi):
+    # Step 1: Count occurrences of each phi value
+    phi_count = defaultdict(int)
+    for key, value in phi.items():
+        if any("Name" in item for item in value):
+            phi_count[key.phi] += 1
+    
+    # Step 2: Identify phi values that appear in 2 or more keys
+    common_phis = {phi for phi, count in phi_count.items() if count >= 2}
+    
+    # Step 3: Modify the dictionary in place
+    for key, value in phi.items():
+        if key.phi in common_phis:
+            value.append("Name (found multiple times)")
