@@ -264,7 +264,7 @@
    "source": [
     "Now we are ready to run the `ETUDE engine`.\n",
     "\n",
-    "In order to compare a given reference file with a given test file, the `ETUDE engine` uses a config for each of the reference file, and the tool's output. We provide both of the relevant configs under the `./tests/ETUDE_configs` directory.\n",
+    "In order to compare a given reference file with a given test file, the `ETUDE engine` uses a config for each of the reference file, and the tool's output. We provide both of the relevant configs under the `./tests` directory.\n",
     "\n",
     "With this, we run the following command from the directory in which we cloned the `ETUDE engine` repository."
    ]
