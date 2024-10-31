@@ -211,6 +211,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/pyDeid.html">pyDeid</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Tutorials</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -264,20 +265,153 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
 </section>
-<section id="pydeid-process-note-phifinder-module">
-<h2>pyDeid.process_note.PHIFinder module<a class="headerlink" href="#pydeid-process-note-phifinder-module" title="Permalink to this heading">¶</a></h2>
+<section id="module-pyDeid.process_note.PHIFinder">
+<span id="pydeid-process-note-phifinder-module"></span><h2>pyDeid.process_note.PHIFinder module<a class="headerlink" href="#module-pyDeid.process_note.PHIFinder" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyDeid.process_note.PHIFinder.PHIFinder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyDeid.process_note.PHIFinder.</span></span><span class="sig-name descname"><span class="pre">PHIFinder</span></span><a class="headerlink" href="#pyDeid.process_note.PHIFinder.PHIFinder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class representing all operations to find PHI values in a given note.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>custom_regexes</strong> (<em>-</em>) – These are named arguments that will be taken as regexes to be scrubbed from the given note.
+The keyword/argument name itself will be used to label the PHI in the <cite>phi_output</cite>. Note that all custom patterns will be replaced with <cite>&lt;PHI&gt;</cite>.</p></li>
+<li><p><strong>model</strong> (<em>-</em>) – The model loaded if named entity recognition (NER) is used</p></li>
+<li><p><strong>types</strong> (<em>-</em>) – Various PHIs we want to identify</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyDeid.process_note.PHIFinder.PHIFinder.find_phi">
+<span class="sig-name descname"><span class="pre">find_phi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row_from_mll</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pyDeid.phi_types.html#pyDeid.phi_types.utils.PHI" title="pyDeid.phi_types.utils.PHI"><span class="pre">PHI</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pyDeid.process_note.PHIFinder.PHIFinder.find_phi" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns mutated PHI object containing PHIs of various types identified from the note</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyDeid.process_note.PHIFinder.PHIFinder.set_note">
+<span class="sig-name descname"><span class="pre">set_note</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_note</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyDeid.process_note.PHIFinder.PHIFinder.set_note" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyDeid.process_note.PHIFinder.PHIFinder.set_phis">
+<span class="sig-name descname"><span class="pre">set_phis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_phis</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyDeid.process_note.PHIFinder.PHIFinder.set_phis" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyDeid.process_note.PHIFinder.PHIFinder.set_types">
+<span class="sig-name descname"><span class="pre">set_types</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">types</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">['names',</span> <span class="pre">'dates',</span> <span class="pre">'sin',</span> <span class="pre">'ohip',</span> <span class="pre">'mrn',</span> <span class="pre">'locations',</span> <span class="pre">'hospitals',</span> <span class="pre">'contact']</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.process_note.PHIFinder.PHIFinder.set_types" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="pydeid-process-note-phihandler-module">
-<h2>pyDeid.process_note.PHIHandler module<a class="headerlink" href="#pydeid-process-note-phihandler-module" title="Permalink to this heading">¶</a></h2>
+<section id="module-pyDeid.process_note.PHIHandler">
+<span id="pydeid-process-note-phihandler-module"></span><h2>pyDeid.process_note.PHIHandler module<a class="headerlink" href="#module-pyDeid.process_note.PHIHandler" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyDeid.process_note.PHIHandler.PHIHandler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyDeid.process_note.PHIHandler.</span></span><span class="sig-name descname"><span class="pre">PHIHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">regex_replace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mll_rows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.process_note.PHIHandler.PHIHandler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Responsible for managing the current the current note and associated PHIs.</p>
+<p>Manages relationship between find, prune and replace operations for the current note</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyDeid.process_note.PHIHandler.PHIHandler.handle_csv_row">
+<span class="sig-name descname"><span class="pre">handle_csv_row</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encounter_id_varname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'genc_id'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">note_id_varname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">note_varname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'note_text'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pyDeid.process_note.PHIHandler.PHIHandler.handle_csv_row" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handle the note - with find, prune, and replace</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyDeid.process_note.PHIHandler.PHIHandler.handle_string">
+<span class="sig-name descname"><span class="pre">handle_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">note</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row_from_mll</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pyDeid.process_note.PHIHandler.PHIHandler.handle_string" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyDeid.process_note.PHIHandler.PHIHandler.set_finder">
+<span class="sig-name descname"><span class="pre">set_finder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">finder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.process_note.PHIHandler.PHIHandler.set_finder" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyDeid.process_note.PHIHandler.PHIHandler.set_note">
+<span class="sig-name descname"><span class="pre">set_note</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_note</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyDeid.process_note.PHIHandler.PHIHandler.set_note" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyDeid.process_note.PHIHandler.PHIHandler.set_phis">
+<span class="sig-name descname"><span class="pre">set_phis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_phis</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyDeid.process_note.PHIHandler.PHIHandler.set_phis" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyDeid.process_note.PHIHandler.PHIHandler.set_pruner">
+<span class="sig-name descname"><span class="pre">set_pruner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pruner</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.process_note.PHIHandler.PHIHandler.set_pruner" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyDeid.process_note.PHIHandler.PHIHandler.set_replacer">
+<span class="sig-name descname"><span class="pre">set_replacer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">replacer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.process_note.PHIHandler.PHIHandler.set_replacer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="pydeid-process-note-phipruner-module">
-<h2>pyDeid.process_note.PHIPruner module<a class="headerlink" href="#pydeid-process-note-phipruner-module" title="Permalink to this heading">¶</a></h2>
+<section id="module-pyDeid.process_note.PHIPruner">
+<span id="pydeid-process-note-phipruner-module"></span><h2>pyDeid.process_note.PHIPruner module<a class="headerlink" href="#module-pyDeid.process_note.PHIPruner" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyDeid.process_note.PHIPruner.PHIPruner">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyDeid.process_note.PHIPruner.</span></span><span class="sig-name descname"><span class="pre">PHIPruner</span></span><a class="headerlink" href="#pyDeid.process_note.PHIPruner.PHIPruner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class representing all operations required to prune the PHIs for a given note</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyDeid.process_note.PHIPruner.PHIPruner.prune_phi">
+<span class="sig-name descname"><span class="pre">prune_phi</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pyDeid.phi_types.html#pyDeid.phi_types.utils.PHI" title="pyDeid.phi_types.utils.PHI"><span class="pre">PHI</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pyDeid.process_note.PHIPruner.PHIPruner.prune_phi" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns mutated PHI object containing a reduced set of PHIs after removing paradoxes and redundencies among the PHIs that exist from the note</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyDeid.process_note.PHIPruner.PHIPruner.set_note">
+<span class="sig-name descname"><span class="pre">set_note</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_note</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyDeid.process_note.PHIPruner.PHIPruner.set_note" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyDeid.process_note.PHIPruner.PHIPruner.set_phis">
+<span class="sig-name descname"><span class="pre">set_phis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_phis</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyDeid.process_note.PHIPruner.PHIPruner.set_phis" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="pydeid-process-note-phireplacer-module">
-<h2>pyDeid.process_note.PHIReplacer module<a class="headerlink" href="#pydeid-process-note-phireplacer-module" title="Permalink to this heading">¶</a></h2>
+<section id="module-pyDeid.process_note.PHIReplacer">
+<span id="pydeid-process-note-phireplacer-module"></span><h2>pyDeid.process_note.PHIReplacer module<a class="headerlink" href="#module-pyDeid.process_note.PHIReplacer" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyDeid.process_note.PHIReplacer.PHIReplacer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyDeid.process_note.PHIReplacer.</span></span><span class="sig-name descname"><span class="pre">PHIReplacer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">return_surrogates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.process_note.PHIReplacer.PHIReplacer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Handles replacement of PHI values with surrogate values.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyDeid.process_note.PHIReplacer.PHIReplacer.load_phi_types">
+<span class="sig-name descname"><span class="pre">load_phi_types</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">finder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.process_note.PHIReplacer.PHIReplacer.load_phi_types" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyDeid.process_note.PHIReplacer.PHIReplacer.replace_phi">
+<span class="sig-name descname"><span class="pre">replace_phi</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.process_note.PHIReplacer.PHIReplacer.replace_phi" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replaces PHI in the text with surrogate values.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyDeid.process_note.PHIReplacer.PHIReplacer.set_note">
+<span class="sig-name descname"><span class="pre">set_note</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_note</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyDeid.process_note.PHIReplacer.PHIReplacer.set_note" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyDeid.process_note.PHIReplacer.PHIReplacer.set_phis">
+<span class="sig-name descname"><span class="pre">set_phis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_phis</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyDeid.process_note.PHIReplacer.PHIReplacer.set_phis" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">¶</a></h2>
+<section id="module-pyDeid.process_note">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyDeid.process_note" title="Permalink to this heading">¶</a></h2>
 </section>
 </section>
 
@@ -338,11 +472,49 @@
             <ul>
 <li><a class="reference internal" href="#">pyDeid.process_note package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#pydeid-process-note-phifinder-module">pyDeid.process_note.PHIFinder module</a></li>
-<li><a class="reference internal" href="#pydeid-process-note-phihandler-module">pyDeid.process_note.PHIHandler module</a></li>
-<li><a class="reference internal" href="#pydeid-process-note-phipruner-module">pyDeid.process_note.PHIPruner module</a></li>
-<li><a class="reference internal" href="#pydeid-process-note-phireplacer-module">pyDeid.process_note.PHIReplacer module</a></li>
-<li><a class="reference internal" href="#module-contents">Module contents</a></li>
+<li><a class="reference internal" href="#module-pyDeid.process_note.PHIFinder">pyDeid.process_note.PHIFinder module</a><ul>
+<li><a class="reference internal" href="#pyDeid.process_note.PHIFinder.PHIFinder"><code class="docutils literal notranslate"><span class="pre">PHIFinder</span></code></a><ul>
+<li><a class="reference internal" href="#pyDeid.process_note.PHIFinder.PHIFinder.find_phi"><code class="docutils literal notranslate"><span class="pre">PHIFinder.find_phi()</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.process_note.PHIFinder.PHIFinder.set_note"><code class="docutils literal notranslate"><span class="pre">PHIFinder.set_note()</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.process_note.PHIFinder.PHIFinder.set_phis"><code class="docutils literal notranslate"><span class="pre">PHIFinder.set_phis()</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.process_note.PHIFinder.PHIFinder.set_types"><code class="docutils literal notranslate"><span class="pre">PHIFinder.set_types()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyDeid.process_note.PHIHandler">pyDeid.process_note.PHIHandler module</a><ul>
+<li><a class="reference internal" href="#pyDeid.process_note.PHIHandler.PHIHandler"><code class="docutils literal notranslate"><span class="pre">PHIHandler</span></code></a><ul>
+<li><a class="reference internal" href="#pyDeid.process_note.PHIHandler.PHIHandler.handle_csv_row"><code class="docutils literal notranslate"><span class="pre">PHIHandler.handle_csv_row()</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.process_note.PHIHandler.PHIHandler.handle_string"><code class="docutils literal notranslate"><span class="pre">PHIHandler.handle_string()</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.process_note.PHIHandler.PHIHandler.set_finder"><code class="docutils literal notranslate"><span class="pre">PHIHandler.set_finder()</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.process_note.PHIHandler.PHIHandler.set_note"><code class="docutils literal notranslate"><span class="pre">PHIHandler.set_note()</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.process_note.PHIHandler.PHIHandler.set_phis"><code class="docutils literal notranslate"><span class="pre">PHIHandler.set_phis()</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.process_note.PHIHandler.PHIHandler.set_pruner"><code class="docutils literal notranslate"><span class="pre">PHIHandler.set_pruner()</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.process_note.PHIHandler.PHIHandler.set_replacer"><code class="docutils literal notranslate"><span class="pre">PHIHandler.set_replacer()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyDeid.process_note.PHIPruner">pyDeid.process_note.PHIPruner module</a><ul>
+<li><a class="reference internal" href="#pyDeid.process_note.PHIPruner.PHIPruner"><code class="docutils literal notranslate"><span class="pre">PHIPruner</span></code></a><ul>
+<li><a class="reference internal" href="#pyDeid.process_note.PHIPruner.PHIPruner.prune_phi"><code class="docutils literal notranslate"><span class="pre">PHIPruner.prune_phi()</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.process_note.PHIPruner.PHIPruner.set_note"><code class="docutils literal notranslate"><span class="pre">PHIPruner.set_note()</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.process_note.PHIPruner.PHIPruner.set_phis"><code class="docutils literal notranslate"><span class="pre">PHIPruner.set_phis()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyDeid.process_note.PHIReplacer">pyDeid.process_note.PHIReplacer module</a><ul>
+<li><a class="reference internal" href="#pyDeid.process_note.PHIReplacer.PHIReplacer"><code class="docutils literal notranslate"><span class="pre">PHIReplacer</span></code></a><ul>
+<li><a class="reference internal" href="#pyDeid.process_note.PHIReplacer.PHIReplacer.load_phi_types"><code class="docutils literal notranslate"><span class="pre">PHIReplacer.load_phi_types()</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.process_note.PHIReplacer.PHIReplacer.replace_phi"><code class="docutils literal notranslate"><span class="pre">PHIReplacer.replace_phi()</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.process_note.PHIReplacer.PHIReplacer.set_note"><code class="docutils literal notranslate"><span class="pre">PHIReplacer.set_note()</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.process_note.PHIReplacer.PHIReplacer.set_phis"><code class="docutils literal notranslate"><span class="pre">PHIReplacer.set_phis()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyDeid.process_note">Module contents</a></li>
 </ul>
 </li>
 </ul>
