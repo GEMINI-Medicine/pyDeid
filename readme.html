@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="API Reference" href="api/index.html" /><link rel="prev" title="pyDeid" href="index.html" />
 
     <!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
-        <title>Overview - pyDeid v0.0.4 documentation</title>
+        <title>PyDeid - pyDeid v0.0.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
@@ -200,12 +200,13 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Overview</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">PyDeid</span></code></a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="api/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="api/modules.html">pyDeid</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of pyDeid</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="api/pyDeid.html">pyDeid package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of pyDeid package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/pyDeid.phi_types.html">pyDeid.phi_types package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/pyDeid.process_note.html">pyDeid.process_note package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/pyDeid.wordlists.html">pyDeid.wordlists package</a></li>
 </ul>
 </li>
 </ul>
@@ -258,25 +259,45 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="overview">
-<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
-<section id="pydeid">
-<h2><code class="docutils literal notranslate"><span class="pre">PyDeid</span></code><a class="headerlink" href="#pydeid" title="Permalink to this heading">¶</a></h2>
-<p>See <a class="reference external" href="https://gemini-medicine.github.io/pyDeid/index.html">read the docs</a> for extensive examples and a detailed feature breakdown.</p>
+          <section id="pydeid">
+<h1><code class="docutils literal notranslate"><span class="pre">PyDeid</span></code><a class="headerlink" href="#pydeid" title="Permalink to this heading">¶</a></h1>
+<p>See <a class="reference external" href="https://gemini-medicine.github.io/pyDeid/index.html">read the
+docs</a> for
+extensive examples and a detailed feature breakdown.</p>
 <section id="objective">
-<h3>1 Objective<a class="headerlink" href="#objective" title="Permalink to this heading">¶</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> is a Python-based refactor of the <a class="reference external" href="https://physionet.org/content/deid/1.1/">Physionet Perl-based De-identification Software</a>, which uses regular expressions and lookup dictionaries to identify and replace PHI in free text.</p>
-<p>The purpose was to create a faster, and easier to use tool to de-identify large volumes of (large) clinical notes. <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> is up to 5.4x faster than the perl-based software, and requires no pre or post processing. Additional enhancements include the ability to re-identify text, supply custom patterns, and supply custom doctor and patient namelists without having to save them to persistent storage, and incorporate <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> NER pipelines.</p>
+<h2>1 Objective<a class="headerlink" href="#objective" title="Permalink to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> is a Python-based refactor of the <a class="reference external" href="https://physionet.org/content/deid/1.1/">Physionet Perl-based
+De-identification Software</a>,
+which uses regular expressions and lookup dictionaries to identify and
+replace PHI in free text.</p>
+<p>The purpose was to create a faster, and easier to use tool to
+de-identify large volumes of (large) clinical notes. <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> is up to
+5.4x faster than the perl-based software, and requires no pre or post
+processing. Additional enhancements include the ability to re-identify
+text, supply custom patterns, and supply custom doctor and patient
+namelists without having to save them to persistent storage, and
+incorporate <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> NER pipelines.</p>
 </section>
 <section id="local-installation-and-setup">
-<h3>2 Local Installation and Setup<a class="headerlink" href="#local-installation-and-setup" title="Permalink to this heading">¶</a></h3>
-<p>If you have downloaded (and unzipped) this package to a local folder <code class="docutils literal notranslate"><span class="pre">/path/to/package/</span></code> simply install via <code class="docutils literal notranslate"><span class="pre">pip3</span> <span class="pre">install</span> <span class="pre">--user</span> <span class="pre">/path/to/package/</span></code>.</p>
-<p>Note that if you are connected through VPN to your institution’s network you may need to run the command with the following options: <code class="docutils literal notranslate"><span class="pre">pip3</span> <span class="pre">install</span> <span class="pre">--trusted-host</span> <span class="pre">pypi.org</span> <span class="pre">--trusted-host</span> <span class="pre">pypi.python.org</span> <span class="pre">--trusted-host</span> <span class="pre">files.pythonhosted.org</span> <span class="pre">--user</span> <span class="pre">/path/to/package/</span></code>.</p>
-<p>Dependencies can be installed with <code class="docutils literal notranslate"><span class="pre">pip3</span> <span class="pre">install</span> <span class="pre">--trusted-host</span> <span class="pre">pypi.org</span> <span class="pre">--trusted-host</span> <span class="pre">pypi.python.org</span> <span class="pre">--trusted-host</span> <span class="pre">files.pythonhosted.org</span> <span class="pre">-r</span> <span class="pre">/path/to/requirements.txt/</span></code>.</p>
+<h2>2 Local Installation and Setup<a class="headerlink" href="#local-installation-and-setup" title="Permalink to this heading">¶</a></h2>
+<p>If you have downloaded (and unzipped) this package to a local folder
+<code class="docutils literal notranslate"><span class="pre">/path/to/package/</span></code> simply install via
+<code class="docutils literal notranslate"><span class="pre">pip3</span> <span class="pre">install</span> <span class="pre">--user</span> <span class="pre">/path/to/package/</span></code>.</p>
+<p>Note that if you are connected through VPN to your institution’s network
+you may need to run the command with the following options:
+<code class="docutils literal notranslate"><span class="pre">pip3</span> <span class="pre">install</span> <span class="pre">--trusted-host</span> <span class="pre">pypi.org</span> <span class="pre">--trusted-host</span> <span class="pre">pypi.python.org</span> <span class="pre">--trusted-host</span> <span class="pre">files.pythonhosted.org</span> <span class="pre">--user</span> <span class="pre">/path/to/package/</span></code>.</p>
+<p>Dependencies can be installed with
+<code class="docutils literal notranslate"><span class="pre">pip3</span> <span class="pre">install</span> <span class="pre">--trusted-host</span> <span class="pre">pypi.org</span> <span class="pre">--trusted-host</span> <span class="pre">pypi.python.org</span> <span class="pre">--trusted-host</span> <span class="pre">files.pythonhosted.org</span> <span class="pre">-r</span> <span class="pre">/path/to/requirements.txt/</span></code>.</p>
 <blockquote>
-<div><p><em>Note</em>: You may encounter a deprecation warning about building local packages in place without first copying to a temporary directory in a future version of <code class="docutils literal notranslate"><span class="pre">pip</span></code>. Note that <code class="docutils literal notranslate"><span class="pre">pyDeid</span></code> has been tested with this change and the installation will continue to work when this behaviour becomes the default.</p>
+<div><p><em>Note</em>: You may encounter a deprecation warning about building local
+packages in place without first copying to a temporary directory in a
+future version of <code class="docutils literal notranslate"><span class="pre">pip</span></code>. Note that <code class="docutils literal notranslate"><span class="pre">pyDeid</span></code> has been tested with
+this change and the installation will continue to work when this
+behaviour becomes the default.</p>
 </div></blockquote>
-<p>To now import from this package, you may need to add the install location (found via <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">show</span> <span class="pre">pyDeid</span></code>) to your <code class="docutils literal notranslate"><span class="pre">$PYTHONPATH</span></code> so <code class="docutils literal notranslate"><span class="pre">Python</span></code> knows where to look for it:</p>
+<p>To now import from this package, you may need to add the install
+location (found via <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">show</span> <span class="pre">pyDeid</span></code>) to your <code class="docutils literal notranslate"><span class="pre">$PYTHONPATH</span></code> so
+<code class="docutils literal notranslate"><span class="pre">Python</span></code> knows where to look for it:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;/path/from/pip_show_pydeid/&#39;</span><span class="p">)</span>
 </pre></div>
@@ -288,11 +309,19 @@
 </div>
 </section>
 <section id="csv-file-de-identification">
-<h3>3 CSV File De-identification<a class="headerlink" href="#csv-file-de-identification" title="Permalink to this heading">¶</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">pyDeid</span></code> only requires that the free text data be stored in a CSV file with named column headers.</p>
-<p>Specifying a column of encounter IDs (and optionally note IDs) with <code class="docutils literal notranslate"><span class="pre">encounter_id_varname</span></code> and <code class="docutils literal notranslate"><span class="pre">note_id_varname</span></code> respectively is relevant in only to assign the found PHI to a particular encounter and note identifier for further analysis.</p>
-<p>There may be multiple columns containing free text, but <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> will only de-identify a single column at a time. In order to de-identify multiple columns of text, make multiple passes of the same file with <code class="docutils literal notranslate"><span class="pre">pyDeid</span></code> on the same file.</p>
-<p>Consider a <code class="docutils literal notranslate"><span class="pre">test.csv</span></code> that looks like this (and is provided under the <code class="docutils literal notranslate"><span class="pre">tests/</span></code> directory of the package):</p>
+<h2>3 CSV File De-identification<a class="headerlink" href="#csv-file-de-identification" title="Permalink to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">pyDeid</span></code> only requires that the free text data be stored in a CSV file
+with named column headers.</p>
+<p>Specifying a column of encounter IDs (and optionally note IDs) with
+<code class="docutils literal notranslate"><span class="pre">encounter_id_varname</span></code> and <code class="docutils literal notranslate"><span class="pre">note_id_varname</span></code> respectively is
+relevant in only to assign the found PHI to a particular encounter and
+note identifier for further analysis.</p>
+<p>There may be multiple columns containing free text, but <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> will
+only de-identify a single column at a time. In order to de-identify
+multiple columns of text, make multiple passes of the same file with
+<code class="docutils literal notranslate"><span class="pre">pyDeid</span></code> on the same file.</p>
+<p>Consider a <code class="docutils literal notranslate"><span class="pre">test.csv</span></code> that looks like this (and is provided under the
+<code class="docutils literal notranslate"><span class="pre">tests/</span></code> directory of the package):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">genc_id</span><span class="p">,</span><span class="n">note_id</span><span class="p">,</span><span class="n">note_text</span>
 <span class="mi">1</span><span class="p">,</span><span class="n">Record</span> <span class="mi">1</span><span class="p">,</span><span class="s2">&quot;Elijah Wood starred in The Lord of the Rings, released on 10 December 2001.&quot;</span>
 <span class="mi">2</span><span class="p">,</span><span class="n">Record</span> <span class="mi">2</span><span class="p">,</span><span class="s2">&quot;St.Michael&#39;s hospital is located at 30 Bond St, Toronto, ON, M5B 1W8</span>
@@ -300,13 +329,16 @@
 <span class="mi">3</span><span class="p">,</span><span class="n">Record</span> <span class="mi">3</span><span class="p">,</span><span class="n">Test</span> <span class="n">MRN</span><span class="p">:</span> <span class="mi">011</span><span class="o">-</span><span class="mi">0111</span>
 </pre></div>
 </div>
-<p>Note that each note (in the <code class="docutils literal notranslate"><span class="pre">note_text</span></code> field) is uniquely identified by a <code class="docutils literal notranslate"><span class="pre">genc_id</span></code> and a <code class="docutils literal notranslate"><span class="pre">note_id</span></code>.</p>
+<p>Note that each note (in the <code class="docutils literal notranslate"><span class="pre">note_text</span></code> field) is uniquely identified
+by a <code class="docutils literal notranslate"><span class="pre">genc_id</span></code> and a <code class="docutils literal notranslate"><span class="pre">note_id</span></code>.</p>
 <p>To de-identify this file with default settings, simply supply:</p>
 <ul class="simple">
 <li><p>The filename as <code class="docutils literal notranslate"><span class="pre">original_file</span></code></p></li>
 <li><p>The name of the column containing the note as <code class="docutils literal notranslate"><span class="pre">note_varname</span></code></p></li>
-<li><p>The name of the encounter identifying column as <code class="docutils literal notranslate"><span class="pre">encounter_id_varname</span></code></p></li>
-<li><p>And the name of the note (within encounter) identifying column as <code class="docutils literal notranslate"><span class="pre">note_id_varname</span></code></p></li>
+<li><p>The name of the encounter identifying column as
+<code class="docutils literal notranslate"><span class="pre">encounter_id_varname</span></code></p></li>
+<li><p>And the name of the note (within encounter) identifying column as
+<code class="docutils literal notranslate"><span class="pre">note_id_varname</span></code></p></li>
 </ul>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>from pyDeid import pyDeid
 
@@ -320,16 +352,37 @@ pyDeid(
 </div>
 </section>
 <section id="additional-arguments">
-<h3>4 Additional Arguments<a class="headerlink" href="#additional-arguments" title="Permalink to this heading">¶</a></h3>
-<p>Additional settings are described in the <a class="reference external" href="https://gemini-medicine.github.io/pyDeid/api/index.html">API documentation</a>, and covered extensively in the <a class="reference external" href="https://gemini-medicine.github.io/pyDeid/tutorials/index.html">tutorial notebooks</a>.</p>
+<h2>4 Additional Arguments<a class="headerlink" href="#additional-arguments" title="Permalink to this heading">¶</a></h2>
+<p>Additional settings are described in the <a class="reference external" href="https://gemini-medicine.github.io/pyDeid/api/index.html">API
+documentation</a>,
+and covered extensively in the <a class="reference external" href="https://gemini-medicine.github.io/pyDeid/tutorials/index.html">tutorial
+notebooks</a>.</p>
 <p>Some arguments are described below:</p>
 <ul class="simple">
-<li><p>A file name for the de-identified csv can be supplied with <code class="docutils literal notranslate"><span class="pre">new_file</span></code>, or will take the form <code class="docutils literal notranslate"><span class="pre">&lt;original</span> <span class="pre">file</span> <span class="pre">name&gt;__DE-IDENTIFIED.csv</span></code>.</p></li>
-<li><p>The PHI output can be stored as a <code class="docutils literal notranslate"><span class="pre">json</span></code> or <code class="docutils literal notranslate"><span class="pre">csv</span></code> file (specified by the <code class="docutils literal notranslate"><span class="pre">phi_output_file_type</span></code> parameter), and optionally the file name can be provided using the <code class="docutils literal notranslate"><span class="pre">phi_output_file</span></code> parameter. The <code class="docutils literal notranslate"><span class="pre">json</span></code> data structure is more efficient on space, but is much heavier on memory. The <code class="docutils literal notranslate"><span class="pre">csv</span></code> data structure is inefficient on space but much lighter on memory.</p></li>
-<li><p>There is a <code class="docutils literal notranslate"><span class="pre">verbose</span></code> mode which displays a progress bar and prints speed diagnostics at the end of the run.</p></li>
+<li><p>A file name for the de-identified csv can be supplied with
+<code class="docutils literal notranslate"><span class="pre">new_file</span></code>, or will take the form
+<code class="docutils literal notranslate"><span class="pre">&lt;original</span> <span class="pre">file</span> <span class="pre">name&gt;__DE-IDENTIFIED.csv</span></code>.</p></li>
+<li><p>The PHI output can be stored as a <code class="docutils literal notranslate"><span class="pre">json</span></code> or <code class="docutils literal notranslate"><span class="pre">csv</span></code> file (specified
+by the <code class="docutils literal notranslate"><span class="pre">phi_output_file_type</span></code> parameter), and optionally the file
+name can be provided using the <code class="docutils literal notranslate"><span class="pre">phi_output_file</span></code> parameter. The
+<code class="docutils literal notranslate"><span class="pre">json</span></code> data structure is more efficient on space, but is much
+heavier on memory. The <code class="docutils literal notranslate"><span class="pre">csv</span></code> data structure is inefficient on space
+but much lighter on memory.</p></li>
+<li><p>There is a <code class="docutils literal notranslate"><span class="pre">verbose</span></code> mode which displays a progress bar and prints
+speed diagnostics at the end of the run.</p></li>
 </ul>
-<p>One of the main advantages of <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> over <code class="docutils literal notranslate"><span class="pre">Physionet</span> <span class="pre">De-identification</span> <span class="pre">Software</span> <span class="pre">v1.1</span></code> is the ability to supply a set of doctor and patient first and last names to be recognized as PHI, without having to write this sensitive information to persistent storage. These custom blacklists can be read into a python Set and supplied to <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> through the <code class="docutils literal notranslate"><span class="pre">custom_dr_first_names</span></code>, <code class="docutils literal notranslate"><span class="pre">custom_dr_last_names</span></code>, <code class="docutils literal notranslate"><span class="pre">custom_patient_first_names</span></code>, and <code class="docutils literal notranslate"><span class="pre">custom_patient_last_names</span></code> parameters for better recall and precision.</p>
-<p>Additionally, <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> allows custom regexes for site-specific PHI to be supplied through keyword arguments. Simply supply a named regex argument to <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> or <code class="docutils literal notranslate"><span class="pre">deid_string</span></code> like so:</p>
+<p>One of the main advantages of <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> over
+<code class="docutils literal notranslate"><span class="pre">Physionet</span> <span class="pre">De-identification</span> <span class="pre">Software</span> <span class="pre">v1.1</span></code> is the ability to supply a
+set of doctor and patient first and last names to be recognized as PHI,
+without having to write this sensitive information to persistent
+storage. These custom blacklists can be read into a python Set and
+supplied to <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> through the <code class="docutils literal notranslate"><span class="pre">custom_dr_first_names</span></code>,
+<code class="docutils literal notranslate"><span class="pre">custom_dr_last_names</span></code>, <code class="docutils literal notranslate"><span class="pre">custom_patient_first_names</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">custom_patient_last_names</span></code> parameters for better recall and
+precision.</p>
+<p>Additionally, <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> allows custom regexes for site-specific PHI to
+be supplied through keyword arguments. Simply supply a named regex
+argument to <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> or <code class="docutils literal notranslate"><span class="pre">deid_string</span></code> like so:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>deid_string(
     ‘The site-specific identifier at your hospital is NH12345’,
     site_identifier = ‘NH\d{5}’
@@ -338,8 +391,12 @@ pyDeid(
 </div>
 </section>
 <section id="additional-functions">
-<h3>5 Additional Functions<a class="headerlink" href="#additional-functions" title="Permalink to this heading">¶</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">deid_string</span></code> is a simplified function to de-identify a single string at a time which can be used for debugging, or written into a custom wrapper if <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> fails to meet the requirements of the problem. It can optionally be combined with the <code class="docutils literal notranslate"><span class="pre">reid_string</span></code> function which takes the output of <code class="docutils literal notranslate"><span class="pre">deid_string</span></code> and returns the input to <code class="docutils literal notranslate"><span class="pre">deid_string</span></code>.</p>
+<h2>5 Additional Functions<a class="headerlink" href="#additional-functions" title="Permalink to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">deid_string</span></code> is a simplified function to de-identify a single string
+at a time which can be used for debugging, or written into a custom
+wrapper if <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> fails to meet the requirements of the problem. It
+can optionally be combined with the <code class="docutils literal notranslate"><span class="pre">reid_string</span></code> function which takes
+the output of <code class="docutils literal notranslate"><span class="pre">deid_string</span></code> and returns the input to <code class="docutils literal notranslate"><span class="pre">deid_string</span></code>.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyDeid</span> <span class="kn">import</span> <span class="n">reid_string</span>
 
 <span class="n">original_string</span> <span class="o">=</span> <span class="s1">&#39;Elijah Wood starred in The Lord of the Rings, released on 10 December 2001.&#39;</span>
@@ -350,7 +407,8 @@ pyDeid(
 <span class="nb">print</span><span class="p">(</span><span class="n">original_string</span> <span class="o">==</span> <span class="n">reidentified_string</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Additionally, the de-identification results can be visualized with <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>.</p>
+<p>Additionally, the de-identification results can be visualized with
+<code class="docutils literal notranslate"><span class="pre">spaCy</span></code>.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyDeid</span> <span class="kn">import</span> <span class="n">display_deid</span>
 
 <span class="n">display_deid</span><span class="p">(</span><span class="n">original_string</span><span class="p">,</span> <span class="n">phi</span><span class="p">)</span>
@@ -358,9 +416,10 @@ pyDeid(
 </div>
 </section>
 <section id="reporting-issues">
-<h3>6 Reporting Issues<a class="headerlink" href="#reporting-issues" title="Permalink to this heading">¶</a></h3>
-<p>Please report any bugs or feature requests as issues to the <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> repository. For any bugs, please supply a minimal reproducible example to guarantee a quicker resolution.</p>
-</section>
+<h2>6 Reporting Issues<a class="headerlink" href="#reporting-issues" title="Permalink to this heading">¶</a></h2>
+<p>Please report any bugs or feature requests as issues to the <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code>
+repository. For any bugs, please supply a minimal reproducible example
+to guarantee a quicker resolution.</p>
 </section>
 </section>
 
@@ -419,16 +478,13 @@ pyDeid(
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Overview</a><ul>
-<li><a class="reference internal" href="#pydeid"><code class="docutils literal notranslate"><span class="pre">PyDeid</span></code></a><ul>
+<li><a class="reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">PyDeid</span></code></a><ul>
 <li><a class="reference internal" href="#objective">1 Objective</a></li>
 <li><a class="reference internal" href="#local-installation-and-setup">2 Local Installation and Setup</a></li>
 <li><a class="reference internal" href="#csv-file-de-identification">3 CSV File De-identification</a></li>
 <li><a class="reference internal" href="#additional-arguments">4 Additional Arguments</a></li>
 <li><a class="reference internal" href="#additional-functions">5 Additional Functions</a></li>
 <li><a class="reference internal" href="#reporting-issues">6 Reporting Issues</a></li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>

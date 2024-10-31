@@ -200,12 +200,13 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../readme.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html"><code class="docutils literal notranslate"><span class="pre">PyDeid</span></code></a></li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2 current has-children"><a class="reference internal" href="modules.html">pyDeid</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of pyDeid</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l3 current has-children"><a class="reference internal" href="pyDeid.html">pyDeid package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of pyDeid package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l4 current current-page"><a class="current reference internal" href="#">pyDeid.phi_types package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyDeid.process_note.html">pyDeid.process_note package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyDeid.wordlists.html">pyDeid.wordlists package</a></li>
 </ul>
 </li>
 </ul>
@@ -263,20 +264,32 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
 </section>
-<section id="pydeid-phi-types-ids-module">
-<h2>pyDeid.phi_types.IDs module<a class="headerlink" href="#pydeid-phi-types-ids-module" title="Permalink to this heading">¶</a></h2>
+<section id="pydeid-phi-types-addressfinder-module">
+<h2>pyDeid.phi_types.AddressFinder module<a class="headerlink" href="#pydeid-phi-types-addressfinder-module" title="Permalink to this heading">¶</a></h2>
 </section>
-<section id="pydeid-phi-types-addresses-module">
-<h2>pyDeid.phi_types.addresses module<a class="headerlink" href="#pydeid-phi-types-addresses-module" title="Permalink to this heading">¶</a></h2>
+<section id="pydeid-phi-types-americanpiifinder-module">
+<h2>pyDeid.phi_types.AmericanPIIFinder module<a class="headerlink" href="#pydeid-phi-types-americanpiifinder-module" title="Permalink to this heading">¶</a></h2>
 </section>
-<section id="pydeid-phi-types-contact-info-module">
-<h2>pyDeid.phi_types.contact_info module<a class="headerlink" href="#pydeid-phi-types-contact-info-module" title="Permalink to this heading">¶</a></h2>
+<section id="pydeid-phi-types-contactfinder-module">
+<h2>pyDeid.phi_types.ContactFinder module<a class="headerlink" href="#pydeid-phi-types-contactfinder-module" title="Permalink to this heading">¶</a></h2>
 </section>
-<section id="pydeid-phi-types-dates-module">
-<h2>pyDeid.phi_types.dates module<a class="headerlink" href="#pydeid-phi-types-dates-module" title="Permalink to this heading">¶</a></h2>
+<section id="pydeid-phi-types-datefinder-module">
+<h2>pyDeid.phi_types.DateFinder module<a class="headerlink" href="#pydeid-phi-types-datefinder-module" title="Permalink to this heading">¶</a></h2>
 </section>
-<section id="pydeid-phi-types-names-module">
-<h2>pyDeid.phi_types.names module<a class="headerlink" href="#pydeid-phi-types-names-module" title="Permalink to this heading">¶</a></h2>
+<section id="pydeid-phi-types-hospitalfinder-module">
+<h2>pyDeid.phi_types.HospitalFinder module<a class="headerlink" href="#pydeid-phi-types-hospitalfinder-module" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="pydeid-phi-types-mrnfinder-module">
+<h2>pyDeid.phi_types.MRNFinder module<a class="headerlink" href="#pydeid-phi-types-mrnfinder-module" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="pydeid-phi-types-namefinder-module">
+<h2>pyDeid.phi_types.NameFinder module<a class="headerlink" href="#pydeid-phi-types-namefinder-module" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="pydeid-phi-types-ohipfinder-module">
+<h2>pyDeid.phi_types.OHIPFinder module<a class="headerlink" href="#pydeid-phi-types-ohipfinder-module" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="pydeid-phi-types-sinfinder-module">
+<h2>pyDeid.phi_types.SINFinder module<a class="headerlink" href="#pydeid-phi-types-sinfinder-module" title="Permalink to this heading">¶</a></h2>
 </section>
 <section id="pydeid-phi-types-utils-module">
 <h2>pyDeid.phi_types.utils module<a class="headerlink" href="#pydeid-phi-types-utils-module" title="Permalink to this heading">¶</a></h2>
@@ -343,11 +356,15 @@
             <ul>
 <li><a class="reference internal" href="#">pyDeid.phi_types package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#pydeid-phi-types-ids-module">pyDeid.phi_types.IDs module</a></li>
-<li><a class="reference internal" href="#pydeid-phi-types-addresses-module">pyDeid.phi_types.addresses module</a></li>
-<li><a class="reference internal" href="#pydeid-phi-types-contact-info-module">pyDeid.phi_types.contact_info module</a></li>
-<li><a class="reference internal" href="#pydeid-phi-types-dates-module">pyDeid.phi_types.dates module</a></li>
-<li><a class="reference internal" href="#pydeid-phi-types-names-module">pyDeid.phi_types.names module</a></li>
+<li><a class="reference internal" href="#pydeid-phi-types-addressfinder-module">pyDeid.phi_types.AddressFinder module</a></li>
+<li><a class="reference internal" href="#pydeid-phi-types-americanpiifinder-module">pyDeid.phi_types.AmericanPIIFinder module</a></li>
+<li><a class="reference internal" href="#pydeid-phi-types-contactfinder-module">pyDeid.phi_types.ContactFinder module</a></li>
+<li><a class="reference internal" href="#pydeid-phi-types-datefinder-module">pyDeid.phi_types.DateFinder module</a></li>
+<li><a class="reference internal" href="#pydeid-phi-types-hospitalfinder-module">pyDeid.phi_types.HospitalFinder module</a></li>
+<li><a class="reference internal" href="#pydeid-phi-types-mrnfinder-module">pyDeid.phi_types.MRNFinder module</a></li>
+<li><a class="reference internal" href="#pydeid-phi-types-namefinder-module">pyDeid.phi_types.NameFinder module</a></li>
+<li><a class="reference internal" href="#pydeid-phi-types-ohipfinder-module">pyDeid.phi_types.OHIPFinder module</a></li>
+<li><a class="reference internal" href="#pydeid-phi-types-sinfinder-module">pyDeid.phi_types.SINFinder module</a></li>
 <li><a class="reference internal" href="#pydeid-phi-types-utils-module">pyDeid.phi_types.utils module</a></li>
 <li><a class="reference internal" href="#module-contents">Module contents</a></li>
 </ul>

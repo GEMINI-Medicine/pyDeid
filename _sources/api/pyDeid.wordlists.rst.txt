@@ -1,0 +1,10 @@
+pyDeid.wordlists package
+========================
+
+Module contents
+---------------
+
+.. automodule:: pyDeid.wordlists
+   :members:
+   :undoc-members:
+   :show-inheritance:

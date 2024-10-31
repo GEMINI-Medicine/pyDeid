@@ -4,26 +4,34 @@ pyDeid.process\_note package
 Submodules
 ----------
 
-pyDeid.process\_note.find\_PHI module
+pyDeid.process\_note.PHIFinder module
 -------------------------------------
 
-.. automodule:: pyDeid.process_note.find_PHI
+.. automodule:: pyDeid.process_note.PHIFinder
    :members:
    :undoc-members:
    :show-inheritance:
 
-pyDeid.process\_note.prune\_PHI module
+pyDeid.process\_note.PHIHandler module
 --------------------------------------
 
-.. automodule:: pyDeid.process_note.prune_PHI
+.. automodule:: pyDeid.process_note.PHIHandler
    :members:
    :undoc-members:
    :show-inheritance:
 
-pyDeid.process\_note.replace\_PHI module
-----------------------------------------
+pyDeid.process\_note.PHIPruner module
+-------------------------------------
 
-.. automodule:: pyDeid.process_note.replace_PHI
+.. automodule:: pyDeid.process_note.PHIPruner
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pyDeid.process\_note.PHIReplacer module
+---------------------------------------
+
+.. automodule:: pyDeid.process_note.PHIReplacer
    :members:
    :undoc-members:
    :show-inheritance:

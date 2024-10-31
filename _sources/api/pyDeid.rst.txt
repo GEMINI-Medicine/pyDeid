@@ -9,14 +9,55 @@ Subpackages
 
    pyDeid.phi_types
    pyDeid.process_note
+   pyDeid.wordlists
 
 Submodules
 ----------
+
+pyDeid.CSVEvaluator module
+--------------------------
+
+.. automodule:: pyDeid.CSVEvaluator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pyDeid.Deidentifier module
+--------------------------
+
+.. automodule:: pyDeid.Deidentifier
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pyDeid.cli module
+-----------------
+
+.. automodule:: pyDeid.cli
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pyDeid.n2c2 module
+------------------
+
+.. automodule:: pyDeid.n2c2
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 pyDeid.pyDeid module
 --------------------
 
 .. automodule:: pyDeid.pyDeid
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pyDeid.pyDeidBuilder module
+---------------------------
+
+.. automodule:: pyDeid.pyDeidBuilder
    :members:
    :undoc-members:
    :show-inheritance:
