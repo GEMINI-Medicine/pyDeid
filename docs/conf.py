@@ -9,7 +9,7 @@
 # show package structure to sphinx
 import sys
 import os
-sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(0, os.path.abspath('../src'))
 
 project = 'pyDeid'
 copyright = '2024, GEMINI'
@@ -20,11 +20,18 @@ release = 'v0.0.4'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
+    #'sphinx.ext.autosummary',
     'sphinx.ext.autodoc',
     'sphinx.ext.napoleon',
     'nbsphinx',
     'myst_parser',
 ]
+
+autodoc_default_options = {
+    'members': True,
+    'undoc-members': True,
+    'show-inheritance': True
+}
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
