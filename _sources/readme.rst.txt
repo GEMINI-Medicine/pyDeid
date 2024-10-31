@@ -5,6 +5,8 @@ See `read the
 docs <https://gemini-medicine.github.io/pyDeid/index.html>`__ for
 extensive examples and a detailed feature breakdown.
 
+**Note that ``pyDeid`` was tested with python ``3.10.4``.**
+
 1 Objective
 -----------
 
