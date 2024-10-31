@@ -3,7 +3,7 @@ name: Build and Deploy Docs
 on:
   push:
     branches:
-      - master
+      - develop
 
 jobs:
   build-and-deploy:
@@ -24,7 +24,16 @@ jobs:
     - name: Install dependencies
       run: |
         pip install -r requirements.txt
-        pip install sphinx sphinx-rtd-theme nbsphinx myst-parser furo
+        pip install sphinx sphinx-rtd-theme nbsphinx myst-parser furo nltk
+
+    - name: Update API documentation
+      run: |
+        cd docs
+        sphinx-apidoc -o api ../src/pyDeid -f
+
+    - name: Convert README to RST (if needed)
+      run: |
+        pandoc --from=markdown --to=rst --output=./docs/readme.rst ./README.md
 
     - name: Build docs
       run: |
