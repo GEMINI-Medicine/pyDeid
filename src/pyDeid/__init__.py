@@ -1,4 +1,2 @@
-from .pyDeid import *
-from .phi_types import *
-from .process_note import *
-from .n2c2 import *
+from .pyDeid import pyDeid
+from .pyDeid import deid_string
