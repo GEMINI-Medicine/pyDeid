@@ -1,6 +1,0 @@
-﻿pyDeid
-======
-
-.. currentmodule:: pyDeid
-
-.. automodule:: pyDeid
