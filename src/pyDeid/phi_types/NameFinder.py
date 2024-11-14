@@ -207,7 +207,7 @@ class NameFinder:
                 
                 two_initials = re.search(r'\b([A-Za-z][\. ] ?[A-Za-z]\.?) ?$', string_before)
                 single_initial = re.search(r'\b([A-Za-z]\.?) ?$', string_before)
-                #ipdb.set_trace()
+              
                 if two_initials:
                     add_type(PHI(i[0] - len(two_initials.group()), i[0] - len(two_initials.group()) + len(two_initials.group(1)), two_initials.group(1)), "Initials (double)", self.phis)
                 elif single_initial:
