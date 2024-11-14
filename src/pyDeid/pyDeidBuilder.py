@@ -239,7 +239,7 @@ class pyDeidBuilder:
                 quotechar='"',
                 quoting=csv.QUOTE_MINIMAL,
             )
-
+          
             # Check if the encounter ID column exists
             if encounter_id_varname not in mll_reader.fieldnames:
                 raise ValueError(
@@ -277,55 +277,6 @@ class pyDeidBuilder:
 
             return self
 
-        with open(
-            filename,
-            newline="",
-            encoding=file_encoding,
-            errors=read_error_handling,
-        ) as f:
-            mll_reader = csv.DictReader(
-                f,
-                delimiter=",",
-                quotechar='"',
-                quoting=csv.QUOTE_MINIMAL,
-            )
-
-            # Check if the encounter ID column exists
-            if encounter_id_varname not in mll_reader.fieldnames:
-                raise ValueError(
-                    f"Encounter ID column '{encounter_id_varname}' not found in the CSV file."
-                )
-
-            for row in mll_reader:
-                # Get index for the encounter id for easy retrieval later
-                key = row[encounter_id_varname]
-                self.mll_rows[key] = row
-
-                if use_namelists:
-                    # Process patient names
-                    for name_type, column in patient_name_columns.items():
-                        if column in row:
-                            value = row[column]
-                            if value:  # Only add non-empty values
-                                name_set_mapping[name_type]["patient"].add(value)
-
-                    # Process doctor names
-                    for name_type, columns in doctor_name_columns.items():
-                        for column in columns:
-                            if column in row:
-                                value = row[column]
-                                if value:  # Only add non-empty values
-                                    name_set_mapping[name_type]["doctor"].add(value)
-
-            if use_namelists:
-                self.set_custom_namelists(
-                    custom_patient_first_names,
-                    custom_patient_last_names,
-                    custom_dr_first_names,
-                    custom_dr_last_names,
-                )
-
-            return self
 
     def _load_reader_dict(self, file_encoding="utf-8", read_error_handling=None):
         self.deid.reader_dict = csv.DictReader(

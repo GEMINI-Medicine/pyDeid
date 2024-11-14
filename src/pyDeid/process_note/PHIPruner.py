@@ -1,6 +1,7 @@
 import re
 from ..phi_types.utils import PHI, is_common, is_ambig, is_type, add_type
 from typing import *
+import ipdb
 
 class PHIPruner:
     """A class representing all operations required to prune the PHIs for a given note"""
@@ -21,8 +22,10 @@ class PHIPruner:
          Returns mutated PHI object containing a reduced set of PHIs after removing paradoxes and redundencies among the PHIs that exist from the note
 
         """
+        # ipdb.set_trace()
         phi_keys = sorted(self.phis.keys(), key=lambda x: x.start)
         self._check_ambiguous_types(phi_keys)
+        print(self.phis)
         self._remove_ambiguous_phi(phi_keys)
         phi_keys = sorted(self.phis.keys(), key=lambda x: x.start)  # Re-sort after removal
         self._remove_overlapping_phi(phi_keys)

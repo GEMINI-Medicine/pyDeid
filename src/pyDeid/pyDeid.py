@@ -7,8 +7,8 @@ import os
 
 def pyDeid(
     original_file: Union[str, Path], 
-    encounter_id_varname: str,
-    note_varname: str, 
+    encounter_id_varname: str = "genc_id",
+    note_varname: str = "note_text", 
     note_id_varname: Optional[str] = None,
     enable_replace: bool = True,
     return_surrogates: bool = True,

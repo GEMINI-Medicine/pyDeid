@@ -1,5 +1,5 @@
-from typing import *
 
+from typing import *
 from ..phi_types.utils import CustomRegex
 
 from ..phi_types.NameFinder import *
@@ -10,7 +10,7 @@ from ..phi_types.AddressFinder import *
 from ..phi_types.MRNFinder import *
 from ..phi_types.SINFinder import *
 from ..phi_types.OHIPFinder import *
-
+import ipdb
 
 class PHIFinder:
     """A class representing all operations to find PHI values in a given note.
@@ -111,6 +111,7 @@ class PHIFinder:
         
 
         if "names" in self.types:
+           
             phi = self.name_finder.name_first_pass()
             self.set_phis(phi)
             name_phi = self.name_finder.find()
