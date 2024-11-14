@@ -4,7 +4,7 @@ from .. import wordlists
 import re
 from .utils import *
 from collections import defaultdict
-
+import ipdb
 
 class NameFinder:
 
@@ -52,6 +52,7 @@ class NameFinder:
 
 
         self.namesets = [ # do this only once
+           
             (female_names_unambig, 'Female First Name (un)'), 
             (male_names_unambig, 'Male First Name (un)'),
             (last_names_unambig, 'Last Name (un)'),
@@ -70,6 +71,8 @@ class NameFinder:
         self.last_name_prefixes = set(line.strip() for line in open(os.path.join(DATA_PATH, 'last_name_prefixes.txt')))
     
     def find(self):
+        
+        
         self._combine_prefix_and_lastname()
         self._follows_name_indicator()
         self._lastname_comma_firstname()
@@ -107,7 +110,7 @@ class NameFinder:
 
     def name_first_pass(self
     ):
-   
+    
         res = {}
         word_pattern = re.compile(r'\w+')
 
@@ -123,6 +126,7 @@ class NameFinder:
         if self.custom_patient_last_names is not None:
             custom_names.append(({name.upper() for name in self.custom_patient_last_names}, 'Custom Patient Last Name'))
 
+        
         for word in word_pattern.finditer(self.note):
             for names, tag in self.namesets:
                 if word.group().upper() in names:
@@ -144,7 +148,7 @@ class NameFinder:
         for name in self.doctor_first_names:
             for m in re.finditer(name, self.note, re.IGNORECASE):
                 res.setdefault(PHI(m.start(), m.end(), m.group()),[]).append('Doctor First Name')
-
+       
         return res
 
     def _ner( self ):
@@ -203,7 +207,7 @@ class NameFinder:
                 
                 two_initials = re.search(r'\b([A-Za-z][\. ] ?[A-Za-z]\.?) ?$', string_before)
                 single_initial = re.search(r'\b([A-Za-z]\.?) ?$', string_before)
-                
+                #ipdb.set_trace()
                 if two_initials:
                     add_type(PHI(i[0] - len(two_initials.group()), i[0] - len(two_initials.group()) + len(two_initials.group(1)), two_initials.group(1)), "Initials (double)", self.phis)
                 elif single_initial:
