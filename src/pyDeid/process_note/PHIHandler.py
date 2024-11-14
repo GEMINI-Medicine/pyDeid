@@ -1,7 +1,5 @@
 from ..phi_types.utils import phi_dict_to_list
 from typing import *
-import ipdb
-
 
 
 class PHIHandler:
@@ -56,7 +54,6 @@ class PHIHandler:
 
         found_phi = self.finder.find_phi(row_from_mll)
         self.set_phis(found_phi)
-        #ipdb.set_trace()
         pruned_phi = self.pruner.prune_phi()
         self.set_phis(pruned_phi)
         

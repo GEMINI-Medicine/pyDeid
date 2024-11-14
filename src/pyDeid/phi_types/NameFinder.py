@@ -4,7 +4,7 @@ from .. import wordlists
 import re
 from .utils import *
 from collections import defaultdict
-import ipdb
+
 
 class NameFinder:
 

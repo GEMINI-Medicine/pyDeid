@@ -10,7 +10,7 @@ from ..phi_types.AddressFinder import *
 from ..phi_types.MRNFinder import *
 from ..phi_types.SINFinder import *
 from ..phi_types.OHIPFinder import *
-import ipdb
+
 
 class PHIFinder:
     """A class representing all operations to find PHI values in a given note.

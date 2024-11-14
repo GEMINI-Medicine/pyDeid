@@ -6,8 +6,6 @@ from ..phi_types.DateFinder import Date
 from datetime import datetime
 
 from faker import Faker
-import ipdb
-
 
 
 class PHIReplacer:
@@ -330,7 +328,6 @@ class PHIReplacer:
         """Determines the surrogate value for a given PHI type."""
       
         surrogate = ''
-        print(phi_values)
         
         for val in phi_values:
             if re.search(r'Initials \(double\)', val, re.IGNORECASE):
