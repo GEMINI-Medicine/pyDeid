@@ -3,6 +3,7 @@ import calendar
 import random
 import string
 from ..phi_types.DateFinder import Date
+from datetime import datetime
 
 from faker import Faker
 
@@ -55,20 +56,29 @@ class PHIReplacer:
         self.canadian_area_codes = finder.contact_finder.canadian_area_codes
         self.local_places_unambig = finder.address_finder.local_places_unambig
         self.hospitals = finder.hospital_finder.hospitals
+        self.hospital_acronyms = finder.hospital_finder.hospital_acronyms
 
     def replace_phi(self):
-        """Replaces PHI in the text with surrogate values."""
+        """Replaces PHI in the text with surrogate values, ensuring no  overlapping replacements."""
         deid_text = ""
         surrogates = []
         where_we_left_off = 0
+        replaced_ranges = set()  # Track replaced ranges
 
         self._randomize()
 
-        for key in sorted(self.phis.keys(), key=lambda x: x.start):
+        # Sort PHI keys by starting position
+        sorted_keys = sorted(self.phis.keys(), key=lambda x: x.start)
+
+        for key in sorted_keys:
+            # Check if this range overlaps with an already replaced range
+            if any(start <= key.start < end or start < key.end <= end for start, end in replaced_ranges):
+                continue  # Skip overlapping PHI
+
             surrogate = self._get_surrogate(self.phis[key], key)
             surrogate_start = len(deid_text + self.note[where_we_left_off:key.start])
             deid_text = deid_text + self.note[where_we_left_off:key.start] + surrogate
-            
+
             if self.return_surrogates:
                 surrogate_end = surrogate_start + len(surrogate)
                 surrogates.append({
@@ -81,11 +91,15 @@ class PHIReplacer:
                     'types': self.phis[key]
                 })
 
+            # Add this range to replaced_ranges
+            replaced_ranges.add((key.start, key.end))
             where_we_left_off = key.end
 
+        # Append remaining text after the last PHI
         deid_text = deid_text + self.note[where_we_left_off:]
-     
+
         return (surrogates, deid_text)
+
     
 
     def _randomize(self):
@@ -324,16 +338,28 @@ class PHIReplacer:
 
     def _get_surrogate(self, phi_values, key):
         """Determines the surrogate value for a given PHI type."""
+      
         surrogate = ''
         
         for val in phi_values:
-            if re.search('MRN', val):
+            if re.search(r'Initials \(double\)', val, re.IGNORECASE):
+                surrogate =  f"{random.choice(string.ascii_uppercase)}.{random.choice(string.ascii_uppercase)}."
+                while surrogate == key.phi:
+                    surrogate =  f"{random.choice(string.ascii_uppercase)}.{random.choice(string.ascii_uppercase)}."
+
+            elif re.search(r'Initials \(single\)',val,re.IGNORECASE):
+                
+                surrogate = f"{random.choice(string.ascii_uppercase)}."
+                while surrogate == key.phi:
+                    surrogate = f"{random.choice(string.ascii_uppercase)}."
+
+            elif re.search('MRN', val, re.IGNORECASE) :
                 surrogate= str(random.randint(0, 10**7))
 
-            elif re.search('SIN', val):
+            elif re.search('SIN', val, re.IGNORECASE):
                 surrogate= self._build_sin()
 
-            elif re.search('OHIP', val):
+            elif re.search('OHIP', val, re.IGNORECASE):
                 surrogate= self._build_ohip()
 
             elif re.search('Telephone/Fax', val):
@@ -365,14 +391,18 @@ class PHIReplacer:
                 if key.phi not in self.name_lookup:
                     self.name_lookup[key.phi] = self.fake.first_name()
                 surrogate= self.name_lookup[key.phi]
+        
 
             elif re.search('(Postalcode)|(postal_code \(MLL\))', val):
                 surrogate= self._build_postal_code()
-
-            elif re.search(r'day|month|year|(_date \(MLL\))', val, re.IGNORECASE):
+            
+            elif re.search(r'date|day|month|year|(_date \(MLL\))', val, re.IGNORECASE):
                 if isinstance(key.phi, Date):
                     day, month, year = self._date_shifter(key.phi)
                     surrogate= self._build_date(day, month, year)
+                elif re.search(r'Date range',val,re.IGNORECASE):
+                    surrogate+= self.fake.date()+ " to " + self.fake.future_date().strftime('%Y-%m-%d')
+                    
                 else:
                     surrogate= self.fake.date()
 
@@ -388,6 +418,9 @@ class PHIReplacer:
             elif re.search('Hospital', val):
                 surrogate = random.choice(self.hospitals).title()
 
+            elif re.search('Site Acronym', val, re.IGNORECASE):
+                surrogate = random.choice(self.hospital_acronyms)
+
             elif self.custom_regexes:
 
                 for custom_regex in self.custom_regexes:
@@ -399,6 +432,9 @@ class PHIReplacer:
             
             if surrogate != '<PHI>': # for multiple PHI types for a single token, just pick one
                 break
+
+        # if surrogate == '<PHI>': # in the case, phitypes has only types giving <PHI> surrogates
+        #     surrogate = ''
 
         return surrogate
         
