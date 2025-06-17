@@ -1,4 +1,4 @@
-from ..phi_types.utils import phi_dict_to_list
+# from ..phi_types.utils import phi_dict_to_list
 from typing import *
 
 
@@ -51,12 +51,16 @@ class PHIHandler:
     ) -> Tuple[List[Dict[str, str]], str]:
 
         self.set_note(note)
+        self.set_phis({})
 
         found_phi = self.finder.find_phi(row_from_mll)
         self.set_phis(found_phi)
+
+        # self.set_phis(prune_phi(note, found_phi))
         pruned_phi = self.pruner.prune_phi()
         self.set_phis(pruned_phi)
-        
+
+
         surrogates = []
         new_note = ''
       
@@ -92,7 +96,7 @@ class PHIHandler:
                 note, row_from_mll
             )
 
-            found_phis = phi_dict_to_list(new_note, self.phis)  # Assuming this function is still needed
+            # found_phis = phi_dict_to_list(new_note, self.phis)  # Assuming this function is still needed
 
         except Exception as e:
             print("out", e)
@@ -104,4 +108,4 @@ class PHIHandler:
             elif encounter_id_varname is not None:
                 errors.append(row[encounter_id_varname])
 
-        return errors, surrogates, new_note, found_phis
+        return errors, surrogates, new_note, self.phis

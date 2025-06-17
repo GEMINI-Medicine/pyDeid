@@ -61,6 +61,32 @@ def is_ambig(key, phi):
 def add_type(key, phitype, phi):
     phi.setdefault(key, []).append(phitype)
 
+def add_phi_list(phi_list, phitype, phi):
+    for key in phi_list:
+        add_type(key, phitype, phi)
+    return phi
+
+def merge_phi_dicts(phi1, phi2, in_place=True):
+    """
+    Merge phi2 into phi1. If in_place is True, modify phi1 directly.
+    Otherwise, return a new dict and leave phi1 unmodified.
+    """
+    if in_place:
+        for key, types in phi2.items():
+            if key in phi1:
+                phi1[key].extend(t for t in types if t not in phi1[key])
+            else:
+                phi1[key] = types.copy()
+        return phi1
+    else:
+        # start from a shallow copy of phi1
+        merged = {k: v.copy() for k, v in phi1.items()}
+        for key, types in phi2.items():
+            if key in merged:
+                merged[key].extend(t for t in types if t not in merged[key])
+            else:
+                merged[key] = types.copy()
+        return merged
 
 def is_medical_eponym(x):
     return x is not None and x.lower() in eponym_indicators
