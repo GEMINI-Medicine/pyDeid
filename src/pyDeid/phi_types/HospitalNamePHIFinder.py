@@ -8,12 +8,13 @@ class HospitalNamePHIFinder(PHITypeFinder):
     """
 
     def __init__(self, hospitals: list[str], hospital_acronyms: list[str] = None):
+        super().__init__()
         self.hospitals = hospitals
         self.hospital_acronyms = (
             hospital_acronyms if hospital_acronyms is not None else []
         )
 
-    def find(self, text: str) -> list[PHI]:
+    def find(self) -> list[PHI]:
         phi = {}
 
         for hospital in self.hospitals:
@@ -21,14 +22,14 @@ class HospitalNamePHIFinder(PHITypeFinder):
             n_terms = len(terms)
 
             if n_terms == 1:
-                for m in re.finditer(hospital, text, re.IGNORECASE):
+                for m in re.finditer(hospital, self.note, re.IGNORECASE):
                     phi.setdefault(PHI(m.start(), m.end(), m.group()), []).append(
                         "Hospital"
                     )
 
             if n_terms == 2:
                 for m in re.finditer(
-                    r"\b(" + terms[0] + ")\s(" + terms[1] + r")\b", text, re.IGNORECASE
+                    r"\b(" + terms[0] + ")\s(" + terms[1] + r")\b", self.note, re.IGNORECASE
                 ):
                     phi.setdefault(PHI(m.start(), m.end(), m.group()), []).append(
                         "Hospital"
@@ -37,7 +38,7 @@ class HospitalNamePHIFinder(PHITypeFinder):
             if n_terms == 3:
                 for m in re.finditer(
                     r"\b(" + terms[0] + ")\s(" + terms[1] + ")\s(" + terms[2] + r")\b",
-                    text,
+                    self.note,
                     re.IGNORECASE,
                 ):
                     phi.setdefault(PHI(m.start(), m.end(), m.group()), []).append(
@@ -55,7 +56,7 @@ class HospitalNamePHIFinder(PHITypeFinder):
                     + ")\s("
                     + terms[3]
                     + r")\b",
-                    text,
+                    self.note,
                     re.IGNORECASE,
                 ):
                     phi.setdefault(PHI(m.start(), m.end(), m.group()), []).append(
@@ -75,7 +76,7 @@ class HospitalNamePHIFinder(PHITypeFinder):
                     + ")\s("
                     + terms[4]
                     + r")\b",
-                    text,
+                    self.note,
                     re.IGNORECASE,
                 ):
                     phi.setdefault(PHI(m.start(), m.end(), m.group()), []).append(
@@ -97,7 +98,7 @@ class HospitalNamePHIFinder(PHITypeFinder):
                     + ")\s("
                     + terms[5]
                     + r")\b",
-                    text,
+                    self.note,
                     re.IGNORECASE,
                 ):
                     phi.setdefault(PHI(m.start(), m.end(), m.group()), []).append(
@@ -105,13 +106,9 @@ class HospitalNamePHIFinder(PHITypeFinder):
                     )
 
         for acronym in self.hospital_acronyms:
-            for m in re.finditer(acronym, text):
+            for m in re.finditer(acronym, self.note):
                 phi.setdefault(PHI(m.start(), m.end(), m.group()), []).append(
                     "Site Acronym"
                 )
 
         return phi
-
-    @property
-    def name(self):
-        pass

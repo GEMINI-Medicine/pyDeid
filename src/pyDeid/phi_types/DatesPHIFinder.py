@@ -912,7 +912,7 @@ class DatesPHIFinder(PHITypeFinder):
 
         return phi
 
-    def find(self, text: str):
+    def find(self):
         phi: PHIDict = {}
 
         for fn in (
@@ -925,7 +925,7 @@ class DatesPHIFinder(PHITypeFinder):
             self.find_time,
             self.monthly,
         ):
-            merge_phi_dicts(phi, fn(text))
+            merge_phi_dicts(phi, fn(self.note))
 
         return phi
 

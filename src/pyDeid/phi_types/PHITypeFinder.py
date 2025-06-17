@@ -27,4 +27,3 @@ class PHITypeFinder(ABC):
         Find phand return all occurrences of the PHI type in the given text.
         """
         pass
-

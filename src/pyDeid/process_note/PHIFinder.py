@@ -38,15 +38,6 @@ class PHIFinder:
         self.phis = {}
         self.note = ""
 
-        # self.name_finder = NameFinder()
-        # self.date_finder = DateFinder()
-        # self.sin_finder = SINFinder()
-        # self.ohip_finder = OHIPFinder()
-        # self.mrn_finder = MRNFinder()
-        # self.address_finder = AddressFinder()
-        # self.hospital_finder = HospitalFinder()
-        # self.contact_finder = ContactFinder()
-
         DATA_PATH = pkg_resources.resource_filename("pyDeid", "wordlists/")
 
         self.postal_code_finder = PostalCodePHIFinder()
@@ -196,14 +187,14 @@ class PHIFinder:
     def set_note(self, new_note: str) -> None:
         self.note = new_note
         finders = [
-            #     self.name_finder,
-            #     self.date_finder,
-            #     self.sin_finder,
-            #     self.ohip_finder,
-            #     self.mrn_finder,
-            #     self.address_finder,
-            #     self.hospital_finder,
-            #     self.contact_finder,
+            self.names_finder,
+            self.date_finder,
+            self.email_finder,
+            self.telephone_fax_finder,
+            self.postal_code_finder,
+            self.sin_finder,
+            self.ohip_finder,
+            self.mrn_finder,
         ]
 
         for finder in finders:
@@ -213,14 +204,14 @@ class PHIFinder:
     def set_phis(self, new_phis) -> None:
         self.phis = new_phis
         finders = [
-            # self.name_finder,
-            # self.date_finder,
-            # self.sin_finder,
-            # self.ohip_finder,
-            # self.mrn_finder,
-            # self.address_finder,
-            # self.hospital_finder,
-            # self.contact_finder,
+            self.names_finder,
+            self.date_finder,
+            self.email_finder,
+            self.telephone_fax_finder,
+            self.postal_code_finder,
+            self.sin_finder,
+            self.ohip_finder,
+            self.mrn_finder,
         ]
 
         for finder in finders:
@@ -236,76 +227,39 @@ class PHIFinder:
         phi = self.phis
 
         if "names" in self.types:
-            merge_phi_dicts(phi, self.names_finder.find(text=self.note))
-            # if model:
-            #     ner(x, phi, model)
+            merge_phi_dicts(phi, self.names_finder.find())
 
         if "dates" in self.types:
-            found_dates = self.date_finder.find(text=self.note)
+            found_dates = self.date_finder.find()
             merge_phi_dicts(phi, found_dates)
 
         if "sin" in self.types:
-            found_sins = self.sin_finder.find(text=self.note)
+            found_sins = self.sin_finder.find()
             merge_phi_dicts(phi, found_sins)
 
         if "ohip" in self.types:
-            found_ohips = self.ohip_finder.find(text=self.note)
+            found_ohips = self.ohip_finder.find()
             merge_phi_dicts(phi, found_ohips)
 
         if "mrn" in self.types:
-            found_mrns = self.mrn_finder.find(text=self.note)
+            found_mrns = self.mrn_finder.find()
             merge_phi_dicts(phi, found_mrns)
 
         if "locations" in self.types:
-            found_post_codes = self.postal_code_finder.find(text=self.note)
+            found_post_codes = self.postal_code_finder.find()
             merge_phi_dicts(phi, found_post_codes)
-            found_addresses = self.address_finder.find(text=self.note)
+            found_addresses = self.address_finder.find()
             merge_phi_dicts(phi, found_addresses)
 
         if "hospitals" in self.types:
-            found_hospitals = self.hospital_name_finder.find(text=self.note)
+            found_hospitals = self.hospital_name_finder.find()
             merge_phi_dicts(phi, found_hospitals)
 
         if "contact" in self.types:
-            found_emails = self.email_finder.find(text=self.note)
+            found_emails = self.email_finder.find()
             merge_phi_dicts(phi, found_emails)
-            found_telephones = self.telephone_fax_finder.find(text=self.note)
+            found_telephones = self.telephone_fax_finder.find()
             merge_phi_dicts(phi, found_telephones)
-
-        # if "names" in self.types:
-
-        #     phi = self.name_finder.name_first_pass()
-        #     self.set_phis(phi)
-        #     name_phi = self.name_finder.find()
-        #     self.set_phis(name_phi)
-
-        # if "dates" in self.types:
-        #     date_phi = self.date_finder.find()
-        #     self.set_phis(date_phi)
-
-        # if "sin" in self.types:
-        #     sin_phi = self.sin_finder.find()
-        #     self.set_phis(sin_phi)
-
-        # if "ohip" in self.types:
-        #     ohip_phi = self.ohip_finder.find()
-        #     self.set_phis(ohip_phi)
-
-        # if "mrn" in self.types:
-        #     mrn_phi = self.mrn_finder.find()
-        #     self.set_phis(mrn_phi)
-
-        # if "locations" in self.types:
-        #     location_phi = self.address_finder.find()
-        #     self.set_phis(location_phi)
-
-        # if "hospitals" in self.types:
-        #     hospital_phi = self.hospital_finder.find()
-        #     self.set_phis(hospital_phi)
-
-        # if "contact" in self.types:
-        #     contact_phi = self.contact_finder.find()
-        #     self.set_phis(contact_phi)
 
         self.set_phis(phi)
 

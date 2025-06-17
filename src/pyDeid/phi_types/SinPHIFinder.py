@@ -8,14 +8,10 @@ class SinPHIFinder(PHITypeFinder):
     Concrete implementation of PHITypeFinder for detecting Canadian Social Insurance Numbers (SIN).
     """
 
-    def find(self, text: str) -> PHIDict:
+    def find(self) -> PHIDict:
         phi = {}
 
-        for m in re.finditer(r"\b(\d{3}([- \/]?)\d{3}\2\d{3})\b", text):
+        for m in re.finditer(r"\b(\d{3}([- \/]?)\d{3}\2\d{3})\b", self.note):
             phi.setdefault(PHI(m.start(), m.end(), m.group()), []).append("SIN")
 
         return phi
-
-    @property
-    def name(self):
-        return "SIN"

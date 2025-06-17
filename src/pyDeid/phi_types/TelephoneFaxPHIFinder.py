@@ -35,37 +35,33 @@ class TelephoneFaxPHIFinder(PHITypeFinder):
 
         return PHI(start, end, x[start:end])
 
-    def find(self, text: str) -> PHIDict:
+    def find(self) -> PHIDict:
         phi = {}
 
         # ###-###-#### (potentially with arbitrary line breaks)
         # accept number with line breaks only if it starts with a valid area code
         for m in re.finditer(
-            r"\(?(\d{3})\s*[\)\.\/\-\, ]*\s*\d\s*\d\s*\d\s*[ \-\.\/]*\s*\d\s*\d\s*\d\s*\d", text
+            r"\(?(\d{3})\s*[\)\.\/\-\, ]*\s*\d\s*\d\s*\d\s*[ \-\.\/]*\s*\d\s*\d\s*\d\s*\d", self.note
         ):  # prepend all regex w/ '\(?' outside of testing
 
             if re.search(r"\(?\d{3}\s*[\)\.\/\-\, ]*\s*\d{3}\s*[ \-\.\/]*\s*\d{4}", m.group()):
-                phi.setdefault(self.__telephone_match(text, m), []).append("Telephone/Fax")
+                phi.setdefault(self.__telephone_match(self.note, m), []).append("Telephone/Fax")
             elif self.__is_common_area_code(m.group(1)):
-                phi.setdefault(self.__telephone_match(text, m), []).append("Telephone/Fax")
+                phi.setdefault(self.__telephone_match(self.note, m), []).append("Telephone/Fax")
 
         # ###-###-###
-        for m in re.finditer(r"\(?(\d{3})\s*[\)\.\/\-\=\, ]*\s*\d{3}\s*[ \-\.\/\=]*\s*\d{3}\b", text):
+        for m in re.finditer(r"\(?(\d{3})\s*[\)\.\/\-\=\, ]*\s*\d{3}\s*[ \-\.\/\=]*\s*\d{3}\b", self.note):
             if self.__is_common_area_code(m.group(1)):
-                phi.setdefault(self.__telephone_match(text, m), []).append("Telephone/Fax")
+                phi.setdefault(self.__telephone_match(self.note, m), []).append("Telephone/Fax")
 
         # this will always create multiple matches with pattern 1, its ok, double obscure it.
         # ###-###-#####
-        for m in re.finditer(r"\(?(\d{3})\s*[\)\.\/\-\=\, ]*\s*\d{3}\s*[ \-\.\/\=]*\s*\d{5}\b", text):
+        for m in re.finditer(r"\(?(\d{3})\s*[\)\.\/\-\=\, ]*\s*\d{3}\s*[ \-\.\/\=]*\s*\d{5}\b", self.note):
             if self.__is_common_area_code(m.group(1)):
-                phi.setdefault(self.__telephone_match(text, m), []).append("Telephone/Fax")
+                phi.setdefault(self.__telephone_match(self.note, m), []).append("Telephone/Fax")
 
         # ###-####-###
-        for m in re.finditer(r"\(?\d{3}?\s?[\)\.\/\-\=\, ]*\s?\d{4}\s?[ \-\.\/\=]*\s?\d{3}\b", text):
-            phi.setdefault(self.__telephone_match(text, m), []).append("Telephone/Fax")
+        for m in re.finditer(r"\(?\d{3}?\s?[\)\.\/\-\=\, ]*\s?\d{4}\s?[ \-\.\/\=]*\s?\d{3}\b", self.note):
+            phi.setdefault(self.__telephone_match(self.note, m), []).append("Telephone/Fax")
 
         return phi
-
-    @property
-    def name(self):
-        return "Telephone/Fax"

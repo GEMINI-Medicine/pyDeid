@@ -44,19 +44,19 @@ class AddressPHIFinder(PHITypeFinder):
         else:
             self.local_places_unambig = local_places_unambig
 
-    def find(self, text):
+    def find(self):
         phi = {}
 
         for place in self.local_places_unambig:
-            for m in re.finditer(place, text, re.IGNORECASE):
+            for m in re.finditer(place, self.note, re.IGNORECASE):
                 phi.setdefault(PHI(m.start(), m.end(), m.group()), []).append("Location (un)")
 
         for suff in self.strict_street_add_suff:
-            for m in re.finditer(r"\b(([0-9]+ +)?(([A-Za-z\.\']+) +)?([A-Za-z\.\']+) +\b" + suff + r"\.?\b)\b", text):
+            for m in re.finditer(r"\b(([0-9]+ +)?(([A-Za-z\.\']+) +)?([A-Za-z\.\']+) +\b" + suff + r"\.?\b)\b", self.note):
                 start = m.start()
                 end = m.end()
 
-                next_seg = text[end:]
+                next_seg = self.note[end:]
 
                 for ind in self.apt_indicators:
 
@@ -67,13 +67,13 @@ class AddressPHIFinder(PHITypeFinder):
 
                 if m.group(3) is not None:
                     if is_unambig_common(m.group(5)):
-                        phi.setdefault(PHI(start, end, text[start:end]), []).append("Street Address")
+                        phi.setdefault(PHI(start, end, self.note[start:end]), []).append("Street Address")
 
                 elif not (is_unambig_common(m.group(4)) or is_unambig_common(m.group(5))):
-                    phi.setdefault(PHI(start, end, text[start:end]), []).append("Street Address")
+                    phi.setdefault(PHI(start, end, self.note[start:end]), []).append("Street Address")
 
         for suff in self.street_add_suff:
-            for m in re.finditer(r"\b(([0-9]+) +(([A-Za-z]+) +)?([A-Za-z]+) +" + suff + r")\b", text, re.IGNORECASE):
+            for m in re.finditer(r"\b(([0-9]+) +(([A-Za-z]+) +)?([A-Za-z]+) +" + suff + r")\b", self.note, re.IGNORECASE):
 
                 if m.group(3) is not None and len(m.group(3)) == 0:
                     if is_unambig_common(m.group(5)):

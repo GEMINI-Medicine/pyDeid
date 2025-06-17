@@ -871,26 +871,22 @@ class NamesPHIFinder(PHITypeFinder):
 
         return found_phi
 
-    def find(self, text: str) -> PHIDict:
-        phi = self.__first_pass(text)
+    def find(self) -> PHIDict:
+        phi = self.__first_pass(self.note)
         phi = self.__combine_prefix_and_lastname(phi)
-        merge_phi_dicts(phi, self.__follows_name_indicator(text, phi))
-        merge_phi_dicts(phi, self.__lastname_comma_firstname(text, phi))
-        merge_phi_dicts(phi, self.__multiple_names_following_title(text, phi))
-        merge_phi_dicts(phi, self.__followed_by_md(text, phi))
-        merge_phi_dicts(phi, self.__follows_pcp_name(text, phi))
-        merge_phi_dicts(phi, self.__prefixes(text, phi))
-        merge_phi_dicts(phi, self.__titles(text, phi))
-        merge_phi_dicts(phi, self.__follows_first_name(text, phi))
-        merge_phi_dicts(phi, self.__precedes_last_name(text, phi))
-        merge_phi_dicts(phi, self.__compound_last_names(text, phi))
-        merge_phi_dicts(phi, self.__initials(text, phi))
-        merge_phi_dicts(phi, self.__list_of_names(text, phi))
+        merge_phi_dicts(phi, self.__follows_name_indicator(self.note, phi))
+        merge_phi_dicts(phi, self.__lastname_comma_firstname(self.note, phi))
+        merge_phi_dicts(phi, self.__multiple_names_following_title(self.note, phi))
+        merge_phi_dicts(phi, self.__followed_by_md(self.note, phi))
+        merge_phi_dicts(phi, self.__follows_pcp_name(self.note, phi))
+        merge_phi_dicts(phi, self.__prefixes(self.note, phi))
+        merge_phi_dicts(phi, self.__titles(self.note, phi))
+        merge_phi_dicts(phi, self.__follows_first_name(self.note, phi))
+        merge_phi_dicts(phi, self.__precedes_last_name(self.note, phi))
+        merge_phi_dicts(phi, self.__compound_last_names(self.note, phi))
+        merge_phi_dicts(phi, self.__initials(self.note, phi))
+        merge_phi_dicts(phi, self.__list_of_names(self.note, phi))
         if self.config.ner_model:
-            merge_phi_dicts(phi, self.__ner(text, self.config.ner_model))
+            merge_phi_dicts(phi, self.__ner(self.note, self.config.ner_model))
 
         return phi
-
-    @property
-    def name(self):
-        pass
