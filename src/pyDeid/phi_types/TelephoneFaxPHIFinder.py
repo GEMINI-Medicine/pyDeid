@@ -3,9 +3,9 @@ from typing import List
 from .PHITypeFinder import PHI, PHITypeFinder, PHIDict
 
 
-class TelephoneFaxPHIType(PHITypeFinder):
+class TelephoneFaxPHIFinder(PHITypeFinder):
     """
-    PHIType implementation for detecting and handling telephone and fax numbers.
+    Concrete implementation of PHITypeFinder for detecting telephone and fax numbers.
     """
 
     def __init__(self, area_codes: List[str] = None, disqualifiers: List[str] = None):

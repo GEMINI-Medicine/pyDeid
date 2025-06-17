@@ -2,11 +2,9 @@ import re
 from .PHITypeFinder import PHITypeFinder, PHI
 
 
-class HospitalNamePHIType(PHITypeFinder):
+class HospitalNamePHIFinder(PHITypeFinder):
     """
-    PHIType implementation for detecting and handling hospital names and their acronyms in text.
-    This class searches for occurrences of hospital names (with support for up to six-word names)
-    and hospital acronyms within a given text, returning their positions and matched values as PHI instances.
+    Concrete implementation of PHITypeFinder for detecting hospital names and their acronyms.
     """
 
     def __init__(self, hospitals: list[str], hospital_acronyms: list[str] = None):

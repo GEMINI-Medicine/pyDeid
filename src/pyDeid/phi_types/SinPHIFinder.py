@@ -3,9 +3,9 @@ import re
 from .PHITypeFinder import PHITypeFinder, PHI, PHIDict
 
 
-class SinPHIType(PHITypeFinder):
+class SinPHIFinder(PHITypeFinder):
     """
-    PHIType implementation for Canadian Social Insurance Numbers (SIN).
+    Concrete implementation of PHITypeFinder for detecting Canadian Social Insurance Numbers (SIN).
     """
 
     def find(self, text: str) -> PHIDict:

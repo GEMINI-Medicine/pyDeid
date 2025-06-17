@@ -3,9 +3,9 @@ import re
 from .PHITypeFinder import PHIDict, PHITypeFinder, PHI
 
 
-class PostalCodePHIType(PHITypeFinder):
+class PostalCodePHIFinder(PHITypeFinder):
     """
-    PHIType implementation for detecting and handling postal codes.
+    Concrete implementation of PHITypeFinder for detecting postal codes.
     """
 
     def find(self, text: str) -> PHIDict:

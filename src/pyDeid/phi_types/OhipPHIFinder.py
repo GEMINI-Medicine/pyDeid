@@ -3,9 +3,9 @@ import re
 from .PHITypeFinder import PHITypeFinder, PHI, PHIDict
 
 
-class OhipPHIType(PHITypeFinder):
+class OhipPHIFinder(PHITypeFinder):
     """
-    Concrete implementation of PHIType for detecting OHIP numbers.
+    Concrete implementation of PHITypeFinder for detecting OHIP numbers.
     """
 
     def find(self, text: str) -> PHIDict:

@@ -3,9 +3,9 @@ import re
 from .PHITypeFinder import PHITypeFinder, PHI, PHIDict
 
 
-class MrnPHIType(PHITypeFinder):
+class MrnPHIFinder(PHITypeFinder):
     """
-    Implementation of PHIType for Medical Record Numbers (MRN).
+    Concrete implementation of PHITypeFinder for detecting Medical Record Numbers (MRNs).
     """
 
     def find(self, text: str) -> PHIDict:

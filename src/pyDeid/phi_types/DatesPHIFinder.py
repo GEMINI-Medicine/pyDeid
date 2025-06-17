@@ -8,9 +8,9 @@ Date = namedtuple("Date", ["date_string", "day", "month", "year"])
 Time = namedtuple("Time", ["time_string", "hours", "minutes", "seconds", "meridiem"])
 
 
-class DatesPHIType(PHITypeFinder):
+class DatesPHIFinder(PHITypeFinder):
     """
-    PHIType implementation for detecting and handling email addresses.
+    Concrete implementation of PHITypeFinder for detecting dates, years, holidays, seasons.
     """
 
     seasons = ["winter", "spring", "summer", "autumn", "fall"]

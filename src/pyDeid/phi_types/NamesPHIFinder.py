@@ -11,9 +11,9 @@ from .utils import (
 )
 
 
-class NamesPHIType(PHITypeFinder):
+class NamesPHIFinder(PHITypeFinder):
     """
-    PHIType implementation for detecting and handling names.
+    Concrete implementation of PHITypeFinder for detecting names.
     """
 
     @dataclass

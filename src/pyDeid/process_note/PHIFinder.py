@@ -49,18 +49,18 @@ class PHIFinder:
 
         DATA_PATH = pkg_resources.resource_filename("pyDeid", "wordlists/")
 
-        self.postal_code_finder = PostalCodePHIType()
-        self.hospital_name_finder = HospitalNamePHIType(
+        self.postal_code_finder = PostalCodePHIFinder()
+        self.hospital_name_finder = HospitalNamePHIFinder(
             hospitals=load_file(os.path.join(DATA_PATH, "ontario_hospitals.txt"), optimization="iteration"),
             hospital_acronyms=load_file(os.path.join(DATA_PATH, "hospital_acronyms.txt"), optimization="iteration"),
         )
-        self.address_finder = AddressPHIType(
+        self.address_finder = AddressPHIFinder(
             local_places_unambig=load_file(os.path.join(DATA_PATH, "local_places_unambig_v2.txt"), optimization="iteration"),
         )
-        self.sin_finder = SinPHIType()
-        self.ohip_finder = OhipPHIType()
-        self.mrn_finder = MrnPHIType()
-        self.telephone_fax_finder = TelephoneFaxPHIType(
+        self.sin_finder = SinPHIFinder()
+        self.ohip_finder = OhipPHIFinder()
+        self.mrn_finder = MrnPHIFinder()
+        self.telephone_fax_finder = TelephoneFaxPHIFinder(
             area_codes=load_file(os.path.join(DATA_PATH, "canadian_area_code.txt")),
             disqualifiers=[
                 "HR",
@@ -75,8 +75,8 @@ class PHIFinder:
                 "CKS",
             ],
         )
-        self.email_finder = EmailPHIType()
-        self.date_finder = DatesPHIType(
+        self.email_finder = EmailPHIFinder()
+        self.date_finder = DatesPHIFinder(
             invalid_time_pre_words=[
                 "CPAP",
                 "PS",
@@ -156,8 +156,8 @@ class PHIFinder:
                 "ns",  # ,'blood' creates many false negatives
             ],
         )
-        self.names_finder = NamesPHIType(
-            config=NamesPHIType.Config(
+        self.names_finder = NamesPHIFinder(
+            config=NamesPHIFinder.Config(
                 female_names_unambig=load_file(os.path.join(DATA_PATH, "female_names_unambig_v2.txt")),
                 male_names_unambig=load_file(os.path.join(DATA_PATH, "male_names_unambig_v2.txt")),
                 all_first_names=load_file(os.path.join(DATA_PATH, "all_first_names.txt")),

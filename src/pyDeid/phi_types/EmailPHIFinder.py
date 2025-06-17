@@ -2,9 +2,9 @@ import re
 from .PHITypeFinder import PHI, PHITypeFinder, PHIDict
 
 
-class EmailPHIType(PHITypeFinder):
+class EmailPHIFinder(PHITypeFinder):
     """
-    PHIType implementation for detecting and handling email addresses.
+    Concrete implementation of PHITypeFinder for detecting email addresses.
     """
 
     def find(self, text: str) -> PHIDict:

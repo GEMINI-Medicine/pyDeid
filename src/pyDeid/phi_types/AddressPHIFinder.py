@@ -3,7 +3,7 @@ from .utils import is_unambig_common
 import re
 
 
-class AddressPHIType(PHITypeFinder):
+class AddressPHIFinder(PHITypeFinder):
     """
     Concrete implementation of PHITypeFinder for detecting addresses.
     """
