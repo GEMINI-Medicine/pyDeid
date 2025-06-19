@@ -191,10 +191,12 @@ class PHIFinder:
             self.date_finder,
             self.email_finder,
             self.telephone_fax_finder,
+            self.address_finder,
             self.postal_code_finder,
             self.sin_finder,
             self.ohip_finder,
             self.mrn_finder,
+            self.hospital_name_finder
         ]
 
         for finder in finders:
@@ -208,10 +210,12 @@ class PHIFinder:
             self.date_finder,
             self.email_finder,
             self.telephone_fax_finder,
+            self.address_finder,
             self.postal_code_finder,
             self.sin_finder,
             self.ohip_finder,
             self.mrn_finder,
+            self.hospital_name_finder
         ]
 
         for finder in finders:
@@ -224,44 +228,44 @@ class PHIFinder:
 
         """
 
-        phi = self.phis
+        phi_collector = self.phis
 
         if "names" in self.types:
-            merge_phi_dicts(phi, self.names_finder.find())
+            merge_phi_dicts(phi_collector, self.names_finder.find())
 
         if "dates" in self.types:
             found_dates = self.date_finder.find()
-            merge_phi_dicts(phi, found_dates)
+            merge_phi_dicts(phi_collector, found_dates)
 
         if "sin" in self.types:
             found_sins = self.sin_finder.find()
-            merge_phi_dicts(phi, found_sins)
+            merge_phi_dicts(phi_collector, found_sins)
 
         if "ohip" in self.types:
             found_ohips = self.ohip_finder.find()
-            merge_phi_dicts(phi, found_ohips)
+            merge_phi_dicts(phi_collector, found_ohips)
 
         if "mrn" in self.types:
             found_mrns = self.mrn_finder.find()
-            merge_phi_dicts(phi, found_mrns)
+            merge_phi_dicts(phi_collector, found_mrns)
 
         if "locations" in self.types:
             found_post_codes = self.postal_code_finder.find()
-            merge_phi_dicts(phi, found_post_codes)
+            merge_phi_dicts(phi_collector, found_post_codes)
             found_addresses = self.address_finder.find()
-            merge_phi_dicts(phi, found_addresses)
+            merge_phi_dicts(phi_collector, found_addresses)
 
         if "hospitals" in self.types:
             found_hospitals = self.hospital_name_finder.find()
-            merge_phi_dicts(phi, found_hospitals)
+            merge_phi_dicts(phi_collector, found_hospitals)
 
         if "contact" in self.types:
             found_emails = self.email_finder.find()
-            merge_phi_dicts(phi, found_emails)
+            merge_phi_dicts(phi_collector, found_emails)
             found_telephones = self.telephone_fax_finder.find()
-            merge_phi_dicts(phi, found_telephones)
+            merge_phi_dicts(phi_collector, found_telephones)
 
-        self.set_phis(phi)
+        self.set_phis(phi_collector)
 
         if row_from_mll is not None:
             self._mll_process(row_from_mll)

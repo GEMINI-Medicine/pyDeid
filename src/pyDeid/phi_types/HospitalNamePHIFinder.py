@@ -1,5 +1,5 @@
 import re
-from .PHITypeFinder import PHITypeFinder, PHI
+from .PHITypeFinder import PHITypeFinder, PHI, PHIDict
 
 
 class HospitalNamePHIFinder(PHITypeFinder):
@@ -14,7 +14,7 @@ class HospitalNamePHIFinder(PHITypeFinder):
             hospital_acronyms if hospital_acronyms is not None else []
         )
 
-    def find(self) -> list[PHI]:
+    def find(self) -> PHIDict:
         phi = {}
 
         for hospital in self.hospitals:
