@@ -56,7 +56,6 @@ class PHIHandler:
         found_phi = self.finder.find_phi(row_from_mll)
         self.set_phis(found_phi)
 
-        # self.set_phis(prune_phi(note, found_phi))
         pruned_phi = self.pruner.prune_phi()
         self.set_phis(pruned_phi)
 
@@ -96,7 +95,6 @@ class PHIHandler:
                 note, row_from_mll
             )
 
-            # found_phis = phi_dict_to_list(new_note, self.phis)  # Assuming this function is still needed
 
         except Exception as e:
             print("out", e)

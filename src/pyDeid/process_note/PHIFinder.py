@@ -18,22 +18,27 @@ class PHIFinder:
         - types: Various PHIs we want to identify
     """
 
+    @dataclass
+    class Config:
+        phi_types: List[str] = field(default_factory=lambda: ["names", "dates", "sin", "ohip", "mrn", "locations", "hospitals", "contact"])
+        custom_regexes: List[CustomRegex] = field(default_factory=list)
+        two_digit_threshold: int = 30
+        valid_year_low: int = 1900
+        valid_year_high: int = 2050
+        custom_dr_first_names: List[str] = field(default_factory=list)
+        custom_dr_last_names: List[str] = field(default_factory=list)
+        custom_patient_first_names: List[str] = field(default_factory=list)
+        custom_patient_last_names: List[str] = field(default_factory=list)
+        ner_model: Any = None
+
     def __init__(
         self,
+        config: Config
     ) -> None:
         """Initializes a PHIFinder object used to find PHIs on a note"""
-
-        self.types = [
-            "names",
-            "dates",
-            "sin",
-            "ohip",
-            "mrn",
-            "locations",
-            "hospitals",
-            "contact",
-        ]
-        self.custom_regexes = []
+        
+        self.types = config.phi_types
+        self.custom_regexes = config.custom_regexes
 
         self.phis = {}
         self.note = ""
@@ -68,6 +73,9 @@ class PHIFinder:
         )
         self.email_finder = EmailPHIFinder()
         self.date_finder = DatesPHIFinder(
+            # two_digit_threshold=config.two_digit_threshold,
+            # valid_year_low=config.valid_year_low,
+            # valid_year_high=config.valid_year_high,
             invalid_time_pre_words=[
                 "CPAP",
                 "PS",
@@ -165,24 +173,13 @@ class PHIFinder:
                 prefixes_unambig=set(load_file(os.path.join(DATA_PATH, "prefixes_unambig.txt"))),
                 last_name_prefixes=set(line.strip() for line in open(os.path.join(DATA_PATH, "last_name_prefixes.txt"))),
                 medical_phrases=load_file(os.path.join(DATA_PATH, "medical_phrases.txt"), optimization="iteration"),
-                ner_model=None,
+                ner_model=config.ner_model,
+                custom_dr_first_names = config.custom_dr_first_names,
+                custom_dr_last_names = config.custom_dr_last_names,
+                custom_patient_first_names = config.custom_patient_first_names,
+                custom_patient_last_names = config.custom_patient_last_names,
             )
         )
-
-    def set_types(
-        self,
-        types: List[str] = [
-            "names",
-            "dates",
-            "sin",
-            "ohip",
-            "mrn",
-            "locations",
-            "hospitals",
-            "contact",
-        ],
-    ):
-        self.types = types
 
     def set_note(self, new_note: str) -> None:
         self.note = new_note
