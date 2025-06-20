@@ -2,6 +2,7 @@ import csv
 import time
 from typing import *
 from tqdm import tqdm
+from concurrent.futures import ProcessPoolExecutor, as_completed
 
 
 class Deidentifier:
@@ -21,6 +22,8 @@ class Deidentifier:
         self.encoding = "utf-8"
         self.input_file_type = "csv"
         self.return_surrogates = True
+        self.proc_bar = None
+        self.max_workers=1
 
     def run(self, verbose=True):
         """
@@ -41,41 +44,61 @@ class Deidentifier:
         # with open(self.deidentified_file, "wb") as f:
         #     f.write(b'\xff\xfe')  # Write the BOM for UTF-16
 
-        with open(self.deidentified_file, "w", encoding=self.encoding) as f:
-            writer_deid_dict = csv.DictWriter(
-                f, fieldnames=self.reader_dict.fieldnames, lineterminator="\n"
+        with open(self.deidentified_file, "w", encoding=self.encoding) as f_deid, \
+             open(self.phi_output_file,    "a", newline="")  as f_phi:
+
+            writer_deid = csv.DictWriter(
+                f_deid,
+                fieldnames=self.reader_dict.fieldnames,
+                lineterminator="\n"
             )
-            writer_deid_dict.writeheader()
+            writer_deid.writeheader()
 
             if self.verbose:
-                self.reader_dict = tqdm(self.reader_dict)
                 chars = 0
                 notes = 0
                 start_time = time.time()
 
-            errors = []
-            # Perform the actions
-            for row in self.reader_dict:
+            errors   = []
+            futures  = {}
 
-                original_note = row[self.note_varname]
+            # submit each row’s deid work to the thread pool
+            with ProcessPoolExecutor(max_workers=self.max_workers) as pool:
+                for row in self.reader_dict:
+                    original_note = row[self.note_varname]
+                    fut = pool.submit(
+                        _worker,
+                        self.handler,
+                        row,
+                        [],
+                        self.encounter_id_varname,
+                        self.note_id_varname,
+                        self.note_varname
+                    )
+                    futures[fut] = (row, original_note)
 
-                # TODO: things to pass which has no member varible  row, errors
-                errors, surrogates, new_note, found_phis = self.handler.handle_csv_row(
-                    row,
-                    errors,
-                    self.encounter_id_varname,
-                    self.note_id_varname,
-                    self.note_varname,
-                   
-                )
+                if verbose:
+                    self.proc_bar = tqdm(total=len(futures))
 
-                self._write_new_note_to_file(
-                    found_phis, surrogates, row, writer_deid_dict, new_note
-                )
+                # as each worker finishes, write its output on the main thread
+                for fut in as_completed(futures):
+                    row, original_note = futures[fut]
+                    row_errors, surrogates, new_note, found_phis = fut.result()
 
-                chars, notes = self._display_processing_encounter(
-                    chars, notes, row, original_note
-                )
+                    errors.extend(row_errors)
+
+                    self._write_new_note_to_file(
+                        found_phis, surrogates, row, writer_deid, new_note
+                    )
+
+                    if verbose:
+                        chars, notes = self._display_processing_encounter(
+                            chars, notes, row, original_note
+                        )
+                        self.proc_bar.update(1)
+                
+                if verbose:
+                    self.proc_bar.close()
 
             if self.verbose:
                 total_time = time.time() - start_time
@@ -112,7 +135,7 @@ class Deidentifier:
                     else ""
                 )
             )
-            self.reader_dict.set_description(progress)
+            self.proc_bar.set_description(progress)
         return chars, notes
 
     def _write_new_note_to_file(
@@ -152,3 +175,17 @@ class Deidentifier:
                 writer = csv.DictWriter(write_file, fieldnames=fields)
                 for d in items:
                     writer.writerow(d)
+
+def _worker(handler,
+            row,
+            errors,
+            encounter_id_varname,
+            note_id_varname,
+            note_varname):
+    return handler.handle_csv_row(
+        row,
+        errors,
+        encounter_id_varname,
+        note_id_varname,
+        note_varname
+    )

@@ -289,6 +289,14 @@ class pyDeidBuilder:
             return self
 
 
+    def set_multithreading(self, threads: int):
+        cpu_count = os.cpu_count() or 1
+        if threads > cpu_count:
+            raise ValueError(f"Cannot use more than {cpu_count} threads (got {threads})")
+        
+        self.deid.max_workers = threads
+        return self
+
     def _load_reader_dict(self, file_encoding="utf-8", read_error_handling=None):
         self.deid.reader_dict = csv.DictReader(
             open(

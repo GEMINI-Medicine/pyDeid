@@ -30,6 +30,7 @@ def pyDeid(
     verbose: bool = True,
     types: List[str] = ["names", "dates", "sin", "ohip", "mrn", "locations", "hospitals", "contact"],
     encounter_id_varname_mll: Optional[str] = 'genc_id',
+    num_threads: Optional[int] = 1,
     **custom_regexes: Union[CustomRegex, str],
     ):
     """Remove and replace PHI from free text
@@ -90,6 +91,8 @@ def pyDeid(
         Indicate if replacing PHIs using regex is desired or not
     mll_file
         Filepath for MLL if the MLL replacement option is desired.
+    num_threads
+        Number of parallel processing workers to use.
     **custom_regexes
         These are named arguments that will be taken as regexes to be scrubbed from
         the given note. The keyword/argument name itself will be used to label the
@@ -169,6 +172,8 @@ def pyDeid(
             builder.set_custom_regex(custom_reg.pattern, custom_reg.phi_type, custom_reg.surrogate_builder_fn, evaluated_args)
     
 
+    builder.set_multithreading(num_threads)
+
     deid = builder.set_valid_years(
         two_digit_threshold, valid_year_low, valid_year_high
     ).build()
@@ -177,7 +182,6 @@ def pyDeid(
 
 
 def deid_string(
-
     note: str,
     custom_dr_first_names: Set[str] = None, 
     custom_dr_last_names: Set[str] = None, 

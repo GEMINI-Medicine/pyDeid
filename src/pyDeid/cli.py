@@ -217,6 +217,13 @@ if __name__ == "__main__":
         required=False,
         help="The output file that contains the solution.",
     )
+    parser.add_argument(
+        "--num_threads",
+        type=int,
+        default=1,
+        required=False,
+        help="The number of parallel processing threads to use.",
+    )
     args = parser.parse_args()
    
     file_path = os.path.expanduser(args.original_file)
@@ -317,6 +324,8 @@ if __name__ == "__main__":
                     evaluated_args.append(arg)
 
             builder.set_custom_regex(pattern, phi_type, function, evaluated_args)
+
+    builder.set_multithreading(args.num_threads)
 
     deid = builder.set_valid_years(
         args.two_digit_threshold, args.valid_year_low, args.valid_year_high
