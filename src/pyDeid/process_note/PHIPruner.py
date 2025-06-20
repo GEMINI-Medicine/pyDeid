@@ -23,114 +23,14 @@ class PHIPruner:
 
         """
 
-        self.__original_code(self.note, self.phis)
+        phi_keys = sorted(self.phis.keys(), key=lambda x: x.start)
+        self._check_ambiguous_types(phi_keys)
+        self._remove_ambiguous_phi(phi_keys)
+        phi_keys = sorted(self.phis.keys(), key=lambda x: x.start)  # Re-sort after removal
+        self._remove_overlapping_phi(phi_keys)
+        self._combine_overlapping_dates(phi_keys)
 
-        # phi_keys = sorted(self.phis.keys(), key=lambda x: x.start)
-        # self._check_ambiguous_types(phi_keys)
-        # self._remove_ambiguous_phi(phi_keys)
-        # phi_keys = sorted(self.phis.keys(), key=lambda x: x.start)  # Re-sort after removal
-        # self._remove_overlapping_phi(phi_keys)
         return self.phis
-
-
-    def __original_code(self, raw_text, phi):
-        phi_keys = sorted(phi.keys(), key = lambda x: x.start)
-        
-        # check ambiguous type phi
-        for i in range(len(phi_keys)):
-            current_key = phi_keys[i]
-
-            if i != 0:
-                prev_key = phi_keys[i-1]
-
-                if (
-                    (is_type(prev_key, 'Name', 1, phi) and is_type(current_key, 'Name', 1, phi))
-                    and not is_common(current_key.phi) and not is_common(prev_key.phi) 
-                    and not re.search(r'\.', prev_key.phi)
-                    and not ((current_key.end - prev_key.start) < 3)
-                    ):
-
-                    if (
-                        (is_ambig(current_key, phi) and is_ambig(prev_key, phi) and is_type(prev_key, 'First Name', 1, phi) and is_type(current_key, 'Last Name', 1, phi)) or
-                        (not is_ambig(current_key, phi) and is_ambig(prev_key, phi) and is_type(prev_key, 'First Name', 1, phi) and is_type(current_key, 'Last Name', 1, phi)) or
-                        (is_ambig(current_key, phi) and not is_ambig(prev_key, phi) and is_type(prev_key, 'First Name', 1, phi) and is_type(current_key, 'Last Name', 1, phi))
-                        ):
-                        add_type(current_key, 'Last Name (probably)', phi)
-                        add_type(prev_key, 'First Name (probably)', phi)
-
-                    if (
-                        (not is_ambig(current_key, phi) and is_ambig(prev_key, phi) and is_type(current_key, "First Name", 1, phi) and is_type(prev_key, "Last Name", 1, phi)) or
-                        (is_ambig(current_key, phi) and not is_ambig(prev_key, phi) and is_type(current_key, "First Name", 1, phi) and is_type(prev_key, "Last Name", 1, phi))
-                        ):
-                        add_type(current_key, 'First Name (probably)', phi)
-                        add_type(prev_key, 'Last Name (probably)', phi)
-
-        # loop once to remove ambiguous only phi
-        for i in range(len(phi_keys)):
-            current_key = phi_keys[i]
-
-            if is_ambig(current_key, phi): # remove ambiguous
-                del phi[current_key]
-                
-        phi_keys = sorted(phi.keys(), key = lambda x: x.start)
-        bad_keys = []
-        
-        # loop again to remove overlapping phi
-        for i in range(len(phi_keys)):
-            current_key = phi_keys[i]
-            
-            if i != 0:
-                previous_key = phi_keys[i-1]
-                    
-                previous_start = phi_keys[i-1].start
-                previous_end = phi_keys[i-1].end
-                current_start = phi_keys[i].start
-                current_end = phi_keys[i].end
-                
-                if current_start >= previous_start and current_end <= previous_end:
-                    bad_keys.append(current_key)
-                
-                elif current_start > previous_start and current_start < previous_end and current_end > previous_end:
-
-                    if any(re.match(r'^Day Month \[', x) for x in phi[previous_key]) and any(re.match(r'^Day Month Year \[', x) for x in phi[current_key]):
-                        bad_keys.append(previous_key)
-                    
-                    elif any(re.match(r'^Month Day \[', x) for x in phi[previous_key]) and any(re.match(r'^Month Day Year \[', x) for x in phi[current_key]):
-                        bad_keys.append(previous_key)
-
-                    elif any(re.match(r'^Day Month \[', x) for x in phi[previous_key]) and any(re.match(r'^Month Day Year \[', x) for x in phi[current_key]):
-                        pass
-                        
-                    else:
-                        new_key = PHI(previous_start, current_end, raw_text[previous_start:current_end])
-                        new_val = phi[current_key] + phi[previous_key]
-
-                        bad_keys.append(current_key)
-                        bad_keys.append(previous_key)
-                        phi[new_key] = new_val
-                
-                elif current_start <= previous_start and current_end >= previous_end:
-                    bad_keys.append(previous_key)
-                
-                # if found PHI is part of a medical phrase, ignore it to reduce false positives
-                elif any(re.search('MedicalPhrase', val) for val in phi[current_key]) and (current_start <= previous_start and current_end >= previous_end):
-                    bad_keys.append(previous_key)
-                    bad_keys.append(current_key)
-                    
-                elif any(re.search('MedicalPhrase', val) for val in phi[previous_key]) and (current_start > previous_start and current_start < previous_end and current_end > previous_end):
-                    bad_keys.append(previous_key)
-                    bad_keys.append(current_key)
-        
-        for key in phi_keys:
-            if any(re.search('MedicalPhrase', val) for val in phi[key]):
-                bad_keys.append(key)
-                    
-        for key in bad_keys:
-            phi.pop(key, None)
-
-        return phi
-
-    
 
     def _check_ambiguous_types(self, phi_keys: List[PHI]) -> None:
 
@@ -170,7 +70,6 @@ class PHIPruner:
                     ):
                         add_type(current_key, 'First Name (probably)', self.phis)
                         add_type(prev_key, 'Last Name (probably)', self.phis)
-
 
     def _remove_ambiguous_phi(self, phi_keys: List[PHI]) -> None:
 
@@ -273,3 +172,29 @@ class PHIPruner:
         new_val = self.phis[current_key] + self.phis[previous_key]
         bad_keys.extend([previous_key, current_key])
         self.phis[new_key] = new_val
+
+    def _combine_overlapping_dates(self, phi_keys: List[PHI]):
+        # need to check if any two dates are overlapping and if so will combine into a new date PHI and remove the old entries
+        for i in range(len(phi_keys)):
+            for j in range(i + 1, len(phi_keys)):
+                key1 = phi_keys[i]
+                key2 = phi_keys[j]
+                vals1 = self.phis.get(key1, [])
+                vals2 = self.phis.get(key2, [])
+                # Check if both are date/time PHIs
+                if any(re.search(r"(Date|Year|Month|Day|Time)", v, re.IGNORECASE) for v in vals1) and any(
+                    re.search(r"(Date|Year|Month|Day|Time)", v, re.IGNORECASE) for v in vals2
+                ):
+                    # Check for overlap
+                    if not (key1.end <= key2.start or key2.end <= key1.start):
+                        # Combine into a new PHI
+                        new_start = min(key1.start, key2.start)
+                        new_end = max(key1.end, key2.end)
+                        new_key = PHI(new_start, new_end, self.note[new_start:new_end])
+                        # copy previously identified phis
+                        new_val = list(set(vals1 + vals2))
+                        self.phis[new_key] = new_val
+                        # Remove old keys
+                        self.phis.pop(key1, None)
+                        self.phis.pop(key2, None)
+                        return self._combine_overlapping_dates(sorted(self.phis.keys(), key=lambda x: x.start))

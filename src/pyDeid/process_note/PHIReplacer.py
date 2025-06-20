@@ -2,12 +2,10 @@ import re
 import calendar
 import random
 import string
+from ..phi_types.DatesPHIFinder import Date
 from datetime import datetime
-from collections import namedtuple
 
 from faker import Faker
-
-Date = namedtuple("Date", ["date_string", "day", "month", "year"])
 
 
 class PHIReplacer:
@@ -60,14 +58,28 @@ class PHIReplacer:
         self.hospital_acronyms = finder.hospital_name_finder.hospital_acronyms
 
     def replace_phi(self):
-        """Replaces PHI in the text with surrogate values."""
+        """Replaces PHI in the text with surrogate values, ensuring no  overlapping replacements."""
         deid_text = ""
         surrogates = []
         where_we_left_off = 0
+        replaced_ranges = set()  # Track replaced ranges
 
         self._randomize()
 
-        for key in sorted(self.phis.keys(), key=lambda x: x.start):
+        # Sort PHI keys by starting position
+        sorted_keys = sorted(self.phis.keys(), key=lambda x: x.start)
+
+        for key in sorted_keys:
+            # Check if this range overlaps with an already replaced range
+            if any(
+                r.start <= key.start and key.end <= r.end
+                for r in replaced_ranges
+            ):
+               for r in replaced_ranges:
+                if r.start <= key.start < r.end or r.start < key.end <= r.end:
+                    print(f"Overlapping key: {key}, Overlaps with: {r}")
+                    continue  # Skip overlapping PHI
+
             surrogate = self._get_surrogate(self.phis[key], key)
             surrogate_start = len(deid_text + self.note[where_we_left_off : key.start])
             deid_text = deid_text + self.note[where_we_left_off : key.start] + surrogate
@@ -86,8 +98,12 @@ class PHIReplacer:
                     }
                 )
 
+            # Add this range to replaced_ranges
+            replaced_ranges.add(key)
+            # replaced_ranges.add((key.start, key.end))
             where_we_left_off = key.end
 
+        # Append remaining text after the last PHI
         deid_text = deid_text + self.note[where_we_left_off:]
 
         return (surrogates, deid_text)
@@ -177,7 +193,7 @@ class PHIReplacer:
                 month = "0" + month
 
         if year:
-            if year < 40:  # add century if necessary
+            if year < 40: # add century if necessary
                 year = str(year + 2000)
             elif year >= 40 and year < 1000:
                 year = str(year + 1900)
@@ -266,7 +282,7 @@ class PHIReplacer:
         seconds = time.seconds
         meridiem = time.meridiem
 
-        if seconds is not None:  # seconds is optional as per the regex
+        if seconds is not None: # seconds is optional as per the regex
             seconds = int(seconds) + self.second_shift
 
             if int(seconds) > 60 and minutes is not None:
