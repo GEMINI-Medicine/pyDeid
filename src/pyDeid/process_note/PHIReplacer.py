@@ -77,7 +77,7 @@ class PHIReplacer:
             ):
                for r in replaced_ranges:
                 if r.start <= key.start < r.end or r.start < key.end <= r.end:
-                    print(f"Overlapping key: {key}, Overlaps with: {r}")
+                    #print(f"Overlapping key: {key}, Overlaps with: {r}")
                     continue  # Skip overlapping PHI
 
             surrogate = self._get_surrogate(self.phis[key], key)
