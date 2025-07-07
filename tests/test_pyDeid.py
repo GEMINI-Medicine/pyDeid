@@ -11,6 +11,7 @@ def test_fun_and_eval_functions():
          note_varname = "note_text",
          note_id_varname = "note_id"
       )\
+      .set_phi_types(["names", "dates", "sin", "ohip", "mrn", "locations", "hospitals", "contact"])\
       .replace_phi() \
       .build()
    

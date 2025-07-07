@@ -11,10 +11,7 @@ genc_id,note_id,token,start,end,annotation
 1,Record 1,released,46,54,
 1,Record 1,on,55,57,
 1,Record 1,"December 10, 2001",58,75,d
-2,Record 2,St,0,2,
-2,Record 2,Michael,4,11,
-2,Record 2,'s,11,13,
-2,Record 2,hospital,14,22,
+2,Record 2,St. Michael's hospital,0,22,n
 2,Record 2,is,23,25,
 2,Record 2,located,26,33,
 2,Record 2,at,34,36,
@@ -25,3 +22,12 @@ genc_id,note_id,token,start,end,annotation
 3,Record 3,Test,0,4,
 3,Record 3,MRN,5,8,
 3,Record 3,011-0111,10,18,i
+4,Record 4,The,,,
+4,Record 4,patient,,,
+4,Record 4,had,,,
+4,Record 4,a,,,
+4,Record 4,sodium,,,
+4,Record 4,level,,,
+4,Record 4,of,,,
+4,Record 4,"10,",,,
+4,Record 4,1 March 2024,38,50,d

@@ -52,10 +52,11 @@ class PHIPruner:
 
                 if (
                     (is_type(prev_key, 'Name', 1, self.phis) and is_type(current_key, 'Name', 1, self.phis))
+                    # and (not is_common(current_key.phi) or not is_common(prev_key.phi))
                     and not is_common(current_key.phi) and not is_common(prev_key.phi)
                     and not re.search(r'\.', prev_key.phi)
                     and not ((current_key.end - prev_key.start) < 3)
-                ): #TODO: why these extra conditions
+                ):
                     if (
                          (is_ambig(current_key, self.phis) and is_ambig(prev_key, self.phis) and is_type(prev_key, 'First Name', 1, self.phis) and is_type(current_key, 'Last Name', 1, self.phis)) or
                     (not is_ambig(current_key, self.phis) and is_ambig(prev_key, self.phis) and is_type(prev_key, 'First Name', 1, self.phis) and is_type(current_key, 'Last Name', 1, self.phis)) or
