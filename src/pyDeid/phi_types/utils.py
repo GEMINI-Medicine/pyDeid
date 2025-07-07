@@ -10,15 +10,101 @@ DATA_PATH = wordlists.__path__[0]
 PHI = namedtuple("PHI", ["start", "end", "phi"])
 
 
-CustomRegex = namedtuple("CustomRegex", ["phi_type", "pattern", "surrogate_builder_fn", "arguments"])
+CustomRegex = namedtuple(
+    "CustomRegex", ["phi_type", "pattern", "surrogate_builder_fn", "arguments"]
+)
 
 
-name_indicators = ["problem","problem:", "proxy", "fellow", "staff", "daughter","daughters", "dtr", "son", "brother","sister", "mother", "mom", "father", "dad", "wife", "husband", "neice", "nephew", "spouse", "partner", "cousin", "aunt", "uncle", "granddaughter", "grandson", "grandmother", "grandmom", "grandfather", "granddad", "relative", "friend", "neighbor", "visitor", "family member", "lawyer", "priest", "rabbi", "coworker", "co-worker", "boyfriend", "girlfriend", "name is", "named", "rrt", "significant other", "jr", "caregiver", "proxys", "friends", "sons", "brothers", "sisters", "sister-in-law", "brother-in-law", "mother-in-law", "father-in-law", "son-in-law", "daughter-in-law", "dtr-in-law", "surname will be", "name will be", "name at discharge will be", "name at discharge is"]
-eponym_indicators = ["disease", "cyst", "catheter", "syndrome", "tumour", "forceps", "boil", "method", "test", "sign", "abscess", "canal", "duct", "clamp", "effect", "law"]
+name_indicators = [
+    "problem",
+    "problem:",
+    "proxy",
+    "fellow",
+    "staff",
+    "daughter",
+    "daughters",
+    "dtr",
+    "son",
+    "brother",
+    "sister",
+    "mother",
+    "mom",
+    "father",
+    "dad",
+    "wife",
+    "husband",
+    "neice",
+    "nephew",
+    "spouse",
+    "partner",
+    "cousin",
+    "aunt",
+    "uncle",
+    "granddaughter",
+    "grandson",
+    "grandmother",
+    "grandmom",
+    "grandfather",
+    "granddad",
+    "relative",
+    "friend",
+    "neighbor",
+    "visitor",
+    "family member",
+    "lawyer",
+    "priest",
+    "rabbi",
+    "coworker",
+    "co-worker",
+    "boyfriend",
+    "girlfriend",
+    "name is",
+    "named",
+    "rrt",
+    "significant other",
+    "jr",
+    "caregiver",
+    "proxys",
+    "friends",
+    "sons",
+    "brothers",
+    "sisters",
+    "sister-in-law",
+    "brother-in-law",
+    "mother-in-law",
+    "father-in-law",
+    "son-in-law",
+    "daughter-in-law",
+    "dtr-in-law",
+    "surname will be",
+    "name will be",
+    "name at discharge will be",
+    "name at discharge is",
+]
+eponym_indicators = [
+    "disease",
+    "cyst",
+    "catheter",
+    "syndrome",
+    "tumour",
+    "forceps",
+    "boil",
+    "method",
+    "test",
+    "sign",
+    "abscess",
+    "canal",
+    "duct",
+    "clamp",
+    "effect",
+    "law",
+]
+
 
 def create_custom_regex(phi_type, pattern, surrogate_builder_fn, arguments=[]):
     # Create a CustomRegex instance, using an empty list as the default for arguments
     return CustomRegex(phi_type, pattern, surrogate_builder_fn, arguments)
+
 
 def load_file(filename, optimization="lookup"):
     if optimization == "lookup":
@@ -60,6 +146,35 @@ def is_ambig(key, phi):
 
 def add_type(key, phitype, phi):
     phi.setdefault(key, []).append(phitype)
+
+
+def add_phi_list(phi_list, phitype, phi):
+    for key in phi_list:
+        add_type(key, phitype, phi)
+    return phi
+
+
+def merge_phi_dicts(phi1, phi2, in_place=True):
+    """
+    Merge phi2 into phi1. If in_place is True, modify phi1 directly.
+    Otherwise, return a new dict and leave phi1 unmodified.
+    """
+    if in_place:
+        for key, types in phi2.items():
+            if key in phi1:
+                phi1[key].extend(t for t in types if t not in phi1[key])
+            else:
+                phi1[key] = types.copy()
+        return phi1
+    else:
+        # start from a shallow copy of phi1
+        merged = {k: v.copy() for k, v in phi1.items()}
+        for key, types in phi2.items():
+            if key in merged:
+                merged[key].extend(t for t in types if t not in merged[key])
+            else:
+                merged[key] = types.copy()
+        return merged
 
 
 def is_medical_eponym(x):
