@@ -1,15 +1,9 @@
 from typing import *
-
 from ..phi_types.utils import CustomRegex
 
-from ..phi_types.NameFinder import *
-from ..phi_types.DateFinder import *
-from ..phi_types.ContactFinder import *
-from ..phi_types.HospitalFinder import *
-from ..phi_types.AddressFinder import *
-from ..phi_types.MRNFinder import *
-from ..phi_types.SINFinder import *
-from ..phi_types.OHIPFinder import *
+from ..phi_types import *
+
+import pkg_resources
 
 
 class PHIFinder:
@@ -24,61 +18,232 @@ class PHIFinder:
         - types: Various PHIs we want to identify
     """
 
-    def __init__(
-        self,
-    ) -> None:
+    @dataclass
+    class Config:
+        phi_types: List[str] = field(
+            default_factory=lambda: [
+                "names",
+                "dates",
+                "sin",
+                "ohip",
+                "mrn",
+                "locations",
+                "hospitals",
+                "contact",
+            ]
+        )
+        custom_regexes: List[CustomRegex] = field(default_factory=list)
+        two_digit_threshold: int = 30
+        valid_year_low: int = 1900
+        valid_year_high: int = 2050
+        custom_dr_first_names: List[str] = field(default_factory=list)
+        custom_dr_last_names: List[str] = field(default_factory=list)
+        custom_patient_first_names: List[str] = field(default_factory=list)
+        custom_patient_last_names: List[str] = field(default_factory=list)
+        ner_model: Any = None
+
+    def __init__(self, config: Config) -> None:
         """Initializes a PHIFinder object used to find PHIs on a note"""
 
-        self.types = [
-            "names",
-            "dates",
-            "sin",
-            "ohip",
-            "mrn",
-            "locations",
-            "hospitals",
-            "contact",
-        ]
-        self.custom_regexes = []
+        self.types = config.phi_types
+        self.custom_regexes = config.custom_regexes
 
         self.phis = {}
         self.note = ""
 
-        self.name_finder = NameFinder()
-        self.date_finder = DateFinder()
-        self.sin_finder = SINFinder()
-        self.ohip_finder = OHIPFinder()
-        self.mrn_finder = MRNFinder()
-        self.address_finder = AddressFinder()
-        self.hospital_finder = HospitalFinder()
-        self.contact_finder = ContactFinder()
+        DATA_PATH = pkg_resources.resource_filename("pyDeid", "wordlists/")
 
-    def set_types(
-        self,
-        types: List[str] = [
-            "names",
-            "dates",
-            "sin",
-            "ohip",
-            "mrn",
-            "locations",
-            "hospitals",
-            "contact",
-        ],
-    ):
-        self.types = types
+        self.postal_code_finder = PostalCodePHIFinder()
+        self.hospital_name_finder = HospitalNamePHIFinder(
+            hospitals=load_file(
+                os.path.join(DATA_PATH, "ontario_hospitals.txt"),
+                optimization="iteration",
+            ),
+            hospital_acronyms=load_file(
+                os.path.join(DATA_PATH, "hospital_acronyms.txt"),
+                optimization="iteration",
+            ),
+        )
+        self.address_finder = AddressPHIFinder(
+            local_places_unambig=load_file(
+                os.path.join(DATA_PATH, "local_places_unambig_v2.txt"),
+                optimization="iteration",
+            ),
+        )
+        self.sin_finder = SinPHIFinder()
+        self.ohip_finder = OhipPHIFinder()
+        self.mrn_finder = MrnPHIFinder()
+        self.telephone_fax_finder = TelephoneFaxPHIFinder(
+            area_codes=load_file(os.path.join(DATA_PATH, "canadian_area_code.txt")),
+            disqualifiers=[
+                "HR",
+                "Heart",
+                "BP",
+                "SVR",
+                "STV",
+                "VT",
+                "Tidal Volumes",
+                "Tidal Volume",
+                "TV",
+                "CKS",
+            ],
+        )
+        self.email_finder = EmailPHIFinder()
+        self.date_finder = DatesPHIFinder(
+            # two_digit_threshold=config.two_digit_threshold,
+            # valid_year_low=config.valid_year_low,
+            # valid_year_high=config.valid_year_high,
+            invalid_time_pre_words=[
+                "CPAP",
+                "PS",
+                "range",
+                "bipap",
+                "pap",
+                "pad",
+                "rate",
+                "unload",
+                "ventilation",
+                "scale",
+                "strength",
+                "drop",
+                "up",
+                "cc",
+                "rr",
+                "cvp",
+                "up",
+                "in",
+                "with",
+                "ICP",
+                "PSV",
+                "of",
+            ],
+            invalid_time_post_words=[
+                "packs",
+                "psv",
+                "puffs",
+                "pts",
+                "patients",
+                "range",
+                "scale",
+                "mls",
+                "liters",
+                "litres",
+                "drinks",
+                "beers",
+                "per",
+                "esophagus",
+                "tabs",
+                "pts",
+                "tablets",
+                "systolic",
+                "sem",
+                "strength",
+                "times",
+                "bottles",
+                "drop",
+                "drops",
+                "up",
+                "cc",
+                "mg",
+                "/hr",
+                "/hour",
+                "mcg",
+                "ug",
+                "mm",
+                "PEEP",
+                "L",
+                "dose",
+                "doses",
+                "cultures",
+                "bpm",
+                "ICP",
+                "CPAP",
+                "cm",
+                "mm",
+                "m",
+                "sessions",
+                "visits",
+                "episodes",
+                "drops",
+                "breaths",
+                "wbcs",
+                "beat",
+                "beats",
+                "ns",  # ,'blood' creates many false negatives
+            ],
+        )
+        self.names_finder = NamesPHIFinder(
+            config=NamesPHIFinder.Config(
+                female_names_unambig=load_file(
+                    os.path.join(DATA_PATH, "female_names_unambig_v2.txt")
+                ),
+                male_names_unambig=load_file(
+                    os.path.join(DATA_PATH, "male_names_unambig_v2.txt")
+                ),
+                all_first_names=load_file(
+                    os.path.join(DATA_PATH, "all_first_names.txt")
+                ),
+                last_names_unambig=load_file(
+                    os.path.join(DATA_PATH, "last_names_unambig_v2.txt")
+                ),
+                all_last_names=load_file(os.path.join(DATA_PATH, "all_last_names.txt")),
+                doctor_first_names=load_file(
+                    os.path.join(DATA_PATH, "doctor_first_names.txt"),
+                    optimization="iteration",
+                ),
+                doctor_last_names=load_file(
+                    os.path.join(DATA_PATH, "doctor_last_names.txt")
+                ),
+                female_names_ambig=load_file(
+                    os.path.join(DATA_PATH, "female_names_ambig.txt")
+                ),
+                male_names_ambig=load_file(
+                    os.path.join(DATA_PATH, "male_names_ambig.txt")
+                ),
+                last_names_ambig=load_file(
+                    os.path.join(DATA_PATH, "last_names_ambig.txt")
+                ),
+                female_names_popular=load_file(
+                    os.path.join(DATA_PATH, "female_names_popular_v2.txt")
+                ),
+                male_names_popular=load_file(
+                    os.path.join(DATA_PATH, "male_names_popular_v2.txt")
+                ),
+                last_names_popular=load_file(
+                    os.path.join(DATA_PATH, "last_names_popular_v2.txt")
+                ),
+                prefixes_unambig=set(
+                    load_file(os.path.join(DATA_PATH, "prefixes_unambig.txt"))
+                ),
+                last_name_prefixes=set(
+                    line.strip()
+                    for line in open(os.path.join(DATA_PATH, "last_name_prefixes.txt"))
+                ),
+                medical_phrases=load_file(
+                    os.path.join(DATA_PATH, "medical_phrases.txt"),
+                    optimization="iteration",
+                ),
+                ner_model=config.ner_model,
+                custom_dr_first_names=config.custom_dr_first_names,
+                custom_dr_last_names=config.custom_dr_last_names,
+                custom_patient_first_names=config.custom_patient_first_names,
+                custom_patient_last_names=config.custom_patient_last_names,
+            )
+        )
 
     def set_note(self, new_note: str) -> None:
         self.note = new_note
         finders = [
-            self.name_finder,
+            self.names_finder,
             self.date_finder,
+            self.email_finder,
+            self.telephone_fax_finder,
+            self.address_finder,
+            self.postal_code_finder,
             self.sin_finder,
             self.ohip_finder,
             self.mrn_finder,
-            self.address_finder,
-            self.hospital_finder,
-            self.contact_finder,
+            self.hospital_name_finder,
         ]
 
         for finder in finders:
@@ -88,14 +253,16 @@ class PHIFinder:
     def set_phis(self, new_phis) -> None:
         self.phis = new_phis
         finders = [
-            self.name_finder,
+            self.names_finder,
             self.date_finder,
+            self.email_finder,
+            self.telephone_fax_finder,
+            self.address_finder,
+            self.postal_code_finder,
             self.sin_finder,
             self.ohip_finder,
             self.mrn_finder,
-            self.address_finder,
-            self.hospital_finder,
-            self.contact_finder,
+            self.hospital_name_finder,
         ]
 
         for finder in finders:
@@ -103,46 +270,49 @@ class PHIFinder:
                 finder.set_phis(new_phis)
 
     def find_phi(self, row_from_mll=None) -> Dict[PHI, List[str]]:
-
         """
         Returns mutated PHI object containing PHIs of various types identified from the note
-        
+
         """
-        
+
+        phi_collector = self.phis
 
         if "names" in self.types:
-            phi = self.name_finder.name_first_pass()
-            self.set_phis(phi)
-            name_phi = self.name_finder.find()
-            self.set_phis(name_phi)
+            merge_phi_dicts(phi_collector, self.names_finder.find())
 
         if "dates" in self.types:
-            date_phi = self.date_finder.find()
-            self.set_phis(date_phi)
+            found_dates = self.date_finder.find()
+            merge_phi_dicts(phi_collector, found_dates)
 
         if "sin" in self.types:
-            sin_phi = self.sin_finder.find()
-            self.set_phis(sin_phi)
+            found_sins = self.sin_finder.find()
+            merge_phi_dicts(phi_collector, found_sins)
 
         if "ohip" in self.types:
-            ohip_phi = self.ohip_finder.find()
-            self.set_phis(ohip_phi)
+            found_ohips = self.ohip_finder.find()
+            merge_phi_dicts(phi_collector, found_ohips)
 
         if "mrn" in self.types:
-            mrn_phi = self.mrn_finder.find()
-            self.set_phis(mrn_phi)
+            found_mrns = self.mrn_finder.find()
+            merge_phi_dicts(phi_collector, found_mrns)
 
         if "locations" in self.types:
-            location_phi = self.address_finder.find()
-            self.set_phis(location_phi)
+            found_post_codes = self.postal_code_finder.find()
+            merge_phi_dicts(phi_collector, found_post_codes)
+            found_addresses = self.address_finder.find()
+            merge_phi_dicts(phi_collector, found_addresses)
 
         if "hospitals" in self.types:
-            hospital_phi = self.hospital_finder.find()
-            self.set_phis(hospital_phi)
+            found_hospitals = self.hospital_name_finder.find()
+            merge_phi_dicts(phi_collector, found_hospitals)
 
         if "contact" in self.types:
-            contact_phi = self.contact_finder.find()
-            self.set_phis(contact_phi)
+            found_emails = self.email_finder.find()
+            merge_phi_dicts(phi_collector, found_emails)
+            found_telephones = self.telephone_fax_finder.find()
+            merge_phi_dicts(phi_collector, found_telephones)
+
+        self.set_phis(phi_collector)
 
         if row_from_mll is not None:
             self._mll_process(row_from_mll)
@@ -166,6 +336,12 @@ class PHIFinder:
         for column in row_from_mll:
             val = row_from_mll[column]
             if val:
-                for m in re.finditer(r'\b' + re.escape(val) + r'\b',self.note, re.IGNORECASE):
+                for m in re.finditer(
+                    r"\b" + re.escape(val) + r"\b", self.note, re.IGNORECASE
+                ):
                     if m:
-                        add_type(PHI(m.start(), m.end(), m.group()), column + " (MLL)", self.phis)
+                        add_type(
+                            PHI(m.start(), m.end(), m.group()),
+                            column + " (MLL)",
+                            self.phis,
+                        )

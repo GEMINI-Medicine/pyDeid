@@ -22,11 +22,22 @@ class pyDeidBuilder:
         """
         self.deid = Deidentifier()
         self.mll_rows = {}
-        self.finder = PHIFinder()
+        self.finder = None
         self.pruner = PHIPruner()
         self.replacer = None
 
         self.original_file = None
+        self.phi_types = []
+        self.ner_model = None
+
+        self.finder_custom_regexes = []
+        self.finder_custom_dr_first_names = None
+        self.finder_custom_dr_last_names = None
+        self.finder_custom_patient_first_names = None
+        self.finder_custom_patient_last_names = None
+        self.finder_two_digit_threshold = None
+        self.finder_valid_year_low = None
+        self.finder_valid_year_high = None
 
     def replace_phi(self, enable_replace=True, return_surrogates: bool = True):
         """Replaces found instances of PHI in the note to de-identify.
@@ -45,7 +56,6 @@ class pyDeidBuilder:
 
         if enable_replace:
             self.replacer = PHIReplacer(return_surrogates)
-            self.replacer.load_phi_types(self.finder)
         else:
             self.replacer = None
 
@@ -165,7 +175,7 @@ class pyDeidBuilder:
         Returns:
             pyDeidBuilder: Instance of the pyDeidBuilder class, allowing method chaining.
         """
-        self.finder.set_types(types)
+        self.phi_types = types
 
         return self
 
@@ -277,55 +287,15 @@ class pyDeidBuilder:
 
             return self
 
-        with open(
-            filename,
-            newline="",
-            encoding=file_encoding,
-            errors=read_error_handling,
-        ) as f:
-            mll_reader = csv.DictReader(
-                f,
-                delimiter=",",
-                quotechar='"',
-                quoting=csv.QUOTE_MINIMAL,
+    def set_multithreading(self, threads: int):
+        cpu_count = os.cpu_count() or 1
+        if threads > cpu_count:
+            raise ValueError(
+                f"Cannot use more than {cpu_count} threads (got {threads})"
             )
 
-            # Check if the encounter ID column exists
-            if encounter_id_varname not in mll_reader.fieldnames:
-                raise ValueError(
-                    f"Encounter ID column '{encounter_id_varname}' not found in the CSV file."
-                )
-
-            for row in mll_reader:
-                # Get index for the encounter id for easy retrieval later
-                key = row[encounter_id_varname]
-                self.mll_rows[key] = row
-
-                if use_namelists:
-                    # Process patient names
-                    for name_type, column in patient_name_columns.items():
-                        if column in row:
-                            value = row[column]
-                            if value:  # Only add non-empty values
-                                name_set_mapping[name_type]["patient"].add(value)
-
-                    # Process doctor names
-                    for name_type, columns in doctor_name_columns.items():
-                        for column in columns:
-                            if column in row:
-                                value = row[column]
-                                if value:  # Only add non-empty values
-                                    name_set_mapping[name_type]["doctor"].add(value)
-
-            if use_namelists:
-                self.set_custom_namelists(
-                    custom_patient_first_names,
-                    custom_patient_last_names,
-                    custom_dr_first_names,
-                    custom_dr_last_names,
-                )
-
-            return self
+        self.deid.max_workers = threads
+        return self
 
     def _load_reader_dict(self, file_encoding="utf-8", read_error_handling=None):
         self.deid.reader_dict = csv.DictReader(
@@ -403,7 +373,7 @@ class pyDeidBuilder:
         Returns:
             pyDeidBuilder: Instance of the pyDeidBuilder class, allowing method chaining.
         """
-        self.finder.name_finder.model = model
+        self.ner_model = model
         return self
 
     def set_custom_regex(
@@ -439,7 +409,7 @@ class pyDeidBuilder:
 
         custom_regex = CustomRegex(phi_type, pattern, surrogate_builder_fn, arguments)
 
-        self.finder.custom_regexes = self.finder.custom_regexes + [custom_regex]
+        self.finder_custom_regexes = self.finder_custom_regexes + [custom_regex]
 
         if self.replacer is None and surrogate_builder_fn is None:
             raise ValueError("surrogate_builder_fn specified but replace_phi not set")
@@ -462,9 +432,9 @@ class pyDeidBuilder:
         Returns:
             pyDeidBuilder: Instance of the pyDeidBuilder class, allowing method chaining.
         """
-        self.finder.date_finder.two_digit_threshold = two_digit_threshold
-        self.finder.date_finder.valid_year_low = valid_year_low
-        self.finder.date_finder.valid_year_high = valid_year_high
+        self.finder_two_digit_threshold = two_digit_threshold
+        self.finder_valid_year_low = valid_year_low
+        self.finder_valid_year_high = valid_year_high
         return self
 
     def _remove_NaN(self, namelist):
@@ -489,16 +459,12 @@ class pyDeidBuilder:
             pyDeidBuilder: Instance of the pyDeidBuilder class, allowing method chaining.
         """
         # check for nan values in custom namelists
-        self.finder.name_finder.custom_dr_first_names = self._remove_NaN(
-            custom_dr_first_names
-        )
-        self.finder.name_finder.custom_dr_last_names = self._remove_NaN(
-            custom_dr_last_names
-        )
-        self.finder.name_finder.custom_patient_first_names = self._remove_NaN(
+        self.finder_custom_dr_first_names = self._remove_NaN(custom_dr_first_names)
+        self.finder_custom_dr_last_names = self._remove_NaN(custom_dr_last_names)
+        self.finder_custom_patient_first_names = self._remove_NaN(
             custom_patient_first_names
         )
-        self.finder.name_finder.custom_patient_last_names = self._remove_NaN(
+        self.finder_custom_patient_last_names = self._remove_NaN(
             custom_patient_last_names
         )
         return self
@@ -549,6 +515,24 @@ class pyDeidBuilder:
         # in case .replace_phi() is not called
         if self.deid.regex_replace and not self.replacer:
             self.replace_phi()
+
+        self.finder = PHIFinder(
+            config=PHIFinder.Config(
+                phi_types=self.phi_types,
+                custom_regexes=self.finder_custom_regexes,
+                two_digit_threshold=self.finder_two_digit_threshold,
+                valid_year_low=self.finder_valid_year_low,
+                valid_year_high=self.finder_valid_year_high,
+                custom_dr_first_names=self.finder_custom_dr_first_names,
+                custom_dr_last_names=self.finder_custom_dr_last_names,
+                custom_patient_first_names=self.finder_custom_patient_first_names,
+                custom_patient_last_names=self.finder_custom_patient_last_names,
+                ner_model=self.ner_model,
+            )
+        )
+
+        if self.replacer is not None:
+            self.replacer.load_phi_types(self.finder)
 
         handler = PHIHandler(self.deid.regex_replace, mll_rows=self.mll_rows)
         handler.set_finder(self.finder)

@@ -9,3 +9,5 @@ tests/*__*.csv
 build/*
 
 pyDeid.egg-info
+
+venv/

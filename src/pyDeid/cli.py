@@ -110,7 +110,7 @@ if __name__ == "__main__":
         required=False,
         help="The output file that contains the solution.",
     )
-    
+
     parser.add_argument(
         "--named_entity_recognition",
         type=str_to_bool,
@@ -143,29 +143,29 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "--custom_dr_first_names",
-        type=lambda s: set(s.split(',')),
+        type=lambda s: set(s.split(",")),
         default=None,
         required=False,
         help="The output file that contains the solution.",
     )
     parser.add_argument(
-    "--custom_dr_last_names",
-    type=lambda s: set(s.split(',')),
-    default=None,
-    required=False,
-    help="Comma-separated list of last names.",
+        "--custom_dr_last_names",
+        type=lambda s: set(s.split(",")),
+        default=None,
+        required=False,
+        help="Comma-separated list of last names.",
     )
 
     parser.add_argument(
         "--custom_patient_first_names",
-        type=lambda s: set(s.split(',')),
+        type=lambda s: set(s.split(",")),
         default=None,
         required=False,
         help="The output file that contains the solution.",
     )
     parser.add_argument(
         "--custom_patient_last_names",
-        type=lambda s: set(s.split(',')),
+        type=lambda s: set(s.split(",")),
         default=None,
         required=False,
         help="The output file that contains the solution.",
@@ -213,16 +213,23 @@ if __name__ == "__main__":
     parser.add_argument(
         "--encounter_id_varname_mll",
         type=str,
-        default='genc_id',
+        default="genc_id",
         required=False,
         help="The output file that contains the solution.",
     )
+    parser.add_argument(
+        "--num_threads",
+        type=int,
+        default=1,
+        required=False,
+        help="The number of parallel processing threads to use.",
+    )
     args = parser.parse_args()
-   
+
     file_path = os.path.expanduser(args.original_file)
     if args.cr_surrogate_file and args.custom_regexes:  # this is a python file
         file_path_custom_surrogates = os.path.expanduser(args.cr_surrogate_file)
-  
+
     builder = (
         pyDeidBuilder()
         .replace_phi(args.enable_replace, args.return_surrogates)
@@ -286,7 +293,7 @@ if __name__ == "__main__":
 
         for regex_str in args.custom_regexes:
             parts = regex_str.split(",")
-       
+
             # Extract the components
             pattern = parts[0].strip()
             phi_type = parts[1].strip()
@@ -294,7 +301,7 @@ if __name__ == "__main__":
             arguments = [
                 arg.strip("'") for arg in parts[3:]
             ]  # Remaining parts are arguments
-            
+
             # now surrogate_builder_fn could be a lambda or not
             if surrogate_builder_fn.strip().startswith(
                 "lambda"
@@ -317,6 +324,8 @@ if __name__ == "__main__":
                     evaluated_args.append(arg)
 
             builder.set_custom_regex(pattern, phi_type, function, evaluated_args)
+
+    builder.set_multithreading(args.num_threads)
 
     deid = builder.set_valid_years(
         args.two_digit_threshold, args.valid_year_low, args.valid_year_high
