@@ -20,7 +20,18 @@ class PHIFinder:
 
     @dataclass
     class Config:
-        phi_types: List[str] = field(default_factory=lambda: ["names", "dates", "sin", "ohip", "mrn", "locations", "hospitals", "contact"])
+        phi_types: List[str] = field(
+            default_factory=lambda: [
+                "names",
+                "dates",
+                "sin",
+                "ohip",
+                "mrn",
+                "locations",
+                "hospitals",
+                "contact",
+            ]
+        )
         custom_regexes: List[CustomRegex] = field(default_factory=list)
         two_digit_threshold: int = 30
         valid_year_low: int = 1900
@@ -31,12 +42,9 @@ class PHIFinder:
         custom_patient_last_names: List[str] = field(default_factory=list)
         ner_model: Any = None
 
-    def __init__(
-        self,
-        config: Config
-    ) -> None:
+    def __init__(self, config: Config) -> None:
         """Initializes a PHIFinder object used to find PHIs on a note"""
-        
+
         self.types = config.phi_types
         self.custom_regexes = config.custom_regexes
 
@@ -47,11 +55,20 @@ class PHIFinder:
 
         self.postal_code_finder = PostalCodePHIFinder()
         self.hospital_name_finder = HospitalNamePHIFinder(
-            hospitals=load_file(os.path.join(DATA_PATH, "ontario_hospitals.txt"), optimization="iteration"),
-            hospital_acronyms=load_file(os.path.join(DATA_PATH, "hospital_acronyms.txt"), optimization="iteration"),
+            hospitals=load_file(
+                os.path.join(DATA_PATH, "ontario_hospitals.txt"),
+                optimization="iteration",
+            ),
+            hospital_acronyms=load_file(
+                os.path.join(DATA_PATH, "hospital_acronyms.txt"),
+                optimization="iteration",
+            ),
         )
         self.address_finder = AddressPHIFinder(
-            local_places_unambig=load_file(os.path.join(DATA_PATH, "local_places_unambig_v2.txt"), optimization="iteration"),
+            local_places_unambig=load_file(
+                os.path.join(DATA_PATH, "local_places_unambig_v2.txt"),
+                optimization="iteration",
+            ),
         )
         self.sin_finder = SinPHIFinder()
         self.ohip_finder = OhipPHIFinder()
@@ -157,27 +174,60 @@ class PHIFinder:
         )
         self.names_finder = NamesPHIFinder(
             config=NamesPHIFinder.Config(
-                female_names_unambig=load_file(os.path.join(DATA_PATH, "female_names_unambig_v2.txt")),
-                male_names_unambig=load_file(os.path.join(DATA_PATH, "male_names_unambig_v2.txt")),
-                all_first_names=load_file(os.path.join(DATA_PATH, "all_first_names.txt")),
-                last_names_unambig=load_file(os.path.join(DATA_PATH, "last_names_unambig_v2.txt")),
+                female_names_unambig=load_file(
+                    os.path.join(DATA_PATH, "female_names_unambig_v2.txt")
+                ),
+                male_names_unambig=load_file(
+                    os.path.join(DATA_PATH, "male_names_unambig_v2.txt")
+                ),
+                all_first_names=load_file(
+                    os.path.join(DATA_PATH, "all_first_names.txt")
+                ),
+                last_names_unambig=load_file(
+                    os.path.join(DATA_PATH, "last_names_unambig_v2.txt")
+                ),
                 all_last_names=load_file(os.path.join(DATA_PATH, "all_last_names.txt")),
-                doctor_first_names=load_file(os.path.join(DATA_PATH, "doctor_first_names.txt"), optimization="iteration"),
-                doctor_last_names=load_file(os.path.join(DATA_PATH, "doctor_last_names.txt")),
-                female_names_ambig=load_file(os.path.join(DATA_PATH, "female_names_ambig.txt")),
-                male_names_ambig=load_file(os.path.join(DATA_PATH, "male_names_ambig.txt")),
-                last_names_ambig=load_file(os.path.join(DATA_PATH, "last_names_ambig.txt")),
-                female_names_popular=load_file(os.path.join(DATA_PATH, "female_names_popular_v2.txt")),
-                male_names_popular=load_file(os.path.join(DATA_PATH, "male_names_popular_v2.txt")),
-                last_names_popular=load_file(os.path.join(DATA_PATH, "last_names_popular_v2.txt")),
-                prefixes_unambig=set(load_file(os.path.join(DATA_PATH, "prefixes_unambig.txt"))),
-                last_name_prefixes=set(line.strip() for line in open(os.path.join(DATA_PATH, "last_name_prefixes.txt"))),
-                medical_phrases=load_file(os.path.join(DATA_PATH, "medical_phrases.txt"), optimization="iteration"),
+                doctor_first_names=load_file(
+                    os.path.join(DATA_PATH, "doctor_first_names.txt"),
+                    optimization="iteration",
+                ),
+                doctor_last_names=load_file(
+                    os.path.join(DATA_PATH, "doctor_last_names.txt")
+                ),
+                female_names_ambig=load_file(
+                    os.path.join(DATA_PATH, "female_names_ambig.txt")
+                ),
+                male_names_ambig=load_file(
+                    os.path.join(DATA_PATH, "male_names_ambig.txt")
+                ),
+                last_names_ambig=load_file(
+                    os.path.join(DATA_PATH, "last_names_ambig.txt")
+                ),
+                female_names_popular=load_file(
+                    os.path.join(DATA_PATH, "female_names_popular_v2.txt")
+                ),
+                male_names_popular=load_file(
+                    os.path.join(DATA_PATH, "male_names_popular_v2.txt")
+                ),
+                last_names_popular=load_file(
+                    os.path.join(DATA_PATH, "last_names_popular_v2.txt")
+                ),
+                prefixes_unambig=set(
+                    load_file(os.path.join(DATA_PATH, "prefixes_unambig.txt"))
+                ),
+                last_name_prefixes=set(
+                    line.strip()
+                    for line in open(os.path.join(DATA_PATH, "last_name_prefixes.txt"))
+                ),
+                medical_phrases=load_file(
+                    os.path.join(DATA_PATH, "medical_phrases.txt"),
+                    optimization="iteration",
+                ),
                 ner_model=config.ner_model,
-                custom_dr_first_names = config.custom_dr_first_names,
-                custom_dr_last_names = config.custom_dr_last_names,
-                custom_patient_first_names = config.custom_patient_first_names,
-                custom_patient_last_names = config.custom_patient_last_names,
+                custom_dr_first_names=config.custom_dr_first_names,
+                custom_dr_last_names=config.custom_dr_last_names,
+                custom_patient_first_names=config.custom_patient_first_names,
+                custom_patient_last_names=config.custom_patient_last_names,
             )
         )
 
@@ -193,7 +243,7 @@ class PHIFinder:
             self.sin_finder,
             self.ohip_finder,
             self.mrn_finder,
-            self.hospital_name_finder
+            self.hospital_name_finder,
         ]
 
         for finder in finders:
@@ -212,7 +262,7 @@ class PHIFinder:
             self.sin_finder,
             self.ohip_finder,
             self.mrn_finder,
-            self.hospital_name_finder
+            self.hospital_name_finder,
         ]
 
         for finder in finders:
@@ -286,6 +336,12 @@ class PHIFinder:
         for column in row_from_mll:
             val = row_from_mll[column]
             if val:
-                for m in re.finditer(r"\b" + re.escape(val) + r"\b", self.note, re.IGNORECASE):
+                for m in re.finditer(
+                    r"\b" + re.escape(val) + r"\b", self.note, re.IGNORECASE
+                ):
                     if m:
-                        add_type(PHI(m.start(), m.end(), m.group()), column + " (MLL)", self.phis)
+                        add_type(
+                            PHI(m.start(), m.end(), m.group()),
+                            column + " (MLL)",
+                            self.phis,
+                        )

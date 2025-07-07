@@ -23,7 +23,7 @@ class Deidentifier:
         self.input_file_type = "csv"
         self.return_surrogates = True
         self.proc_bar = None
-        self.max_workers=1
+        self.max_workers = 1
 
     def run(self, verbose=True):
         """
@@ -44,13 +44,12 @@ class Deidentifier:
         # with open(self.deidentified_file, "wb") as f:
         #     f.write(b'\xff\xfe')  # Write the BOM for UTF-16
 
-        with open(self.deidentified_file, "w", encoding=self.encoding) as f_deid, \
-             open(self.phi_output_file,    "a", newline="")  as f_phi:
+        with open(self.deidentified_file, "w", encoding=self.encoding) as f_deid, open(
+            self.phi_output_file, "a", newline=""
+        ) as f_phi:
 
             writer_deid = csv.DictWriter(
-                f_deid,
-                fieldnames=self.reader_dict.fieldnames,
-                lineterminator="\n"
+                f_deid, fieldnames=self.reader_dict.fieldnames, lineterminator="\n"
             )
             writer_deid.writeheader()
 
@@ -59,8 +58,8 @@ class Deidentifier:
                 notes = 0
                 start_time = time.time()
 
-            errors   = []
-            futures  = {}
+            errors = []
+            futures = {}
 
             # submit each row’s deid work to the thread pool
             with ProcessPoolExecutor(max_workers=self.max_workers) as pool:
@@ -73,7 +72,7 @@ class Deidentifier:
                         [],
                         self.encounter_id_varname,
                         self.note_id_varname,
-                        self.note_varname
+                        self.note_varname,
                     )
                     futures[fut] = (row, original_note)
 
@@ -96,7 +95,7 @@ class Deidentifier:
                             chars, notes, row, original_note
                         )
                         self.proc_bar.update(1)
-                
+
                 if verbose:
                     self.proc_bar.close()
 
@@ -141,7 +140,7 @@ class Deidentifier:
     def _write_new_note_to_file(
         self, found_phis, surrogates, row, writer_deid_dict, new_note
     ):
-        if not  self.return_surrogates :  # Write outputs for regex find
+        if not self.return_surrogates:  # Write outputs for regex find
             if self.regex_replace:
                 row[self.note_varname] = new_note
                 writer_deid_dict.writerow(row)
@@ -154,7 +153,7 @@ class Deidentifier:
             self._write_to_file(surrogates, row)
 
     def _write_to_file(self, items, row):
-   
+
         if self.phi_output_file_type == "csv":
             with open(self.phi_output_file, "r", newline="") as out:
                 reader = csv.DictReader(out)
@@ -176,16 +175,8 @@ class Deidentifier:
                 for d in items:
                     writer.writerow(d)
 
-def _worker(handler,
-            row,
-            errors,
-            encounter_id_varname,
-            note_id_varname,
-            note_varname):
+
+def _worker(handler, row, errors, encounter_id_varname, note_id_varname, note_varname):
     return handler.handle_csv_row(
-        row,
-        errors,
-        encounter_id_varname,
-        note_id_varname,
-        note_varname
+        row, errors, encounter_id_varname, note_id_varname, note_varname
     )

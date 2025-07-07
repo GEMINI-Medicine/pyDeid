@@ -210,7 +210,9 @@ class CSVEvaluator:
                 for term in ["Date", "Month", "Day", "Year", "Holiday"]
             ):
                 return "Date"
-            elif any(term in str(annotation) for term in ["Name", "Initials", "Hospital"]):
+            elif any(
+                term in str(annotation) for term in ["Name", "Initials", "Hospital"]
+            ):
                 return "Name"
             elif any(
                 term in str(annotation)

@@ -3,26 +3,23 @@ from typing import *
 
 
 class PHIHandler:
-
     """
-    Responsible for managing the current the current note and associated PHIs. 
+    Responsible for managing the current the current note and associated PHIs.
 
     Manages relationship between find, prune and replace operations for the current note
     """
 
-
-    def __init__(self, regex_replace=True, mll_rows = {} ): # figure out args 
-        self.note= ''
+    def __init__(self, regex_replace=True, mll_rows={}):  # figure out args
+        self.note = ""
         self.phis = {}
 
         self.regex_replace = regex_replace
         self.mll_rows = mll_rows
         self.finder = self.pruner = self.replacer = None
-    
 
     def set_note(self, new_note: str) -> None:
         self.note = new_note
-        handlers = [self.finder, self.pruner, self.replacer ]
+        handlers = [self.finder, self.pruner, self.replacer]
 
         for handler in handlers:
             if handler is not None:
@@ -42,12 +39,11 @@ class PHIHandler:
     def set_pruner(self, pruner):
         self.pruner = pruner
 
-    def set_replacer(self, replacer = None):
+    def set_replacer(self, replacer=None):
         self.replacer = replacer
-    
-    def handle_string(self,
-        note: str,
-        row_from_mll: str = None       
+
+    def handle_string(
+        self, note: str, row_from_mll: str = None
     ) -> Tuple[List[Dict[str, str]], str]:
 
         self.set_note(note)
@@ -59,46 +55,52 @@ class PHIHandler:
         pruned_phi = self.pruner.prune_phi()
         self.set_phis(pruned_phi)
 
-
         surrogates = []
-        new_note = ''
-      
-      
+        new_note = ""
+
         if self.regex_replace:
             surrogates, new_note = self.replacer.replace_phi()
 
         return surrogates, new_note
-    
-    def handle_csv_row(self,
-        row: Dict[str, str], errors: List[str],
+
+    def handle_csv_row(
+        self,
+        row: Dict[str, str],
+        errors: List[str],
         encounter_id_varname: str = "genc_id",
         note_id_varname: str = None,
         note_varname: str = "note_text",
-        ) -> Tuple[int, int, List[str]]:
-    
-        """ Handle the note - with find, prune, and replace"""
+    ) -> Tuple[int, int, List[str]]:
+        """Handle the note - with find, prune, and replace"""
         note = row[note_varname]
-        new_note = ''
+        new_note = ""
         surrogates = []
         found_phis = []
-        
+
         try:
             # Handle MLL logic
             row_from_mll = None
-            
+
             if self.mll_rows:
                 enc_id = row[encounter_id_varname]
                 row_from_mll = self.mll_rows.get(enc_id)
 
             # Process PHI
-            surrogates, new_note = self.handle_string(
-                note, row_from_mll
-            )
-
+            surrogates, new_note = self.handle_string(note, row_from_mll)
 
         except Exception as e:
             print("out", e)
-            surrogates = [{'phi_start': '', 'phi_end': '', 'phi': '', 'surrogate_start': '', 'surrogate_end': '', 'surrogate': '', 'types': '', }]
+            surrogates = [
+                {
+                    "phi_start": "",
+                    "phi_end": "",
+                    "phi": "",
+                    "surrogate_start": "",
+                    "surrogate_end": "",
+                    "surrogate": "",
+                    "types": "",
+                }
+            ]
             new_note = self.note
 
             if note_id_varname is not None:

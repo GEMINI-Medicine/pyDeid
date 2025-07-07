@@ -2,7 +2,10 @@ from typing import *
 from pathlib import Path
 from .pyDeidBuilder import pyDeidBuilder
 from .phi_types.utils import CustomRegex
+from .pyDeidBuilder import pyDeidBuilder
+from .phi_types.utils import CustomRegex
 import re
+import os
 import os
 
 def pyDeid(
@@ -18,6 +21,11 @@ def pyDeid(
     new_file: Optional[Union[str, Path]] = None, 
     phi_output_file: Optional[Union[str, Path]] = None, 
     phi_output_file_type: Literal['json', 'csv'] = 'csv',
+    mll_file:Optional[str] = None,
+    named_entity_recognition: bool = False,
+    two_digit_threshold:int = 30,
+    valid_year_low: int = 1900,
+    valid_year_high:int = 2050,
     mll_file:Optional[str] = None,
     named_entity_recognition: bool = False,
     two_digit_threshold:int = 30,
@@ -97,6 +105,7 @@ def pyDeid(
         These are named arguments that will be taken as regexes to be scrubbed from
         the given note. The keyword/argument name itself will be used to label the
         PHI in the `phi_output`. Note that all custom patterns will be replaced with
+        PHI in the `phi_output`. Note that all custom patterns will be replaced with
         `<PHI>`.
 
     Returns
@@ -120,9 +129,27 @@ def pyDeid(
   
     if new_file:
         builder.set_deid_output_file(new_file)
+    file_path = os.path.expanduser(original_file)
+    builder = pyDeidBuilder() \
+        .replace_phi(enable_replace, return_surrogates) \
+        .set_input_file(original_file=file_path,
+            encounter_id_varname=encounter_id_varname,
+            note_varname=note_varname,
+            note_id_varname=note_id_varname,
+            max_field_size=max_field_size,
+            file_encoding=file_encoding,
+            read_error_handling=read_error_handling,) \
+        .set_phi_types(types)
+    
+  
+    if new_file:
+        builder.set_deid_output_file(new_file)
     else:
         builder.set_deid_output_file()
+        builder.set_deid_output_file()
 
+    if phi_output_file:
+        builder.set_phi_output_file(phi_output_file, phi_output_file_type)
     if phi_output_file:
         builder.set_phi_output_file(phi_output_file, phi_output_file_type)
     else:
@@ -192,12 +219,17 @@ def deid_string(
     valid_year_low: int = 1900,
     valid_year_high:int = 2050,
     types: List[str] = ["names", "dates", "sin", "ohip", "mrn", "locations", "hospitals", "contact"],
+    two_digit_threshold:int = 30,
+    valid_year_low: int = 1900,
+    valid_year_high:int = 2050,
+    types: List[str] = ["names", "dates", "sin", "ohip", "mrn", "locations", "hospitals", "contact"],
     **custom_regexes: str
     ):
     """Remove and replace PHI from a single string for debugging
 
     Parameters
     ----------
+    note
     note
         String with PHI to de-identify.
     custom_dr_first_names
@@ -216,6 +248,8 @@ def deid_string(
         Whether to use NER as implemented in the spaCy package for better detection of names.
     detect_only
         Boolean to decide on whether to only output detected phis
+    detect_only
+        Boolean to decide on whether to only output detected phis
     **custom_regexes
         These are named arguments that will be taken as regexes to be scrubbed from
         the given note. The keyword/argument name itself will be used to label the
@@ -228,6 +262,8 @@ def deid_string(
     None
         If detect_only=True, then only output a dictionary of found PHIs
         else A tuple where the first element is a dictionary of found PHI and the second element
+        If detect_only=True, then only output a dictionary of found PHIs
+        else A tuple where the first element is a dictionary of found PHI and the second element
         is the deidentified string.
     """
 
@@ -237,6 +273,19 @@ def deid_string(
             print('-', key, ':', custom_regexes[key])
         print('\nThese custom patterns will be replaced with <PHI>.\n')
 
+    
+    builder = pyDeidBuilder() \
+        .replace_phi() \
+        .set_phi_types(types)
+    
+
+
+    if custom_dr_first_names or custom_dr_last_names or custom_patient_first_names or custom_patient_last_names:
+        builder.set_custom_namelists(
+            custom_dr_first_names,
+            custom_dr_last_names,
+            custom_patient_first_names,
+            custom_patient_last_names
     
     builder = pyDeidBuilder() \
         .replace_phi() \
@@ -285,7 +334,40 @@ def deid_string(
 
 
     surrogates, new_note = deid.handler.handle_string(note)
+        from spacy import load
+        nlp = load("en_core_web_sm")
+        builder.set_ner_pipeline(nlp)
 
+    
+    if custom_regexes:
+        for custom_regex_id in custom_regexes:
+            custom_reg = custom_regexes[custom_regex_id]
+            if custom_reg.arguments:
+                arg_list =custom_reg.arguments.strip().split(',')
+            else:
+                arg_list =[]
+            arguments = [
+                arg.strip("'") for arg in arg_list
+            ]  # Remaining parts are arguments
+
+            evaluated_args = []
+            for arg in arguments:
+                try:
+                    evaluated_args.append(eval(arg))
+                except:
+                    evaluated_args.append(arg)
+
+            builder.set_custom_regex(custom_reg.pattern, custom_reg.phi_type, custom_reg.surrogate_builder_fn, evaluated_args)
+    
+
+    deid = builder.set_valid_years(
+        two_digit_threshold, valid_year_low, valid_year_high
+    ).build()
+
+
+    surrogates, new_note = deid.handler.handle_string(note)
+
+    return surrogates, new_note
     return surrogates, new_note
 
 
@@ -391,5 +473,7 @@ def display_deid(original_string, phi):
       "title": None,
     }
     ]
+    # spacy.displacy.render(render_data, style="ent", manual=True)
+
     # spacy.displacy.render(render_data, style="ent", manual=True)
 

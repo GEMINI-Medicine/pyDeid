@@ -71,14 +71,11 @@ class PHIReplacer:
 
         for key in sorted_keys:
             # Check if this range overlaps with an already replaced range
-            if any(
-                r.start <= key.start and key.end <= r.end
-                for r in replaced_ranges
-            ):
-               for r in replaced_ranges:
-                if r.start <= key.start < r.end or r.start < key.end <= r.end:
-                    #print(f"Overlapping key: {key}, Overlaps with: {r}")
-                    continue  # Skip overlapping PHI
+            if any(r.start <= key.start and key.end <= r.end for r in replaced_ranges):
+                for r in replaced_ranges:
+                    if r.start <= key.start < r.end or r.start < key.end <= r.end:
+                        # print(f"Overlapping key: {key}, Overlaps with: {r}")
+                        continue  # Skip overlapping PHI
 
             surrogate = self._get_surrogate(self.phis[key], key)
             surrogate_start = len(deid_text + self.note[where_we_left_off : key.start])
@@ -193,7 +190,7 @@ class PHIReplacer:
                 month = "0" + month
 
         if year:
-            if year < 40: # add century if necessary
+            if year < 40:  # add century if necessary
                 year = str(year + 2000)
             elif year >= 40 and year < 1000:
                 year = str(year + 1900)
@@ -264,7 +261,9 @@ class PHIReplacer:
 
                 if year:
                     if month or day:
-                        year_sep = random.choice([". ", ", ", " "]) if sep == " " else sep
+                        year_sep = (
+                            random.choice([". ", ", ", " "]) if sep == " " else sep
+                        )
                     else:
                         year_sep = ""
 
@@ -282,7 +281,7 @@ class PHIReplacer:
         seconds = time.seconds
         meridiem = time.meridiem
 
-        if seconds is not None: # seconds is optional as per the regex
+        if seconds is not None:  # seconds is optional as per the regex
             seconds = int(seconds) + self.second_shift
 
             if int(seconds) > 60 and minutes is not None:
@@ -326,15 +325,33 @@ class PHIReplacer:
 
     def _build_telephone(self):
         """Generates a random telephone number."""
-        return random.choice(tuple(self.canadian_area_codes)) + "-" + str(random.randint(100, 999)) + "-" + str(random.randint(1000, 9999))
+        return (
+            random.choice(tuple(self.canadian_area_codes))
+            + "-"
+            + str(random.randint(100, 999))
+            + "-"
+            + str(random.randint(1000, 9999))
+        )
 
     def _build_ohip(self):
         """Generates a random OHIP number."""
-        return str(random.randint(1000, 9999)) + "-" + str(random.randint(100, 999)) + "-" + str(random.randint(100, 999))
+        return (
+            str(random.randint(1000, 9999))
+            + "-"
+            + str(random.randint(100, 999))
+            + "-"
+            + str(random.randint(100, 999))
+        )
 
     def _build_sin(self):
         """Generates a random SIN number."""
-        return str(random.randint(100, 999)) + "-" + str(random.randint(100, 999)) + "-" + str(random.randint(100, 999))
+        return (
+            str(random.randint(100, 999))
+            + "-"
+            + str(random.randint(100, 999))
+            + "-"
+            + str(random.randint(100, 999))
+        )
 
     def _build_id(self):
         return random.randint(10000000, 99999999)
@@ -403,7 +420,11 @@ class PHIReplacer:
                     day, month, year = self._date_shifter(key.phi)
                     surrogate = self._build_date(day, month, year)
                 elif re.search(r"Date range", val, re.IGNORECASE):
-                    surrogate += self.fake.date() + " to " + self.fake.future_date().strftime("%Y-%m-%d")
+                    surrogate += (
+                        self.fake.date()
+                        + " to "
+                        + self.fake.future_date().strftime("%Y-%m-%d")
+                    )
 
                 else:
                     surrogate = self.fake.date()
@@ -427,12 +448,16 @@ class PHIReplacer:
 
                 for custom_regex in self.custom_regexes:
                     if val == custom_regex.phi_type:
-                        surrogate = custom_regex.surrogate_builder_fn(*custom_regex.arguments)
+                        surrogate = custom_regex.surrogate_builder_fn(
+                            *custom_regex.arguments
+                        )
 
             else:
                 surrogate = "<PHI>"
 
-            if surrogate != "<PHI>":  # for multiple PHI types for a single token, just pick one
+            if (
+                surrogate != "<PHI>"
+            ):  # for multiple PHI types for a single token, just pick one
                 break
 
         # if surrogate == '<PHI>': # in the case, phitypes has only types giving <PHI> surrogates
