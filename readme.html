@@ -1,13 +1,13 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="">
+<html class="no-js" lang="en" data-content_root="./">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="API Reference" href="api/index.html" /><link rel="prev" title="pyDeid" href="index.html" />
 
-    <!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
         <title>PyDeid - pyDeid v0.0.4 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
     
@@ -260,13 +260,13 @@
         </div>
         <article role="main" id="furo-main-content">
           <section id="pydeid">
-<h1><code class="docutils literal notranslate"><span class="pre">PyDeid</span></code><a class="headerlink" href="#pydeid" title="Permalink to this heading">¶</a></h1>
+<h1><code class="docutils literal notranslate"><span class="pre">PyDeid</span></code><a class="headerlink" href="#pydeid" title="Link to this heading">¶</a></h1>
 <p>See <a class="reference external" href="https://gemini-medicine.github.io/pyDeid/index.html">read the
 docs</a> for
 extensive examples and a detailed feature breakdown.</p>
 <p><strong>Note that ``pyDeid`` was tested with python ``3.10.4``.</strong></p>
 <section id="objective">
-<h2>1 Objective<a class="headerlink" href="#objective" title="Permalink to this heading">¶</a></h2>
+<h2>1 Objective<a class="headerlink" href="#objective" title="Link to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> is a Python-based refactor of the <a class="reference external" href="https://physionet.org/content/deid/1.1/">Physionet Perl-based
 De-identification Software</a>,
 which uses regular expressions and lookup dictionaries to identify and
@@ -280,7 +280,7 @@ namelists without having to save them to persistent storage, and
 incorporate <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> NER pipelines.</p>
 </section>
 <section id="local-installation-and-setup">
-<h2>2 Local Installation and Setup<a class="headerlink" href="#local-installation-and-setup" title="Permalink to this heading">¶</a></h2>
+<h2>2 Local Installation and Setup<a class="headerlink" href="#local-installation-and-setup" title="Link to this heading">¶</a></h2>
 <p>If you have downloaded (and unzipped) this package to a local folder
 <code class="docutils literal notranslate"><span class="pre">/path/to/package/</span></code> simply install via
 <code class="docutils literal notranslate"><span class="pre">pip3</span> <span class="pre">install</span> <span class="pre">--user</span> <span class="pre">/path/to/package/</span></code>.</p>
@@ -299,18 +299,18 @@ behaviour becomes the default.</p>
 <p>To now import from this package, you may need to add the install
 location (found via <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">show</span> <span class="pre">pyDeid</span></code>) to your <code class="docutils literal notranslate"><span class="pre">$PYTHONPATH</span></code> so
 <code class="docutils literal notranslate"><span class="pre">Python</span></code> knows where to look for it:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;/path/from/pip_show_pydeid/&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Test your installation by running the following:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyDeid</span> <span class="kn">import</span> <span class="n">deid_string</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyDeid</span><span class="w"> </span><span class="kn">import</span> <span class="n">deid_string</span>
 <span class="n">deid_string</span><span class="p">(</span><span class="s1">&#39;Elijah Wood starred in The Lord of the Rings, released on 10 December 2001.&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
 <section id="csv-file-de-identification">
-<h2>3 CSV File De-identification<a class="headerlink" href="#csv-file-de-identification" title="Permalink to this heading">¶</a></h2>
+<h2>3 CSV File De-identification<a class="headerlink" href="#csv-file-de-identification" title="Link to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">pyDeid</span></code> only requires that the free text data be stored in a CSV file
 with named column headers.</p>
 <p>Specifying a column of encounter IDs (and optionally note IDs) with
@@ -353,7 +353,7 @@ pyDeid(
 </div>
 </section>
 <section id="additional-arguments">
-<h2>4 Additional Arguments<a class="headerlink" href="#additional-arguments" title="Permalink to this heading">¶</a></h2>
+<h2>4 Additional Arguments<a class="headerlink" href="#additional-arguments" title="Link to this heading">¶</a></h2>
 <p>Additional settings are described in the <a class="reference external" href="https://gemini-medicine.github.io/pyDeid/api/index.html">API
 documentation</a>,
 and covered extensively in the <a class="reference external" href="https://gemini-medicine.github.io/pyDeid/tutorials/index.html">tutorial
@@ -392,13 +392,13 @@ argument to <code class="docutils literal notranslate"><span class="pre">PyDeid<
 </div>
 </section>
 <section id="additional-functions">
-<h2>5 Additional Functions<a class="headerlink" href="#additional-functions" title="Permalink to this heading">¶</a></h2>
+<h2>5 Additional Functions<a class="headerlink" href="#additional-functions" title="Link to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">deid_string</span></code> is a simplified function to de-identify a single string
 at a time which can be used for debugging, or written into a custom
 wrapper if <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code> fails to meet the requirements of the problem. It
 can optionally be combined with the <code class="docutils literal notranslate"><span class="pre">reid_string</span></code> function which takes
 the output of <code class="docutils literal notranslate"><span class="pre">deid_string</span></code> and returns the input to <code class="docutils literal notranslate"><span class="pre">deid_string</span></code>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyDeid</span> <span class="kn">import</span> <span class="n">reid_string</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyDeid</span><span class="w"> </span><span class="kn">import</span> <span class="n">reid_string</span>
 
 <span class="n">original_string</span> <span class="o">=</span> <span class="s1">&#39;Elijah Wood starred in The Lord of the Rings, released on 10 December 2001.&#39;</span>
 
@@ -410,14 +410,14 @@ the output of <code class="docutils literal notranslate"><span class="pre">deid_
 </div>
 <p>Additionally, the de-identification results can be visualized with
 <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyDeid</span> <span class="kn">import</span> <span class="n">display_deid</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyDeid</span><span class="w"> </span><span class="kn">import</span> <span class="n">display_deid</span>
 
 <span class="n">display_deid</span><span class="p">(</span><span class="n">original_string</span><span class="p">,</span> <span class="n">phi</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
 <section id="reporting-issues">
-<h2>6 Reporting Issues<a class="headerlink" href="#reporting-issues" title="Permalink to this heading">¶</a></h2>
+<h2>6 Reporting Issues<a class="headerlink" href="#reporting-issues" title="Link to this heading">¶</a></h2>
 <p>Please report any bugs or feature requests as issues to the <code class="docutils literal notranslate"><span class="pre">PyDeid</span></code>
 repository. For any bugs, please supply a minimal reproducible example
 to guarantee a quicker resolution.</p>
@@ -497,9 +497,9 @@ to guarantee a quicker resolution.</p>
       
     </aside>
   </div>
-</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=0fc64e82"></script>
-    <script src="_static/doctools.js?v=888ff710"></script>
-    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+</div><script src="_static/documentation_options.js?v=77e3fdf6"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=5fa4622c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     </body>

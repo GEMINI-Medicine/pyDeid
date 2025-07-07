@@ -4,10 +4,10 @@ pyDeid.phi\_types package
 Submodules
 ----------
 
-pyDeid.phi\_types.AddressFinder module
---------------------------------------
+pyDeid.phi\_types.AddressPHIFinder module
+-----------------------------------------
 
-.. automodule:: pyDeid.phi_types.AddressFinder
+.. automodule:: pyDeid.phi_types.AddressPHIFinder
    :members:
    :undoc-members:
    :show-inheritance:
@@ -20,58 +20,82 @@ pyDeid.phi\_types.AmericanPIIFinder module
    :undoc-members:
    :show-inheritance:
 
-pyDeid.phi\_types.ContactFinder module
---------------------------------------
-
-.. automodule:: pyDeid.phi_types.ContactFinder
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-pyDeid.phi\_types.DateFinder module
------------------------------------
-
-.. automodule:: pyDeid.phi_types.DateFinder
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-pyDeid.phi\_types.HospitalFinder module
+pyDeid.phi\_types.DatesPHIFinder module
 ---------------------------------------
 
-.. automodule:: pyDeid.phi_types.HospitalFinder
+.. automodule:: pyDeid.phi_types.DatesPHIFinder
    :members:
    :undoc-members:
    :show-inheritance:
 
-pyDeid.phi\_types.MRNFinder module
-----------------------------------
+pyDeid.phi\_types.EmailPHIFinder module
+---------------------------------------
 
-.. automodule:: pyDeid.phi_types.MRNFinder
+.. automodule:: pyDeid.phi_types.EmailPHIFinder
    :members:
    :undoc-members:
    :show-inheritance:
 
-pyDeid.phi\_types.NameFinder module
------------------------------------
+pyDeid.phi\_types.HospitalNamePHIFinder module
+----------------------------------------------
 
-.. automodule:: pyDeid.phi_types.NameFinder
+.. automodule:: pyDeid.phi_types.HospitalNamePHIFinder
    :members:
    :undoc-members:
    :show-inheritance:
 
-pyDeid.phi\_types.OHIPFinder module
------------------------------------
+pyDeid.phi\_types.MrnPHIFinder module
+-------------------------------------
 
-.. automodule:: pyDeid.phi_types.OHIPFinder
+.. automodule:: pyDeid.phi_types.MrnPHIFinder
    :members:
    :undoc-members:
    :show-inheritance:
 
-pyDeid.phi\_types.SINFinder module
-----------------------------------
+pyDeid.phi\_types.NamesPHIFinder module
+---------------------------------------
 
-.. automodule:: pyDeid.phi_types.SINFinder
+.. automodule:: pyDeid.phi_types.NamesPHIFinder
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pyDeid.phi\_types.OhipPHIFinder module
+--------------------------------------
+
+.. automodule:: pyDeid.phi_types.OhipPHIFinder
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pyDeid.phi\_types.PHITypeFinder module
+--------------------------------------
+
+.. automodule:: pyDeid.phi_types.PHITypeFinder
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pyDeid.phi\_types.PostalCodePHIFinder module
+--------------------------------------------
+
+.. automodule:: pyDeid.phi_types.PostalCodePHIFinder
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pyDeid.phi\_types.SinPHIFinder module
+-------------------------------------
+
+.. automodule:: pyDeid.phi_types.SinPHIFinder
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pyDeid.phi\_types.TelephoneFaxPHIFinder module
+----------------------------------------------
+
+.. automodule:: pyDeid.phi_types.TelephoneFaxPHIFinder
    :members:
    :undoc-members:
    :show-inheritance:

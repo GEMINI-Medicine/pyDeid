@@ -1,13 +1,13 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="">
+<html class="no-js" lang="en" data-content_root="../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="pyDeid.process_note package" href="pyDeid.process_note.html" /><link rel="prev" title="pyDeid package" href="pyDeid.html" />
 
-    <!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
         <title>pyDeid.phi_types package - pyDeid v0.0.4 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=302659d7" />
     
@@ -260,320 +260,512 @@
         </div>
         <article role="main" id="furo-main-content">
           <section id="pydeid-phi-types-package">
-<h1>pyDeid.phi_types package<a class="headerlink" href="#pydeid-phi-types-package" title="Permalink to this heading">¶</a></h1>
+<h1>pyDeid.phi_types package<a class="headerlink" href="#pydeid-phi-types-package" title="Link to this heading">¶</a></h1>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
 </section>
-<section id="module-pyDeid.phi_types.AddressFinder">
-<span id="pydeid-phi-types-addressfinder-module"></span><h2>pyDeid.phi_types.AddressFinder module<a class="headerlink" href="#module-pyDeid.phi_types.AddressFinder" title="Permalink to this heading">¶</a></h2>
+<section id="module-pyDeid.phi_types.AddressPHIFinder">
+<span id="pydeid-phi-types-addressphifinder-module"></span><h2>pyDeid.phi_types.AddressPHIFinder module<a class="headerlink" href="#module-pyDeid.phi_types.AddressPHIFinder" title="Link to this heading">¶</a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="pyDeid.phi_types.AddressFinder.AddressFinder">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.AddressFinder.</span></span><span class="sig-name descname"><span class="pre">AddressFinder</span></span><a class="headerlink" href="#pyDeid.phi_types.AddressFinder.AddressFinder" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="pyDeid.phi_types.AddressFinder.AddressFinder.find">
-<span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.AddressFinder.AddressFinder.find" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyDeid.phi_types.AddressPHIFinder.AddressPHIFinder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.AddressPHIFinder.</span></span><span class="sig-name descname"><span class="pre">AddressPHIFinder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">local_places_unambig</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.AddressPHIFinder.AddressPHIFinder" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyDeid.phi_types.PHITypeFinder.PHITypeFinder" title="pyDeid.phi_types.PHITypeFinder.PHITypeFinder"><code class="xref py py-class docutils literal notranslate"><span class="pre">PHITypeFinder</span></code></a></p>
+<p>Concrete implementation of PHITypeFinder for detecting addresses.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyDeid.phi_types.AddressPHIFinder.AddressPHIFinder.apt_indicators">
+<span class="sig-name descname"><span class="pre">apt_indicators</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['apt',</span> <span class="pre">'suite']</span></em><a class="headerlink" href="#pyDeid.phi_types.AddressPHIFinder.AddressPHIFinder.apt_indicators" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pyDeid.phi_types.AddressFinder.AddressFinder.set_note">
-<span class="sig-name descname"><span class="pre">set_note</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_note</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyDeid.phi_types.AddressFinder.AddressFinder.set_note" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyDeid.phi_types.AddressPHIFinder.AddressPHIFinder.find">
+<span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.AddressPHIFinder.AddressPHIFinder.find" title="Link to this definition">¶</a></dt>
+<dd><p>Find phand return all occurrences of the PHI type in the given text.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyDeid.phi_types.AddressPHIFinder.AddressPHIFinder.street_add_suff">
+<span class="sig-name descname"><span class="pre">street_add_suff</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['park',</span> <span class="pre">'drive',</span> <span class="pre">'street',</span> <span class="pre">'road',</span> <span class="pre">'lane',</span> <span class="pre">'boulevard',</span> <span class="pre">'blvd',</span> <span class="pre">'avenue',</span> <span class="pre">'highway',</span> <span class="pre">'circle',</span> <span class="pre">'ave',</span> <span class="pre">'place',</span> <span class="pre">'rd',</span> <span class="pre">'st']</span></em><a class="headerlink" href="#pyDeid.phi_types.AddressPHIFinder.AddressPHIFinder.street_add_suff" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="pyDeid.phi_types.AddressFinder.AddressFinder.set_phis">
-<span class="sig-name descname"><span class="pre">set_phis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_phis</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyDeid.phi_types.AddressFinder.AddressFinder.set_phis" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyDeid.phi_types.AddressPHIFinder.AddressPHIFinder.strict_street_add_suff">
+<span class="sig-name descname"><span class="pre">strict_street_add_suff</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['Park',</span> <span class="pre">'Drive',</span> <span class="pre">'Street',</span> <span class="pre">'Road',</span> <span class="pre">'Lane',</span> <span class="pre">'Boulevard',</span> <span class="pre">'Blvd',</span> <span class="pre">'Avenue',</span> <span class="pre">'Highway',</span> <span class="pre">'Ave',</span> <span class="pre">'Rd',</span> <span class="pre">'PARK',</span> <span class="pre">'DRIVE',</span> <span class="pre">'STREET',</span> <span class="pre">'ROAD',</span> <span class="pre">'LANE',</span> <span class="pre">'BOULEVARD',</span> <span class="pre">'BLVD',</span> <span class="pre">'AVENUE',</span> <span class="pre">'HIGHWAY',</span> <span class="pre">'AVE',</span> <span class="pre">'RD']</span></em><a class="headerlink" href="#pyDeid.phi_types.AddressPHIFinder.AddressPHIFinder.strict_street_add_suff" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </section>
 <section id="pydeid-phi-types-americanpiifinder-module">
-<h2>pyDeid.phi_types.AmericanPIIFinder module<a class="headerlink" href="#pydeid-phi-types-americanpiifinder-module" title="Permalink to this heading">¶</a></h2>
+<h2>pyDeid.phi_types.AmericanPIIFinder module<a class="headerlink" href="#pydeid-phi-types-americanpiifinder-module" title="Link to this heading">¶</a></h2>
 </section>
-<section id="module-pyDeid.phi_types.ContactFinder">
-<span id="pydeid-phi-types-contactfinder-module"></span><h2>pyDeid.phi_types.ContactFinder module<a class="headerlink" href="#module-pyDeid.phi_types.ContactFinder" title="Permalink to this heading">¶</a></h2>
+<section id="module-pyDeid.phi_types.DatesPHIFinder">
+<span id="pydeid-phi-types-datesphifinder-module"></span><h2>pyDeid.phi_types.DatesPHIFinder module<a class="headerlink" href="#module-pyDeid.phi_types.DatesPHIFinder" title="Link to this heading">¶</a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="pyDeid.phi_types.ContactFinder.ContactFinder">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.ContactFinder.</span></span><span class="sig-name descname"><span class="pre">ContactFinder</span></span><a class="headerlink" href="#pyDeid.phi_types.ContactFinder.ContactFinder" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="pyDeid.phi_types.ContactFinder.ContactFinder.find">
-<span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyDeid.phi_types.ContactFinder.ContactFinder.find" title="Permalink to this definition">¶</a></dt>
-<dd><p>Mutates PHI object to have PHI of contact type from the note</p>
-<dl class="simple">
-<dt>Preconditions:</dt><dd><ul class="simple">
-<li></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyDeid.phi_types.ContactFinder.ContactFinder.set_note">
-<span class="sig-name descname"><span class="pre">set_note</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_note</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyDeid.phi_types.ContactFinder.ContactFinder.set_note" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyDeid.phi_types.ContactFinder.ContactFinder.set_phis">
-<span class="sig-name descname"><span class="pre">set_phis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_phis</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyDeid.phi_types.ContactFinder.ContactFinder.set_phis" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-</section>
-<section id="module-pyDeid.phi_types.DateFinder">
-<span id="pydeid-phi-types-datefinder-module"></span><h2>pyDeid.phi_types.DateFinder module<a class="headerlink" href="#module-pyDeid.phi_types.DateFinder" title="Permalink to this heading">¶</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="pyDeid.phi_types.DateFinder.Date">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.DateFinder.</span></span><span class="sig-name descname"><span class="pre">Date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date_string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">day</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">month</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.DateFinder.Date" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyDeid.phi_types.DatesPHIFinder.Date">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.DatesPHIFinder.</span></span><span class="sig-name descname"><span class="pre">Date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date_string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">day</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">month</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.DatesPHIFinder.Date" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="pyDeid.phi_types.DateFinder.Date.date_string">
-<span class="sig-name descname"><span class="pre">date_string</span></span><a class="headerlink" href="#pyDeid.phi_types.DateFinder.Date.date_string" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyDeid.phi_types.DatesPHIFinder.Date.date_string">
+<span class="sig-name descname"><span class="pre">date_string</span></span><a class="headerlink" href="#pyDeid.phi_types.DatesPHIFinder.Date.date_string" title="Link to this definition">¶</a></dt>
 <dd><p>Alias for field number 0</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="pyDeid.phi_types.DateFinder.Date.day">
-<span class="sig-name descname"><span class="pre">day</span></span><a class="headerlink" href="#pyDeid.phi_types.DateFinder.Date.day" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyDeid.phi_types.DatesPHIFinder.Date.day">
+<span class="sig-name descname"><span class="pre">day</span></span><a class="headerlink" href="#pyDeid.phi_types.DatesPHIFinder.Date.day" title="Link to this definition">¶</a></dt>
 <dd><p>Alias for field number 1</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="pyDeid.phi_types.DateFinder.Date.month">
-<span class="sig-name descname"><span class="pre">month</span></span><a class="headerlink" href="#pyDeid.phi_types.DateFinder.Date.month" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyDeid.phi_types.DatesPHIFinder.Date.month">
+<span class="sig-name descname"><span class="pre">month</span></span><a class="headerlink" href="#pyDeid.phi_types.DatesPHIFinder.Date.month" title="Link to this definition">¶</a></dt>
 <dd><p>Alias for field number 2</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="pyDeid.phi_types.DateFinder.Date.year">
-<span class="sig-name descname"><span class="pre">year</span></span><a class="headerlink" href="#pyDeid.phi_types.DateFinder.Date.year" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyDeid.phi_types.DatesPHIFinder.Date.year">
+<span class="sig-name descname"><span class="pre">year</span></span><a class="headerlink" href="#pyDeid.phi_types.DatesPHIFinder.Date.year" title="Link to this definition">¶</a></dt>
 <dd><p>Alias for field number 3</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="pyDeid.phi_types.DateFinder.DateFinder">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.DateFinder.</span></span><span class="sig-name descname"><span class="pre">DateFinder</span></span><a class="headerlink" href="#pyDeid.phi_types.DateFinder.DateFinder" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dt class="sig sig-object py" id="pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.DatesPHIFinder.</span></span><span class="sig-name descname"><span class="pre">DatesPHIFinder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">two_digit_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid_year_low</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid_year_high</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2999</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invalid_time_pre_words</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invalid_time_post_words</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyDeid.phi_types.PHITypeFinder.PHITypeFinder" title="pyDeid.phi_types.PHITypeFinder.PHITypeFinder"><code class="xref py py-class docutils literal notranslate"><span class="pre">PHITypeFinder</span></code></a></p>
+<p>Concrete implementation of PHITypeFinder for detecting dates, years, holidays, seasons.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="pyDeid.phi_types.DateFinder.DateFinder.find">
-<span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.DateFinder.DateFinder.find" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.date">
+<span class="sig-name descname"><span class="pre">date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.date" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pyDeid.phi_types.DateFinder.DateFinder.set_note">
-<span class="sig-name descname"><span class="pre">set_note</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_note</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyDeid.phi_types.DateFinder.DateFinder.set_note" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.date_range">
+<span class="sig-name descname"><span class="pre">date_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.date_range" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pyDeid.phi_types.DateFinder.DateFinder.set_phis">
-<span class="sig-name descname"><span class="pre">set_phis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_phis</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyDeid.phi_types.DateFinder.DateFinder.set_phis" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.date_with_context_check">
+<span class="sig-name descname"><span class="pre">date_with_context_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.date_with_context_check" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.days">
+<span class="sig-name descname"><span class="pre">days</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'1':</span> <span class="pre">31,</span> <span class="pre">'10':</span> <span class="pre">31,</span> <span class="pre">'11':</span> <span class="pre">30,</span> <span class="pre">'12':</span> <span class="pre">31,</span> <span class="pre">'2':</span> <span class="pre">28,</span> <span class="pre">'3':</span> <span class="pre">31,</span> <span class="pre">'4':</span> <span class="pre">30,</span> <span class="pre">'5':</span> <span class="pre">31,</span> <span class="pre">'6':</span> <span class="pre">30,</span> <span class="pre">'7':</span> <span class="pre">31,</span> <span class="pre">'8':</span> <span class="pre">31,</span> <span class="pre">'9':</span> <span class="pre">30}</span></em><a class="headerlink" href="#pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.days" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pyDeid.phi_types.DateFinder.DateFinder.set_valid_years">
-<span class="sig-name descname"><span class="pre">set_valid_years</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">two_digit_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid_year_low</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1900</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid_year_high</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2050</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.DateFinder.DateFinder.set_valid_years" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.find">
+<span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.find" title="Link to this definition">¶</a></dt>
+<dd><p>Find phand return all occurrences of the PHI type in the given text.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.find_time">
+<span class="sig-name descname"><span class="pre">find_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.find_time" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.holiday">
+<span class="sig-name descname"><span class="pre">holiday</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.holiday" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.monthly">
+<span class="sig-name descname"><span class="pre">monthly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.monthly" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.months">
+<span class="sig-name descname"><span class="pre">months</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'Apr':</span> <span class="pre">4,</span> <span class="pre">'April':</span> <span class="pre">4,</span> <span class="pre">'Aug':</span> <span class="pre">8,</span> <span class="pre">'August':</span> <span class="pre">8,</span> <span class="pre">'Dec':</span> <span class="pre">12,</span> <span class="pre">'December':</span> <span class="pre">12,</span> <span class="pre">'Feb':</span> <span class="pre">2,</span> <span class="pre">'February':</span> <span class="pre">2,</span> <span class="pre">'Jan':</span> <span class="pre">1,</span> <span class="pre">'January':</span> <span class="pre">1,</span> <span class="pre">'Jul':</span> <span class="pre">7,</span> <span class="pre">'July':</span> <span class="pre">7,</span> <span class="pre">'Jun':</span> <span class="pre">6,</span> <span class="pre">'June':</span> <span class="pre">6,</span> <span class="pre">'Mar':</span> <span class="pre">3,</span> <span class="pre">'March':</span> <span class="pre">3,</span> <span class="pre">'May':</span> <span class="pre">5,</span> <span class="pre">'Nov':</span> <span class="pre">11,</span> <span class="pre">'November':</span> <span class="pre">11,</span> <span class="pre">'Oct':</span> <span class="pre">10,</span> <span class="pre">'October':</span> <span class="pre">10,</span> <span class="pre">'Sep':</span> <span class="pre">9,</span> <span class="pre">'Sept':</span> <span class="pre">9,</span> <span class="pre">'September':</span> <span class="pre">9}</span></em><a class="headerlink" href="#pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.months" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.name" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.season_year">
+<span class="sig-name descname"><span class="pre">season_year</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.season_year" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.seasons">
+<span class="sig-name descname"><span class="pre">seasons</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['winter',</span> <span class="pre">'spring',</span> <span class="pre">'summer',</span> <span class="pre">'autumn',</span> <span class="pre">'fall']</span></em><a class="headerlink" href="#pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.seasons" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.year_with_context_check">
+<span class="sig-name descname"><span class="pre">year_with_context_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.year_with_context_check" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="pyDeid.phi_types.DateFinder.Time">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.DateFinder.</span></span><span class="sig-name descname"><span class="pre">Time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hours</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minutes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seconds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meridiem</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.DateFinder.Time" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyDeid.phi_types.DatesPHIFinder.Time">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.DatesPHIFinder.</span></span><span class="sig-name descname"><span class="pre">Time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hours</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minutes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seconds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meridiem</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.DatesPHIFinder.Time" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="pyDeid.phi_types.DateFinder.Time.hours">
-<span class="sig-name descname"><span class="pre">hours</span></span><a class="headerlink" href="#pyDeid.phi_types.DateFinder.Time.hours" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyDeid.phi_types.DatesPHIFinder.Time.hours">
+<span class="sig-name descname"><span class="pre">hours</span></span><a class="headerlink" href="#pyDeid.phi_types.DatesPHIFinder.Time.hours" title="Link to this definition">¶</a></dt>
 <dd><p>Alias for field number 1</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="pyDeid.phi_types.DateFinder.Time.meridiem">
-<span class="sig-name descname"><span class="pre">meridiem</span></span><a class="headerlink" href="#pyDeid.phi_types.DateFinder.Time.meridiem" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyDeid.phi_types.DatesPHIFinder.Time.meridiem">
+<span class="sig-name descname"><span class="pre">meridiem</span></span><a class="headerlink" href="#pyDeid.phi_types.DatesPHIFinder.Time.meridiem" title="Link to this definition">¶</a></dt>
 <dd><p>Alias for field number 4</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="pyDeid.phi_types.DateFinder.Time.minutes">
-<span class="sig-name descname"><span class="pre">minutes</span></span><a class="headerlink" href="#pyDeid.phi_types.DateFinder.Time.minutes" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyDeid.phi_types.DatesPHIFinder.Time.minutes">
+<span class="sig-name descname"><span class="pre">minutes</span></span><a class="headerlink" href="#pyDeid.phi_types.DatesPHIFinder.Time.minutes" title="Link to this definition">¶</a></dt>
 <dd><p>Alias for field number 2</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="pyDeid.phi_types.DateFinder.Time.seconds">
-<span class="sig-name descname"><span class="pre">seconds</span></span><a class="headerlink" href="#pyDeid.phi_types.DateFinder.Time.seconds" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyDeid.phi_types.DatesPHIFinder.Time.seconds">
+<span class="sig-name descname"><span class="pre">seconds</span></span><a class="headerlink" href="#pyDeid.phi_types.DatesPHIFinder.Time.seconds" title="Link to this definition">¶</a></dt>
 <dd><p>Alias for field number 3</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="pyDeid.phi_types.DateFinder.Time.time_string">
-<span class="sig-name descname"><span class="pre">time_string</span></span><a class="headerlink" href="#pyDeid.phi_types.DateFinder.Time.time_string" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyDeid.phi_types.DatesPHIFinder.Time.time_string">
+<span class="sig-name descname"><span class="pre">time_string</span></span><a class="headerlink" href="#pyDeid.phi_types.DatesPHIFinder.Time.time_string" title="Link to this definition">¶</a></dt>
 <dd><p>Alias for field number 0</p>
 </dd></dl>
 
 </dd></dl>
 
 </section>
-<section id="module-pyDeid.phi_types.HospitalFinder">
-<span id="pydeid-phi-types-hospitalfinder-module"></span><h2>pyDeid.phi_types.HospitalFinder module<a class="headerlink" href="#module-pyDeid.phi_types.HospitalFinder" title="Permalink to this heading">¶</a></h2>
+<section id="module-pyDeid.phi_types.EmailPHIFinder">
+<span id="pydeid-phi-types-emailphifinder-module"></span><h2>pyDeid.phi_types.EmailPHIFinder module<a class="headerlink" href="#module-pyDeid.phi_types.EmailPHIFinder" title="Link to this heading">¶</a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="pyDeid.phi_types.HospitalFinder.HospitalFinder">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.HospitalFinder.</span></span><span class="sig-name descname"><span class="pre">HospitalFinder</span></span><a class="headerlink" href="#pyDeid.phi_types.HospitalFinder.HospitalFinder" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyDeid.phi_types.EmailPHIFinder.EmailPHIFinder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.EmailPHIFinder.</span></span><span class="sig-name descname"><span class="pre">EmailPHIFinder</span></span><a class="headerlink" href="#pyDeid.phi_types.EmailPHIFinder.EmailPHIFinder" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyDeid.phi_types.PHITypeFinder.PHITypeFinder" title="pyDeid.phi_types.PHITypeFinder.PHITypeFinder"><code class="xref py py-class docutils literal notranslate"><span class="pre">PHITypeFinder</span></code></a></p>
+<p>Concrete implementation of PHITypeFinder for detecting email addresses.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyDeid.phi_types.EmailPHIFinder.EmailPHIFinder.find">
+<span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pyDeid.phi_types.EmailPHIFinder.EmailPHIFinder.find" title="Link to this definition">¶</a></dt>
+<dd><p>Find phand return all occurrences of the PHI type in the given text.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyDeid.phi_types.HospitalNamePHIFinder">
+<span id="pydeid-phi-types-hospitalnamephifinder-module"></span><h2>pyDeid.phi_types.HospitalNamePHIFinder module<a class="headerlink" href="#module-pyDeid.phi_types.HospitalNamePHIFinder" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyDeid.phi_types.HospitalNamePHIFinder.HospitalNamePHIFinder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.HospitalNamePHIFinder.</span></span><span class="sig-name descname"><span class="pre">HospitalNamePHIFinder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hospitals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hospital_acronyms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.HospitalNamePHIFinder.HospitalNamePHIFinder" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyDeid.phi_types.PHITypeFinder.PHITypeFinder" title="pyDeid.phi_types.PHITypeFinder.PHITypeFinder"><code class="xref py py-class docutils literal notranslate"><span class="pre">PHITypeFinder</span></code></a></p>
+<p>Concrete implementation of PHITypeFinder for detecting hospital names and their acronyms.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyDeid.phi_types.HospitalNamePHIFinder.HospitalNamePHIFinder.find">
+<span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pyDeid.phi_types.HospitalNamePHIFinder.HospitalNamePHIFinder.find" title="Link to this definition">¶</a></dt>
+<dd><p>Find phand return all occurrences of the PHI type in the given text.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyDeid.phi_types.MrnPHIFinder">
+<span id="pydeid-phi-types-mrnphifinder-module"></span><h2>pyDeid.phi_types.MrnPHIFinder module<a class="headerlink" href="#module-pyDeid.phi_types.MrnPHIFinder" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyDeid.phi_types.MrnPHIFinder.MrnPHIFinder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.MrnPHIFinder.</span></span><span class="sig-name descname"><span class="pre">MrnPHIFinder</span></span><a class="headerlink" href="#pyDeid.phi_types.MrnPHIFinder.MrnPHIFinder" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyDeid.phi_types.PHITypeFinder.PHITypeFinder" title="pyDeid.phi_types.PHITypeFinder.PHITypeFinder"><code class="xref py py-class docutils literal notranslate"><span class="pre">PHITypeFinder</span></code></a></p>
+<p>Concrete implementation of PHITypeFinder for detecting Medical Record Numbers (MRNs).</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyDeid.phi_types.MrnPHIFinder.MrnPHIFinder.find">
+<span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pyDeid.phi_types.MrnPHIFinder.MrnPHIFinder.find" title="Link to this definition">¶</a></dt>
+<dd><p>Find phand return all occurrences of the PHI type in the given text.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyDeid.phi_types.NamesPHIFinder">
+<span id="pydeid-phi-types-namesphifinder-module"></span><h2>pyDeid.phi_types.NamesPHIFinder module<a class="headerlink" href="#module-pyDeid.phi_types.NamesPHIFinder" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.NamesPHIFinder.</span></span><span class="sig-name descname"><span class="pre">NamesPHIFinder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config" title="pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config"><span class="pre">Config</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyDeid.phi_types.PHITypeFinder.PHITypeFinder" title="pyDeid.phi_types.PHITypeFinder.PHITypeFinder"><code class="xref py py-class docutils literal notranslate"><span class="pre">PHITypeFinder</span></code></a></p>
+<p>Concrete implementation of PHITypeFinder for detecting names.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">female_names_unambig:</span> <span class="pre">List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">male_names_unambig:</span> <span class="pre">List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_first_names:</span> <span class="pre">List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_names_unambig:</span> <span class="pre">List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_last_names:</span> <span class="pre">List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doctor_first_names:</span> <span class="pre">List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doctor_last_names:</span> <span class="pre">List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">female_names_ambig:</span> <span class="pre">List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">male_names_ambig:</span> <span class="pre">List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_names_ambig:</span> <span class="pre">List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">female_names_popular:</span> <span class="pre">List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">male_names_popular:</span> <span class="pre">List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_names_popular:</span> <span class="pre">List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">medical_phrases:</span> <span class="pre">List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_dr_first_names:</span> <span class="pre">List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_dr_last_names:</span> <span class="pre">List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_patient_first_names:</span> <span class="pre">List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_patient_last_names:</span> <span class="pre">List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefixes_unambig:</span> <span class="pre">Set[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_name_prefixes:</span> <span class="pre">Set[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ner_model:</span> <span class="pre">&lt;built-in</span> <span class="pre">function</span> <span class="pre">any&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_indicators:</span> <span class="pre">List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eponym_indicators:</span> <span class="pre">List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.all_first_names">
+<span class="sig-name descname"><span class="pre">all_first_names</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.all_first_names" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.all_last_names">
+<span class="sig-name descname"><span class="pre">all_last_names</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.all_last_names" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.custom_dr_first_names">
+<span class="sig-name descname"><span class="pre">custom_dr_first_names</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.custom_dr_first_names" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.custom_dr_last_names">
+<span class="sig-name descname"><span class="pre">custom_dr_last_names</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.custom_dr_last_names" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.custom_patient_first_names">
+<span class="sig-name descname"><span class="pre">custom_patient_first_names</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.custom_patient_first_names" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.custom_patient_last_names">
+<span class="sig-name descname"><span class="pre">custom_patient_last_names</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.custom_patient_last_names" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.doctor_first_names">
+<span class="sig-name descname"><span class="pre">doctor_first_names</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.doctor_first_names" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.doctor_last_names">
+<span class="sig-name descname"><span class="pre">doctor_last_names</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.doctor_last_names" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.eponym_indicators">
+<span class="sig-name descname"><span class="pre">eponym_indicators</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.eponym_indicators" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.female_names_ambig">
+<span class="sig-name descname"><span class="pre">female_names_ambig</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.female_names_ambig" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.female_names_popular">
+<span class="sig-name descname"><span class="pre">female_names_popular</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.female_names_popular" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.female_names_unambig">
+<span class="sig-name descname"><span class="pre">female_names_unambig</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.female_names_unambig" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.last_name_prefixes">
+<span class="sig-name descname"><span class="pre">last_name_prefixes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.last_name_prefixes" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.last_names_ambig">
+<span class="sig-name descname"><span class="pre">last_names_ambig</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.last_names_ambig" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.last_names_popular">
+<span class="sig-name descname"><span class="pre">last_names_popular</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.last_names_popular" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.last_names_unambig">
+<span class="sig-name descname"><span class="pre">last_names_unambig</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.last_names_unambig" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.male_names_ambig">
+<span class="sig-name descname"><span class="pre">male_names_ambig</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.male_names_ambig" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.male_names_popular">
+<span class="sig-name descname"><span class="pre">male_names_popular</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.male_names_popular" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.male_names_unambig">
+<span class="sig-name descname"><span class="pre">male_names_unambig</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.male_names_unambig" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.medical_phrases">
+<span class="sig-name descname"><span class="pre">medical_phrases</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.medical_phrases" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.name_indicators">
+<span class="sig-name descname"><span class="pre">name_indicators</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.name_indicators" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.ner_model">
+<span class="sig-name descname"><span class="pre">ner_model</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">any</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.ner_model" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.prefixes_unambig">
+<span class="sig-name descname"><span class="pre">prefixes_unambig</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.prefixes_unambig" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 <dl class="py method">
-<dt class="sig sig-object py" id="pyDeid.phi_types.HospitalFinder.HospitalFinder.find">
-<span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.HospitalFinder.HospitalFinder.find" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.find">
+<span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.find" title="Link to this definition">¶</a></dt>
+<dd><p>Find phand return all occurrences of the PHI type in the given text.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyDeid.phi_types.OhipPHIFinder">
+<span id="pydeid-phi-types-ohipphifinder-module"></span><h2>pyDeid.phi_types.OhipPHIFinder module<a class="headerlink" href="#module-pyDeid.phi_types.OhipPHIFinder" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyDeid.phi_types.OhipPHIFinder.OhipPHIFinder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.OhipPHIFinder.</span></span><span class="sig-name descname"><span class="pre">OhipPHIFinder</span></span><a class="headerlink" href="#pyDeid.phi_types.OhipPHIFinder.OhipPHIFinder" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyDeid.phi_types.PHITypeFinder.PHITypeFinder" title="pyDeid.phi_types.PHITypeFinder.PHITypeFinder"><code class="xref py py-class docutils literal notranslate"><span class="pre">PHITypeFinder</span></code></a></p>
+<p>Concrete implementation of PHITypeFinder for detecting OHIP numbers.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyDeid.phi_types.OhipPHIFinder.OhipPHIFinder.find">
+<span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pyDeid.phi_types.OhipPHIFinder.OhipPHIFinder.find" title="Link to this definition">¶</a></dt>
+<dd><p>Find phand return all occurrences of the PHI type in the given text.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyDeid.phi_types.PHITypeFinder">
+<span id="pydeid-phi-types-phitypefinder-module"></span><h2>pyDeid.phi_types.PHITypeFinder module<a class="headerlink" href="#module-pyDeid.phi_types.PHITypeFinder" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyDeid.phi_types.PHITypeFinder.PHI">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.PHITypeFinder.</span></span><span class="sig-name descname"><span class="pre">PHI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.PHITypeFinder.PHI" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyDeid.phi_types.PHITypeFinder.PHI.end">
+<span class="sig-name descname"><span class="pre">end</span></span><a class="headerlink" href="#pyDeid.phi_types.PHITypeFinder.PHI.end" title="Link to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyDeid.phi_types.PHITypeFinder.PHI.phi">
+<span class="sig-name descname"><span class="pre">phi</span></span><a class="headerlink" href="#pyDeid.phi_types.PHITypeFinder.PHI.phi" title="Link to this definition">¶</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyDeid.phi_types.PHITypeFinder.PHI.start">
+<span class="sig-name descname"><span class="pre">start</span></span><a class="headerlink" href="#pyDeid.phi_types.PHITypeFinder.PHI.start" title="Link to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyDeid.phi_types.PHITypeFinder.PHITypeFinder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.PHITypeFinder.</span></span><span class="sig-name descname"><span class="pre">PHITypeFinder</span></span><a class="headerlink" href="#pyDeid.phi_types.PHITypeFinder.PHITypeFinder" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Abstract base class for Protected Health Information (PHI) finders.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyDeid.phi_types.PHITypeFinder.PHITypeFinder.find">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pyDeid.phi_types.PHITypeFinder.PHITypeFinder.find" title="Link to this definition">¶</a></dt>
+<dd><p>Find phand return all occurrences of the PHI type in the given text.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyDeid.phi_types.PHITypeFinder.PHITypeFinder.set_note">
+<span class="sig-name descname"><span class="pre">set_note</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_note</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyDeid.phi_types.PHITypeFinder.PHITypeFinder.set_note" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pyDeid.phi_types.HospitalFinder.HospitalFinder.set_note">
-<span class="sig-name descname"><span class="pre">set_note</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_note</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyDeid.phi_types.HospitalFinder.HospitalFinder.set_note" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyDeid.phi_types.HospitalFinder.HospitalFinder.set_phis">
-<span class="sig-name descname"><span class="pre">set_phis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_phis</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyDeid.phi_types.HospitalFinder.HospitalFinder.set_phis" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyDeid.phi_types.PHITypeFinder.PHITypeFinder.set_phis">
+<span class="sig-name descname"><span class="pre">set_phis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_phis</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyDeid.phi_types.PHITypeFinder.PHITypeFinder.set_phis" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </section>
-<section id="module-pyDeid.phi_types.MRNFinder">
-<span id="pydeid-phi-types-mrnfinder-module"></span><h2>pyDeid.phi_types.MRNFinder module<a class="headerlink" href="#module-pyDeid.phi_types.MRNFinder" title="Permalink to this heading">¶</a></h2>
+<section id="module-pyDeid.phi_types.PostalCodePHIFinder">
+<span id="pydeid-phi-types-postalcodephifinder-module"></span><h2>pyDeid.phi_types.PostalCodePHIFinder module<a class="headerlink" href="#module-pyDeid.phi_types.PostalCodePHIFinder" title="Link to this heading">¶</a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="pyDeid.phi_types.MRNFinder.MRNFinder">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.MRNFinder.</span></span><span class="sig-name descname"><span class="pre">MRNFinder</span></span><a class="headerlink" href="#pyDeid.phi_types.MRNFinder.MRNFinder" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dt class="sig sig-object py" id="pyDeid.phi_types.PostalCodePHIFinder.PostalCodePHIFinder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.PostalCodePHIFinder.</span></span><span class="sig-name descname"><span class="pre">PostalCodePHIFinder</span></span><a class="headerlink" href="#pyDeid.phi_types.PostalCodePHIFinder.PostalCodePHIFinder" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyDeid.phi_types.PHITypeFinder.PHITypeFinder" title="pyDeid.phi_types.PHITypeFinder.PHITypeFinder"><code class="xref py py-class docutils literal notranslate"><span class="pre">PHITypeFinder</span></code></a></p>
+<p>Concrete implementation of PHITypeFinder for detecting postal codes.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="pyDeid.phi_types.MRNFinder.MRNFinder.find">
-<span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.MRNFinder.MRNFinder.find" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyDeid.phi_types.MRNFinder.MRNFinder.set_note">
-<span class="sig-name descname"><span class="pre">set_note</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_note</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyDeid.phi_types.MRNFinder.MRNFinder.set_note" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyDeid.phi_types.MRNFinder.MRNFinder.set_phis">
-<span class="sig-name descname"><span class="pre">set_phis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_phis</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyDeid.phi_types.MRNFinder.MRNFinder.set_phis" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="pyDeid.phi_types.PostalCodePHIFinder.PostalCodePHIFinder.find">
+<span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pyDeid.phi_types.PostalCodePHIFinder.PostalCodePHIFinder.find" title="Link to this definition">¶</a></dt>
+<dd><p>Find phand return all occurrences of the PHI type in the given text.</p>
+</dd></dl>
 
 </dd></dl>
 
 </section>
-<section id="module-pyDeid.phi_types.NameFinder">
-<span id="pydeid-phi-types-namefinder-module"></span><h2>pyDeid.phi_types.NameFinder module<a class="headerlink" href="#module-pyDeid.phi_types.NameFinder" title="Permalink to this heading">¶</a></h2>
+<section id="module-pyDeid.phi_types.SinPHIFinder">
+<span id="pydeid-phi-types-sinphifinder-module"></span><h2>pyDeid.phi_types.SinPHIFinder module<a class="headerlink" href="#module-pyDeid.phi_types.SinPHIFinder" title="Link to this heading">¶</a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="pyDeid.phi_types.NameFinder.NameFinder">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.NameFinder.</span></span><span class="sig-name descname"><span class="pre">NameFinder</span></span><a class="headerlink" href="#pyDeid.phi_types.NameFinder.NameFinder" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dt class="sig sig-object py" id="pyDeid.phi_types.SinPHIFinder.SinPHIFinder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.SinPHIFinder.</span></span><span class="sig-name descname"><span class="pre">SinPHIFinder</span></span><a class="headerlink" href="#pyDeid.phi_types.SinPHIFinder.SinPHIFinder" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyDeid.phi_types.PHITypeFinder.PHITypeFinder" title="pyDeid.phi_types.PHITypeFinder.PHITypeFinder"><code class="xref py py-class docutils literal notranslate"><span class="pre">PHITypeFinder</span></code></a></p>
+<p>Concrete implementation of PHITypeFinder for detecting Canadian Social Insurance Numbers (SIN).</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="pyDeid.phi_types.NameFinder.NameFinder.find">
-<span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.NameFinder.NameFinder.find" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyDeid.phi_types.NameFinder.NameFinder.name_first_pass">
-<span class="sig-name descname"><span class="pre">name_first_pass</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.NameFinder.NameFinder.name_first_pass" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyDeid.phi_types.NameFinder.NameFinder.recurring_name">
-<span class="sig-name descname"><span class="pre">recurring_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.NameFinder.NameFinder.recurring_name" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyDeid.phi_types.NameFinder.NameFinder.set_note">
-<span class="sig-name descname"><span class="pre">set_note</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_note</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyDeid.phi_types.NameFinder.NameFinder.set_note" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyDeid.phi_types.NameFinder.NameFinder.set_phis">
-<span class="sig-name descname"><span class="pre">set_phis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_phis</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyDeid.phi_types.NameFinder.NameFinder.set_phis" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="pyDeid.phi_types.SinPHIFinder.SinPHIFinder.find">
+<span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pyDeid.phi_types.SinPHIFinder.SinPHIFinder.find" title="Link to this definition">¶</a></dt>
+<dd><p>Find phand return all occurrences of the PHI type in the given text.</p>
+</dd></dl>
 
 </dd></dl>
 
 </section>
-<section id="module-pyDeid.phi_types.OHIPFinder">
-<span id="pydeid-phi-types-ohipfinder-module"></span><h2>pyDeid.phi_types.OHIPFinder module<a class="headerlink" href="#module-pyDeid.phi_types.OHIPFinder" title="Permalink to this heading">¶</a></h2>
+<section id="module-pyDeid.phi_types.TelephoneFaxPHIFinder">
+<span id="pydeid-phi-types-telephonefaxphifinder-module"></span><h2>pyDeid.phi_types.TelephoneFaxPHIFinder module<a class="headerlink" href="#module-pyDeid.phi_types.TelephoneFaxPHIFinder" title="Link to this heading">¶</a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="pyDeid.phi_types.OHIPFinder.OHIPFinder">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.OHIPFinder.</span></span><span class="sig-name descname"><span class="pre">OHIPFinder</span></span><a class="headerlink" href="#pyDeid.phi_types.OHIPFinder.OHIPFinder" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dt class="sig sig-object py" id="pyDeid.phi_types.TelephoneFaxPHIFinder.TelephoneFaxPHIFinder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.TelephoneFaxPHIFinder.</span></span><span class="sig-name descname"><span class="pre">TelephoneFaxPHIFinder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area_codes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disqualifiers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.TelephoneFaxPHIFinder.TelephoneFaxPHIFinder" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyDeid.phi_types.PHITypeFinder.PHITypeFinder" title="pyDeid.phi_types.PHITypeFinder.PHITypeFinder"><code class="xref py py-class docutils literal notranslate"><span class="pre">PHITypeFinder</span></code></a></p>
+<p>Concrete implementation of PHITypeFinder for detecting telephone and fax numbers.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="pyDeid.phi_types.OHIPFinder.OHIPFinder.find">
-<span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.OHIPFinder.OHIPFinder.find" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyDeid.phi_types.OHIPFinder.OHIPFinder.set_note">
-<span class="sig-name descname"><span class="pre">set_note</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_note</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyDeid.phi_types.OHIPFinder.OHIPFinder.set_note" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyDeid.phi_types.OHIPFinder.OHIPFinder.set_phis">
-<span class="sig-name descname"><span class="pre">set_phis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_phis</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyDeid.phi_types.OHIPFinder.OHIPFinder.set_phis" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<dt class="sig sig-object py" id="pyDeid.phi_types.TelephoneFaxPHIFinder.TelephoneFaxPHIFinder.find">
+<span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pyDeid.phi_types.TelephoneFaxPHIFinder.TelephoneFaxPHIFinder.find" title="Link to this definition">¶</a></dt>
+<dd><p>Find phand return all occurrences of the PHI type in the given text.</p>
 </dd></dl>
-
-</section>
-<section id="module-pyDeid.phi_types.SINFinder">
-<span id="pydeid-phi-types-sinfinder-module"></span><h2>pyDeid.phi_types.SINFinder module<a class="headerlink" href="#module-pyDeid.phi_types.SINFinder" title="Permalink to this heading">¶</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="pyDeid.phi_types.SINFinder.SINFinder">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.SINFinder.</span></span><span class="sig-name descname"><span class="pre">SINFinder</span></span><a class="headerlink" href="#pyDeid.phi_types.SINFinder.SINFinder" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="pyDeid.phi_types.SINFinder.SINFinder.find">
-<span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.SINFinder.SINFinder.find" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyDeid.phi_types.SINFinder.SINFinder.set_note">
-<span class="sig-name descname"><span class="pre">set_note</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_note</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyDeid.phi_types.SINFinder.SINFinder.set_note" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyDeid.phi_types.SINFinder.SINFinder.set_phis">
-<span class="sig-name descname"><span class="pre">set_phis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_phis</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyDeid.phi_types.SINFinder.SINFinder.set_phis" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 </dd></dl>
 
 </section>
 <section id="module-pyDeid.phi_types.utils">
-<span id="pydeid-phi-types-utils-module"></span><h2>pyDeid.phi_types.utils module<a class="headerlink" href="#module-pyDeid.phi_types.utils" title="Permalink to this heading">¶</a></h2>
+<span id="pydeid-phi-types-utils-module"></span><h2>pyDeid.phi_types.utils module<a class="headerlink" href="#module-pyDeid.phi_types.utils" title="Link to this heading">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyDeid.phi_types.utils.CustomRegex">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.utils.</span></span><span class="sig-name descname"><span class="pre">CustomRegex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phi_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surrogate_builder_fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.utils.CustomRegex" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.utils.</span></span><span class="sig-name descname"><span class="pre">CustomRegex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phi_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surrogate_builder_fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.utils.CustomRegex" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyDeid.phi_types.utils.CustomRegex.arguments">
-<span class="sig-name descname"><span class="pre">arguments</span></span><a class="headerlink" href="#pyDeid.phi_types.utils.CustomRegex.arguments" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">arguments</span></span><a class="headerlink" href="#pyDeid.phi_types.utils.CustomRegex.arguments" title="Link to this definition">¶</a></dt>
 <dd><p>Alias for field number 3</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyDeid.phi_types.utils.CustomRegex.pattern">
-<span class="sig-name descname"><span class="pre">pattern</span></span><a class="headerlink" href="#pyDeid.phi_types.utils.CustomRegex.pattern" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">pattern</span></span><a class="headerlink" href="#pyDeid.phi_types.utils.CustomRegex.pattern" title="Link to this definition">¶</a></dt>
 <dd><p>Alias for field number 1</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyDeid.phi_types.utils.CustomRegex.phi_type">
-<span class="sig-name descname"><span class="pre">phi_type</span></span><a class="headerlink" href="#pyDeid.phi_types.utils.CustomRegex.phi_type" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">phi_type</span></span><a class="headerlink" href="#pyDeid.phi_types.utils.CustomRegex.phi_type" title="Link to this definition">¶</a></dt>
 <dd><p>Alias for field number 0</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyDeid.phi_types.utils.CustomRegex.surrogate_builder_fn">
-<span class="sig-name descname"><span class="pre">surrogate_builder_fn</span></span><a class="headerlink" href="#pyDeid.phi_types.utils.CustomRegex.surrogate_builder_fn" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">surrogate_builder_fn</span></span><a class="headerlink" href="#pyDeid.phi_types.utils.CustomRegex.surrogate_builder_fn" title="Link to this definition">¶</a></dt>
 <dd><p>Alias for field number 2</p>
 </dd></dl>
 
@@ -581,91 +773,103 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="pyDeid.phi_types.utils.PHI">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.utils.</span></span><span class="sig-name descname"><span class="pre">PHI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.utils.PHI" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.utils.</span></span><span class="sig-name descname"><span class="pre">PHI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.utils.PHI" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyDeid.phi_types.utils.PHI.end">
-<span class="sig-name descname"><span class="pre">end</span></span><a class="headerlink" href="#pyDeid.phi_types.utils.PHI.end" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">end</span></span><a class="headerlink" href="#pyDeid.phi_types.utils.PHI.end" title="Link to this definition">¶</a></dt>
 <dd><p>Alias for field number 1</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyDeid.phi_types.utils.PHI.phi">
-<span class="sig-name descname"><span class="pre">phi</span></span><a class="headerlink" href="#pyDeid.phi_types.utils.PHI.phi" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">phi</span></span><a class="headerlink" href="#pyDeid.phi_types.utils.PHI.phi" title="Link to this definition">¶</a></dt>
 <dd><p>Alias for field number 2</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyDeid.phi_types.utils.PHI.start">
-<span class="sig-name descname"><span class="pre">start</span></span><a class="headerlink" href="#pyDeid.phi_types.utils.PHI.start" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">start</span></span><a class="headerlink" href="#pyDeid.phi_types.utils.PHI.start" title="Link to this definition">¶</a></dt>
 <dd><p>Alias for field number 0</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="pyDeid.phi_types.utils.add_phi_list">
+<span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.utils.</span></span><span class="sig-name descname"><span class="pre">add_phi_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phi_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phitype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.utils.add_phi_list" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="pyDeid.phi_types.utils.add_type">
-<span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.utils.</span></span><span class="sig-name descname"><span class="pre">add_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phitype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.utils.add_type" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.utils.</span></span><span class="sig-name descname"><span class="pre">add_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phitype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.utils.add_type" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyDeid.phi_types.utils.create_custom_regex">
-<span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.utils.</span></span><span class="sig-name descname"><span class="pre">create_custom_regex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phi_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surrogate_builder_fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.utils.create_custom_regex" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.utils.</span></span><span class="sig-name descname"><span class="pre">create_custom_regex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phi_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surrogate_builder_fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.utils.create_custom_regex" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyDeid.phi_types.utils.is_ambig">
-<span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.utils.</span></span><span class="sig-name descname"><span class="pre">is_ambig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.utils.is_ambig" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.utils.</span></span><span class="sig-name descname"><span class="pre">is_ambig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.utils.is_ambig" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyDeid.phi_types.utils.is_common">
-<span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.utils.</span></span><span class="sig-name descname"><span class="pre">is_common</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.utils.is_common" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.utils.</span></span><span class="sig-name descname"><span class="pre">is_common</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.utils.is_common" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyDeid.phi_types.utils.is_commonest">
-<span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.utils.</span></span><span class="sig-name descname"><span class="pre">is_commonest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.utils.is_commonest" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.utils.</span></span><span class="sig-name descname"><span class="pre">is_commonest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.utils.is_commonest" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyDeid.phi_types.utils.is_medical_eponym">
-<span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.utils.</span></span><span class="sig-name descname"><span class="pre">is_medical_eponym</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.utils.is_medical_eponym" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.utils.</span></span><span class="sig-name descname"><span class="pre">is_medical_eponym</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.utils.is_medical_eponym" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyDeid.phi_types.utils.is_name_indicator">
-<span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.utils.</span></span><span class="sig-name descname"><span class="pre">is_name_indicator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.utils.is_name_indicator" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.utils.</span></span><span class="sig-name descname"><span class="pre">is_name_indicator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.utils.is_name_indicator" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyDeid.phi_types.utils.is_probably_measurement">
-<span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.utils.</span></span><span class="sig-name descname"><span class="pre">is_probably_measurement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.utils.is_probably_measurement" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.utils.</span></span><span class="sig-name descname"><span class="pre">is_probably_measurement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.utils.is_probably_measurement" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyDeid.phi_types.utils.is_type">
-<span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.utils.</span></span><span class="sig-name descname"><span class="pre">is_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phitype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.utils.is_type" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.utils.</span></span><span class="sig-name descname"><span class="pre">is_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phitype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.utils.is_type" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyDeid.phi_types.utils.is_unambig_common">
-<span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.utils.</span></span><span class="sig-name descname"><span class="pre">is_unambig_common</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.utils.is_unambig_common" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.utils.</span></span><span class="sig-name descname"><span class="pre">is_unambig_common</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.utils.is_unambig_common" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyDeid.phi_types.utils.load_file">
-<span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.utils.</span></span><span class="sig-name descname"><span class="pre">load_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lookup'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.utils.load_file" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.utils.</span></span><span class="sig-name descname"><span class="pre">load_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lookup'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.utils.load_file" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="pyDeid.phi_types.utils.merge_phi_dicts">
+<span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.utils.</span></span><span class="sig-name descname"><span class="pre">merge_phi_dicts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phi1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_place</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.utils.merge_phi_dicts" title="Link to this definition">¶</a></dt>
+<dd><p>Merge phi2 into phi1. If in_place is True, modify phi1 directly.
+Otherwise, return a new dict and leave phi1 unmodified.</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="pyDeid.phi_types.utils.phi_dict_to_list">
-<span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.utils.</span></span><span class="sig-name descname"><span class="pre">phi_dict_to_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.utils.phi_dict_to_list" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyDeid.phi_types.utils.</span></span><span class="sig-name descname"><span class="pre">phi_dict_to_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyDeid.phi_types.utils.phi_dict_to_list" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </section>
 <section id="module-pyDeid.phi_types">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyDeid.phi_types" title="Permalink to this heading">¶</a></h2>
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyDeid.phi_types" title="Link to this heading">¶</a></h2>
 </section>
 </section>
 
@@ -726,93 +930,144 @@
             <ul>
 <li><a class="reference internal" href="#">pyDeid.phi_types package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-pyDeid.phi_types.AddressFinder">pyDeid.phi_types.AddressFinder module</a><ul>
-<li><a class="reference internal" href="#pyDeid.phi_types.AddressFinder.AddressFinder"><code class="docutils literal notranslate"><span class="pre">AddressFinder</span></code></a><ul>
-<li><a class="reference internal" href="#pyDeid.phi_types.AddressFinder.AddressFinder.find"><code class="docutils literal notranslate"><span class="pre">AddressFinder.find()</span></code></a></li>
-<li><a class="reference internal" href="#pyDeid.phi_types.AddressFinder.AddressFinder.set_note"><code class="docutils literal notranslate"><span class="pre">AddressFinder.set_note()</span></code></a></li>
-<li><a class="reference internal" href="#pyDeid.phi_types.AddressFinder.AddressFinder.set_phis"><code class="docutils literal notranslate"><span class="pre">AddressFinder.set_phis()</span></code></a></li>
+<li><a class="reference internal" href="#module-pyDeid.phi_types.AddressPHIFinder">pyDeid.phi_types.AddressPHIFinder module</a><ul>
+<li><a class="reference internal" href="#pyDeid.phi_types.AddressPHIFinder.AddressPHIFinder"><code class="docutils literal notranslate"><span class="pre">AddressPHIFinder</span></code></a><ul>
+<li><a class="reference internal" href="#pyDeid.phi_types.AddressPHIFinder.AddressPHIFinder.apt_indicators"><code class="docutils literal notranslate"><span class="pre">AddressPHIFinder.apt_indicators</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.AddressPHIFinder.AddressPHIFinder.find"><code class="docutils literal notranslate"><span class="pre">AddressPHIFinder.find()</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.AddressPHIFinder.AddressPHIFinder.street_add_suff"><code class="docutils literal notranslate"><span class="pre">AddressPHIFinder.street_add_suff</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.AddressPHIFinder.AddressPHIFinder.strict_street_add_suff"><code class="docutils literal notranslate"><span class="pre">AddressPHIFinder.strict_street_add_suff</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li><a class="reference internal" href="#pydeid-phi-types-americanpiifinder-module">pyDeid.phi_types.AmericanPIIFinder module</a></li>
-<li><a class="reference internal" href="#module-pyDeid.phi_types.ContactFinder">pyDeid.phi_types.ContactFinder module</a><ul>
-<li><a class="reference internal" href="#pyDeid.phi_types.ContactFinder.ContactFinder"><code class="docutils literal notranslate"><span class="pre">ContactFinder</span></code></a><ul>
-<li><a class="reference internal" href="#pyDeid.phi_types.ContactFinder.ContactFinder.find"><code class="docutils literal notranslate"><span class="pre">ContactFinder.find()</span></code></a></li>
-<li><a class="reference internal" href="#pyDeid.phi_types.ContactFinder.ContactFinder.set_note"><code class="docutils literal notranslate"><span class="pre">ContactFinder.set_note()</span></code></a></li>
-<li><a class="reference internal" href="#pyDeid.phi_types.ContactFinder.ContactFinder.set_phis"><code class="docutils literal notranslate"><span class="pre">ContactFinder.set_phis()</span></code></a></li>
+<li><a class="reference internal" href="#module-pyDeid.phi_types.DatesPHIFinder">pyDeid.phi_types.DatesPHIFinder module</a><ul>
+<li><a class="reference internal" href="#pyDeid.phi_types.DatesPHIFinder.Date"><code class="docutils literal notranslate"><span class="pre">Date</span></code></a><ul>
+<li><a class="reference internal" href="#pyDeid.phi_types.DatesPHIFinder.Date.date_string"><code class="docutils literal notranslate"><span class="pre">Date.date_string</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.DatesPHIFinder.Date.day"><code class="docutils literal notranslate"><span class="pre">Date.day</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.DatesPHIFinder.Date.month"><code class="docutils literal notranslate"><span class="pre">Date.month</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.DatesPHIFinder.Date.year"><code class="docutils literal notranslate"><span class="pre">Date.year</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder"><code class="docutils literal notranslate"><span class="pre">DatesPHIFinder</span></code></a><ul>
+<li><a class="reference internal" href="#pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.date"><code class="docutils literal notranslate"><span class="pre">DatesPHIFinder.date()</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.date_range"><code class="docutils literal notranslate"><span class="pre">DatesPHIFinder.date_range()</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.date_with_context_check"><code class="docutils literal notranslate"><span class="pre">DatesPHIFinder.date_with_context_check()</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.days"><code class="docutils literal notranslate"><span class="pre">DatesPHIFinder.days</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.find"><code class="docutils literal notranslate"><span class="pre">DatesPHIFinder.find()</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.find_time"><code class="docutils literal notranslate"><span class="pre">DatesPHIFinder.find_time()</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.holiday"><code class="docutils literal notranslate"><span class="pre">DatesPHIFinder.holiday()</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.monthly"><code class="docutils literal notranslate"><span class="pre">DatesPHIFinder.monthly()</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.months"><code class="docutils literal notranslate"><span class="pre">DatesPHIFinder.months</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.name"><code class="docutils literal notranslate"><span class="pre">DatesPHIFinder.name</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.season_year"><code class="docutils literal notranslate"><span class="pre">DatesPHIFinder.season_year()</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.seasons"><code class="docutils literal notranslate"><span class="pre">DatesPHIFinder.seasons</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.DatesPHIFinder.DatesPHIFinder.year_with_context_check"><code class="docutils literal notranslate"><span class="pre">DatesPHIFinder.year_with_context_check()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyDeid.phi_types.DatesPHIFinder.Time"><code class="docutils literal notranslate"><span class="pre">Time</span></code></a><ul>
+<li><a class="reference internal" href="#pyDeid.phi_types.DatesPHIFinder.Time.hours"><code class="docutils literal notranslate"><span class="pre">Time.hours</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.DatesPHIFinder.Time.meridiem"><code class="docutils literal notranslate"><span class="pre">Time.meridiem</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.DatesPHIFinder.Time.minutes"><code class="docutils literal notranslate"><span class="pre">Time.minutes</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.DatesPHIFinder.Time.seconds"><code class="docutils literal notranslate"><span class="pre">Time.seconds</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.DatesPHIFinder.Time.time_string"><code class="docutils literal notranslate"><span class="pre">Time.time_string</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-pyDeid.phi_types.DateFinder">pyDeid.phi_types.DateFinder module</a><ul>
-<li><a class="reference internal" href="#pyDeid.phi_types.DateFinder.Date"><code class="docutils literal notranslate"><span class="pre">Date</span></code></a><ul>
-<li><a class="reference internal" href="#pyDeid.phi_types.DateFinder.Date.date_string"><code class="docutils literal notranslate"><span class="pre">Date.date_string</span></code></a></li>
-<li><a class="reference internal" href="#pyDeid.phi_types.DateFinder.Date.day"><code class="docutils literal notranslate"><span class="pre">Date.day</span></code></a></li>
-<li><a class="reference internal" href="#pyDeid.phi_types.DateFinder.Date.month"><code class="docutils literal notranslate"><span class="pre">Date.month</span></code></a></li>
-<li><a class="reference internal" href="#pyDeid.phi_types.DateFinder.Date.year"><code class="docutils literal notranslate"><span class="pre">Date.year</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#pyDeid.phi_types.DateFinder.DateFinder"><code class="docutils literal notranslate"><span class="pre">DateFinder</span></code></a><ul>
-<li><a class="reference internal" href="#pyDeid.phi_types.DateFinder.DateFinder.find"><code class="docutils literal notranslate"><span class="pre">DateFinder.find()</span></code></a></li>
-<li><a class="reference internal" href="#pyDeid.phi_types.DateFinder.DateFinder.set_note"><code class="docutils literal notranslate"><span class="pre">DateFinder.set_note()</span></code></a></li>
-<li><a class="reference internal" href="#pyDeid.phi_types.DateFinder.DateFinder.set_phis"><code class="docutils literal notranslate"><span class="pre">DateFinder.set_phis()</span></code></a></li>
-<li><a class="reference internal" href="#pyDeid.phi_types.DateFinder.DateFinder.set_valid_years"><code class="docutils literal notranslate"><span class="pre">DateFinder.set_valid_years()</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#pyDeid.phi_types.DateFinder.Time"><code class="docutils literal notranslate"><span class="pre">Time</span></code></a><ul>
-<li><a class="reference internal" href="#pyDeid.phi_types.DateFinder.Time.hours"><code class="docutils literal notranslate"><span class="pre">Time.hours</span></code></a></li>
-<li><a class="reference internal" href="#pyDeid.phi_types.DateFinder.Time.meridiem"><code class="docutils literal notranslate"><span class="pre">Time.meridiem</span></code></a></li>
-<li><a class="reference internal" href="#pyDeid.phi_types.DateFinder.Time.minutes"><code class="docutils literal notranslate"><span class="pre">Time.minutes</span></code></a></li>
-<li><a class="reference internal" href="#pyDeid.phi_types.DateFinder.Time.seconds"><code class="docutils literal notranslate"><span class="pre">Time.seconds</span></code></a></li>
-<li><a class="reference internal" href="#pyDeid.phi_types.DateFinder.Time.time_string"><code class="docutils literal notranslate"><span class="pre">Time.time_string</span></code></a></li>
+<li><a class="reference internal" href="#module-pyDeid.phi_types.EmailPHIFinder">pyDeid.phi_types.EmailPHIFinder module</a><ul>
+<li><a class="reference internal" href="#pyDeid.phi_types.EmailPHIFinder.EmailPHIFinder"><code class="docutils literal notranslate"><span class="pre">EmailPHIFinder</span></code></a><ul>
+<li><a class="reference internal" href="#pyDeid.phi_types.EmailPHIFinder.EmailPHIFinder.find"><code class="docutils literal notranslate"><span class="pre">EmailPHIFinder.find()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-pyDeid.phi_types.HospitalFinder">pyDeid.phi_types.HospitalFinder module</a><ul>
-<li><a class="reference internal" href="#pyDeid.phi_types.HospitalFinder.HospitalFinder"><code class="docutils literal notranslate"><span class="pre">HospitalFinder</span></code></a><ul>
-<li><a class="reference internal" href="#pyDeid.phi_types.HospitalFinder.HospitalFinder.find"><code class="docutils literal notranslate"><span class="pre">HospitalFinder.find()</span></code></a></li>
-<li><a class="reference internal" href="#pyDeid.phi_types.HospitalFinder.HospitalFinder.set_note"><code class="docutils literal notranslate"><span class="pre">HospitalFinder.set_note()</span></code></a></li>
-<li><a class="reference internal" href="#pyDeid.phi_types.HospitalFinder.HospitalFinder.set_phis"><code class="docutils literal notranslate"><span class="pre">HospitalFinder.set_phis()</span></code></a></li>
+<li><a class="reference internal" href="#module-pyDeid.phi_types.HospitalNamePHIFinder">pyDeid.phi_types.HospitalNamePHIFinder module</a><ul>
+<li><a class="reference internal" href="#pyDeid.phi_types.HospitalNamePHIFinder.HospitalNamePHIFinder"><code class="docutils literal notranslate"><span class="pre">HospitalNamePHIFinder</span></code></a><ul>
+<li><a class="reference internal" href="#pyDeid.phi_types.HospitalNamePHIFinder.HospitalNamePHIFinder.find"><code class="docutils literal notranslate"><span class="pre">HospitalNamePHIFinder.find()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-pyDeid.phi_types.MRNFinder">pyDeid.phi_types.MRNFinder module</a><ul>
-<li><a class="reference internal" href="#pyDeid.phi_types.MRNFinder.MRNFinder"><code class="docutils literal notranslate"><span class="pre">MRNFinder</span></code></a><ul>
-<li><a class="reference internal" href="#pyDeid.phi_types.MRNFinder.MRNFinder.find"><code class="docutils literal notranslate"><span class="pre">MRNFinder.find()</span></code></a></li>
-<li><a class="reference internal" href="#pyDeid.phi_types.MRNFinder.MRNFinder.set_note"><code class="docutils literal notranslate"><span class="pre">MRNFinder.set_note()</span></code></a></li>
-<li><a class="reference internal" href="#pyDeid.phi_types.MRNFinder.MRNFinder.set_phis"><code class="docutils literal notranslate"><span class="pre">MRNFinder.set_phis()</span></code></a></li>
+<li><a class="reference internal" href="#module-pyDeid.phi_types.MrnPHIFinder">pyDeid.phi_types.MrnPHIFinder module</a><ul>
+<li><a class="reference internal" href="#pyDeid.phi_types.MrnPHIFinder.MrnPHIFinder"><code class="docutils literal notranslate"><span class="pre">MrnPHIFinder</span></code></a><ul>
+<li><a class="reference internal" href="#pyDeid.phi_types.MrnPHIFinder.MrnPHIFinder.find"><code class="docutils literal notranslate"><span class="pre">MrnPHIFinder.find()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-pyDeid.phi_types.NameFinder">pyDeid.phi_types.NameFinder module</a><ul>
-<li><a class="reference internal" href="#pyDeid.phi_types.NameFinder.NameFinder"><code class="docutils literal notranslate"><span class="pre">NameFinder</span></code></a><ul>
-<li><a class="reference internal" href="#pyDeid.phi_types.NameFinder.NameFinder.find"><code class="docutils literal notranslate"><span class="pre">NameFinder.find()</span></code></a></li>
-<li><a class="reference internal" href="#pyDeid.phi_types.NameFinder.NameFinder.name_first_pass"><code class="docutils literal notranslate"><span class="pre">NameFinder.name_first_pass()</span></code></a></li>
-<li><a class="reference internal" href="#pyDeid.phi_types.NameFinder.NameFinder.recurring_name"><code class="docutils literal notranslate"><span class="pre">NameFinder.recurring_name()</span></code></a></li>
-<li><a class="reference internal" href="#pyDeid.phi_types.NameFinder.NameFinder.set_note"><code class="docutils literal notranslate"><span class="pre">NameFinder.set_note()</span></code></a></li>
-<li><a class="reference internal" href="#pyDeid.phi_types.NameFinder.NameFinder.set_phis"><code class="docutils literal notranslate"><span class="pre">NameFinder.set_phis()</span></code></a></li>
+<li><a class="reference internal" href="#module-pyDeid.phi_types.NamesPHIFinder">pyDeid.phi_types.NamesPHIFinder module</a><ul>
+<li><a class="reference internal" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder"><code class="docutils literal notranslate"><span class="pre">NamesPHIFinder</span></code></a><ul>
+<li><a class="reference internal" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config"><code class="docutils literal notranslate"><span class="pre">NamesPHIFinder.Config</span></code></a><ul>
+<li><a class="reference internal" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.all_first_names"><code class="docutils literal notranslate"><span class="pre">NamesPHIFinder.Config.all_first_names</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.all_last_names"><code class="docutils literal notranslate"><span class="pre">NamesPHIFinder.Config.all_last_names</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.custom_dr_first_names"><code class="docutils literal notranslate"><span class="pre">NamesPHIFinder.Config.custom_dr_first_names</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.custom_dr_last_names"><code class="docutils literal notranslate"><span class="pre">NamesPHIFinder.Config.custom_dr_last_names</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.custom_patient_first_names"><code class="docutils literal notranslate"><span class="pre">NamesPHIFinder.Config.custom_patient_first_names</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.custom_patient_last_names"><code class="docutils literal notranslate"><span class="pre">NamesPHIFinder.Config.custom_patient_last_names</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.doctor_first_names"><code class="docutils literal notranslate"><span class="pre">NamesPHIFinder.Config.doctor_first_names</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.doctor_last_names"><code class="docutils literal notranslate"><span class="pre">NamesPHIFinder.Config.doctor_last_names</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.eponym_indicators"><code class="docutils literal notranslate"><span class="pre">NamesPHIFinder.Config.eponym_indicators</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.female_names_ambig"><code class="docutils literal notranslate"><span class="pre">NamesPHIFinder.Config.female_names_ambig</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.female_names_popular"><code class="docutils literal notranslate"><span class="pre">NamesPHIFinder.Config.female_names_popular</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.female_names_unambig"><code class="docutils literal notranslate"><span class="pre">NamesPHIFinder.Config.female_names_unambig</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.last_name_prefixes"><code class="docutils literal notranslate"><span class="pre">NamesPHIFinder.Config.last_name_prefixes</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.last_names_ambig"><code class="docutils literal notranslate"><span class="pre">NamesPHIFinder.Config.last_names_ambig</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.last_names_popular"><code class="docutils literal notranslate"><span class="pre">NamesPHIFinder.Config.last_names_popular</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.last_names_unambig"><code class="docutils literal notranslate"><span class="pre">NamesPHIFinder.Config.last_names_unambig</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.male_names_ambig"><code class="docutils literal notranslate"><span class="pre">NamesPHIFinder.Config.male_names_ambig</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.male_names_popular"><code class="docutils literal notranslate"><span class="pre">NamesPHIFinder.Config.male_names_popular</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.male_names_unambig"><code class="docutils literal notranslate"><span class="pre">NamesPHIFinder.Config.male_names_unambig</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.medical_phrases"><code class="docutils literal notranslate"><span class="pre">NamesPHIFinder.Config.medical_phrases</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.name_indicators"><code class="docutils literal notranslate"><span class="pre">NamesPHIFinder.Config.name_indicators</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.ner_model"><code class="docutils literal notranslate"><span class="pre">NamesPHIFinder.Config.ner_model</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.Config.prefixes_unambig"><code class="docutils literal notranslate"><span class="pre">NamesPHIFinder.Config.prefixes_unambig</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyDeid.phi_types.NamesPHIFinder.NamesPHIFinder.find"><code class="docutils literal notranslate"><span class="pre">NamesPHIFinder.find()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-pyDeid.phi_types.OHIPFinder">pyDeid.phi_types.OHIPFinder module</a><ul>
-<li><a class="reference internal" href="#pyDeid.phi_types.OHIPFinder.OHIPFinder"><code class="docutils literal notranslate"><span class="pre">OHIPFinder</span></code></a><ul>
-<li><a class="reference internal" href="#pyDeid.phi_types.OHIPFinder.OHIPFinder.find"><code class="docutils literal notranslate"><span class="pre">OHIPFinder.find()</span></code></a></li>
-<li><a class="reference internal" href="#pyDeid.phi_types.OHIPFinder.OHIPFinder.set_note"><code class="docutils literal notranslate"><span class="pre">OHIPFinder.set_note()</span></code></a></li>
-<li><a class="reference internal" href="#pyDeid.phi_types.OHIPFinder.OHIPFinder.set_phis"><code class="docutils literal notranslate"><span class="pre">OHIPFinder.set_phis()</span></code></a></li>
+<li><a class="reference internal" href="#module-pyDeid.phi_types.OhipPHIFinder">pyDeid.phi_types.OhipPHIFinder module</a><ul>
+<li><a class="reference internal" href="#pyDeid.phi_types.OhipPHIFinder.OhipPHIFinder"><code class="docutils literal notranslate"><span class="pre">OhipPHIFinder</span></code></a><ul>
+<li><a class="reference internal" href="#pyDeid.phi_types.OhipPHIFinder.OhipPHIFinder.find"><code class="docutils literal notranslate"><span class="pre">OhipPHIFinder.find()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-pyDeid.phi_types.SINFinder">pyDeid.phi_types.SINFinder module</a><ul>
-<li><a class="reference internal" href="#pyDeid.phi_types.SINFinder.SINFinder"><code class="docutils literal notranslate"><span class="pre">SINFinder</span></code></a><ul>
-<li><a class="reference internal" href="#pyDeid.phi_types.SINFinder.SINFinder.find"><code class="docutils literal notranslate"><span class="pre">SINFinder.find()</span></code></a></li>
-<li><a class="reference internal" href="#pyDeid.phi_types.SINFinder.SINFinder.set_note"><code class="docutils literal notranslate"><span class="pre">SINFinder.set_note()</span></code></a></li>
-<li><a class="reference internal" href="#pyDeid.phi_types.SINFinder.SINFinder.set_phis"><code class="docutils literal notranslate"><span class="pre">SINFinder.set_phis()</span></code></a></li>
+<li><a class="reference internal" href="#module-pyDeid.phi_types.PHITypeFinder">pyDeid.phi_types.PHITypeFinder module</a><ul>
+<li><a class="reference internal" href="#pyDeid.phi_types.PHITypeFinder.PHI"><code class="docutils literal notranslate"><span class="pre">PHI</span></code></a><ul>
+<li><a class="reference internal" href="#pyDeid.phi_types.PHITypeFinder.PHI.end"><code class="docutils literal notranslate"><span class="pre">PHI.end</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.PHITypeFinder.PHI.phi"><code class="docutils literal notranslate"><span class="pre">PHI.phi</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.PHITypeFinder.PHI.start"><code class="docutils literal notranslate"><span class="pre">PHI.start</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyDeid.phi_types.PHITypeFinder.PHITypeFinder"><code class="docutils literal notranslate"><span class="pre">PHITypeFinder</span></code></a><ul>
+<li><a class="reference internal" href="#pyDeid.phi_types.PHITypeFinder.PHITypeFinder.find"><code class="docutils literal notranslate"><span class="pre">PHITypeFinder.find()</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.PHITypeFinder.PHITypeFinder.set_note"><code class="docutils literal notranslate"><span class="pre">PHITypeFinder.set_note()</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.PHITypeFinder.PHITypeFinder.set_phis"><code class="docutils literal notranslate"><span class="pre">PHITypeFinder.set_phis()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyDeid.phi_types.PostalCodePHIFinder">pyDeid.phi_types.PostalCodePHIFinder module</a><ul>
+<li><a class="reference internal" href="#pyDeid.phi_types.PostalCodePHIFinder.PostalCodePHIFinder"><code class="docutils literal notranslate"><span class="pre">PostalCodePHIFinder</span></code></a><ul>
+<li><a class="reference internal" href="#pyDeid.phi_types.PostalCodePHIFinder.PostalCodePHIFinder.find"><code class="docutils literal notranslate"><span class="pre">PostalCodePHIFinder.find()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyDeid.phi_types.SinPHIFinder">pyDeid.phi_types.SinPHIFinder module</a><ul>
+<li><a class="reference internal" href="#pyDeid.phi_types.SinPHIFinder.SinPHIFinder"><code class="docutils literal notranslate"><span class="pre">SinPHIFinder</span></code></a><ul>
+<li><a class="reference internal" href="#pyDeid.phi_types.SinPHIFinder.SinPHIFinder.find"><code class="docutils literal notranslate"><span class="pre">SinPHIFinder.find()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyDeid.phi_types.TelephoneFaxPHIFinder">pyDeid.phi_types.TelephoneFaxPHIFinder module</a><ul>
+<li><a class="reference internal" href="#pyDeid.phi_types.TelephoneFaxPHIFinder.TelephoneFaxPHIFinder"><code class="docutils literal notranslate"><span class="pre">TelephoneFaxPHIFinder</span></code></a><ul>
+<li><a class="reference internal" href="#pyDeid.phi_types.TelephoneFaxPHIFinder.TelephoneFaxPHIFinder.find"><code class="docutils literal notranslate"><span class="pre">TelephoneFaxPHIFinder.find()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -831,6 +1086,7 @@
 <li><a class="reference internal" href="#pyDeid.phi_types.utils.PHI.start"><code class="docutils literal notranslate"><span class="pre">PHI.start</span></code></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#pyDeid.phi_types.utils.add_phi_list"><code class="docutils literal notranslate"><span class="pre">add_phi_list()</span></code></a></li>
 <li><a class="reference internal" href="#pyDeid.phi_types.utils.add_type"><code class="docutils literal notranslate"><span class="pre">add_type()</span></code></a></li>
 <li><a class="reference internal" href="#pyDeid.phi_types.utils.create_custom_regex"><code class="docutils literal notranslate"><span class="pre">create_custom_regex()</span></code></a></li>
 <li><a class="reference internal" href="#pyDeid.phi_types.utils.is_ambig"><code class="docutils literal notranslate"><span class="pre">is_ambig()</span></code></a></li>
@@ -842,6 +1098,7 @@
 <li><a class="reference internal" href="#pyDeid.phi_types.utils.is_type"><code class="docutils literal notranslate"><span class="pre">is_type()</span></code></a></li>
 <li><a class="reference internal" href="#pyDeid.phi_types.utils.is_unambig_common"><code class="docutils literal notranslate"><span class="pre">is_unambig_common()</span></code></a></li>
 <li><a class="reference internal" href="#pyDeid.phi_types.utils.load_file"><code class="docutils literal notranslate"><span class="pre">load_file()</span></code></a></li>
+<li><a class="reference internal" href="#pyDeid.phi_types.utils.merge_phi_dicts"><code class="docutils literal notranslate"><span class="pre">merge_phi_dicts()</span></code></a></li>
 <li><a class="reference internal" href="#pyDeid.phi_types.utils.phi_dict_to_list"><code class="docutils literal notranslate"><span class="pre">phi_dict_to_list()</span></code></a></li>
 </ul>
 </li>
@@ -857,9 +1114,9 @@
       
     </aside>
   </div>
-</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=0fc64e82"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
-    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+</div><script src="../_static/documentation_options.js?v=77e3fdf6"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     </body>

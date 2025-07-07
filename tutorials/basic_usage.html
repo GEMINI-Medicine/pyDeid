@@ -1,13 +1,13 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="">
+<html class="no-js" lang="en" data-content_root="../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Using spaCy NER with pyDeid" href="using_spacy_with_pydeid.html" /><link rel="prev" title="Tutorials" href="index.html" />
 
-    <!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
         <title>Getting Started With pyDeid - pyDeid v0.0.4 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=302659d7" />
@@ -261,10 +261,10 @@
         </div>
         <article role="main" id="furo-main-content">
           <section id="Getting-Started-With-pyDeid">
-<h1>Getting Started With <code class="docutils literal notranslate"><span class="pre">pyDeid</span></code><a class="headerlink" href="#Getting-Started-With-pyDeid" title="Permalink to this heading">¶</a></h1>
+<h1>Getting Started With <code class="docutils literal notranslate"><span class="pre">pyDeid</span></code><a class="headerlink" href="#Getting-Started-With-pyDeid" title="Link to this heading">¶</a></h1>
 <p>Follow the installation instructions in the <a class="reference external" href="https://gitlab.smh.smhroot.net/geminidata/pydeid">README.md</a> before running this notebook.</p>
 <section id="Running-a-basic-example">
-<h2>Running a basic example<a class="headerlink" href="#Running-a-basic-example" title="Permalink to this heading">¶</a></h2>
+<h2>Running a basic example<a class="headerlink" href="#Running-a-basic-example" title="Link to this heading">¶</a></h2>
 <p>If running this notebook locally, without using a virtual environment- run the block of code below (note that <code class="docutils literal notranslate"><span class="pre">'/path/from/pip/show/pydeid'</span></code> can be found with <code class="docutils literal notranslate"><span class="pre">!pip</span> <span class="pre">show</span> <span class="pre">pydeid</span></code>):</p>
 !pip show pydeidimport sys
 sys.path.insert(0,'/path/from/pip/show/pydeid')<p>For this demo, import the following functions from <code class="docutils literal notranslate"><span class="pre">pyDeid</span></code>.</p>
@@ -348,7 +348,7 @@ phi, new_string = deid_string(original_string)
 </div>
 </section>
 <section id="pyDeid-Features">
-<h2><code class="docutils literal notranslate"><span class="pre">pyDeid</span></code> Features<a class="headerlink" href="#pyDeid-Features" title="Permalink to this heading">¶</a></h2>
+<h2><code class="docutils literal notranslate"><span class="pre">pyDeid</span></code> Features<a class="headerlink" href="#pyDeid-Features" title="Link to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">display_deid()</span></code> allows for visualization of the de-identification in interactive settings such as in Jupyter notebooks. This can be useful for demonstration and debugging:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
@@ -575,7 +575,7 @@ display_deid(original_string, phi)
 </div>
 </section>
 <section id="Bulk-De-identification">
-<h2>Bulk De-identification<a class="headerlink" href="#Bulk-De-identification" title="Permalink to this heading">¶</a></h2>
+<h2>Bulk De-identification<a class="headerlink" href="#Bulk-De-identification" title="Link to this heading">¶</a></h2>
 <p>Many workflows require bulk de-identification of large CSVs containing notes with PHI. For this purpose we use <code class="docutils literal notranslate"><span class="pre">pyDeid()</span></code>.</p>
 <p>The most basic usage of the function only requires the user to supply the name of the file to be identified (<code class="docutils literal notranslate"><span class="pre">original_file</span></code>), the name of the column containing a unique identifier for the encounter (<code class="docutils literal notranslate"><span class="pre">encounter_id_varname</span></code>- in our applications this will generally be the <code class="docutils literal notranslate"><span class="pre">genc_id</span></code>), and the name of the column containing the note text to be de-identified (<code class="docutils literal notranslate"><span class="pre">note_varname</span></code>).</p>
 <p><strong>Note</strong> that if the <code class="docutils literal notranslate"><span class="pre">original_file</span></code> to de-identify contains multiple notes per encounter, an <code class="docutils literal notranslate"><span class="pre">encounter_id_varname</span></code> is not enough to uniquely identify a note. In these cases, please supply a <code class="docutils literal notranslate"><span class="pre">note_id_varname</span></code> in addition to the <code class="docutils literal notranslate"><span class="pre">encounter_id_varname</span></code>.</p>
@@ -629,7 +629,7 @@ Diagnostics:
 </div>
 </section>
 <section id="Putting-It-All-Together">
-<h2>Putting It All Together<a class="headerlink" href="#Putting-It-All-Together" title="Permalink to this heading">¶</a></h2>
+<h2>Putting It All Together<a class="headerlink" href="#Putting-It-All-Together" title="Link to this heading">¶</a></h2>
 <p>Note that just as in <code class="docutils literal notranslate"><span class="pre">deid_string()</span></code>, custom regular expressions can be supplied with named arguments through <code class="docutils literal notranslate"><span class="pre">**custom_regexes</span></code>, named entity recognition can be used through <code class="docutils literal notranslate"><span class="pre">ner_pipeline</span></code>, and custom patient and doctor names can be supplied through <code class="docutils literal notranslate"><span class="pre">custom_{dr/patient}_{first/last}_names</span></code>.</p>
 <p>In the below example, we’ll combine all of <code class="docutils literal notranslate"><span class="pre">pyDeid</span></code>’s features:</p>
 <ol class="arabic simple">
@@ -848,9 +848,9 @@ Diagnostics:
       
     </aside>
   </div>
-</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=0fc64e82"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
-    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+</div><script src="../_static/documentation_options.js?v=77e3fdf6"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
