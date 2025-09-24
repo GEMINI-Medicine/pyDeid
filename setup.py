@@ -8,7 +8,7 @@ setup(
   packages=['pyDeid', 'pyDeid.phi_types', 'pyDeid.process_note'],
   package_dir={'pyDeid': 'src/pyDeid'},
   package_data={'pyDeid': ['wordlists/*.txt']},
-  version='1.0.0',
+  version='1.0.1',
   license='MIT',
   description='Replaces personal health information in free text.',
   long_description=long_description,
